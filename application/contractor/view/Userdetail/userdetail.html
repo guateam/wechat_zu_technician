@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="x_title">
+                    <h3>人员管理</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class='row'>
+                    <div class="col-md-7 col-xs-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>接包人员基础信息</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class='col-xs-8' style='height:400px'>
+                                    <blockquote>
+                                        <h2>姓名：<span style="color: #00ace6">{$data.name}</span></h2>
+                                        <h2>性别：<span style="color: #00ace6">{$data.gender}</span></h2>
+                                        <h2>年龄：<span style="color: #00ace6">{$data.age}</span></h2>
+                                        <h2>手机号码：<span style="color: #00ace6">{$data.phonenumber}</span></h2>
+                                        <h2>所属公司：<span style="color: #00ace6">{$data.companyname}</span></h2>
+                                        <h2>安全等级：<span style="color: orange;font-size: 20px"><strong>{$data.safetygrade}</strong></span></h2>
+                                        <h2>信誉等级：<span style="color: orange;font-size: 25px">{$data.creditrating}</span></h2>
+                                        <h2>擅长方向：<span style="color: #00ace6">{$data.advantage}</span></h2>
+                                        <h2>工作时长：<span style="color: #00ace6"><strong style="color: orange;font-size: 25px">{$data.worktime}</strong>小时</span></h2>
+                                        <h2>登记时间：<span style="color: #00ace6">{$data.jointime}</span></h2>
+                                        <h2>最后登陆时间：<span style="color: #00ace6">{$data.logintime}</span></h2>
+                                    </blockquote>
+                                </div>
+                                <div class='col-xs-4'>
+                                    <img src="{$data.img}" alt="..." class="img-responsive profile_img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-xs-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>能力雷达图</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div style='height:400px' id='radar'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>参与项目</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>项目名</th>
+                                            <th>开始时间</th>
+                                            <th>安全等级</th>
+                                            <th>状态</th>
+                                            <th>评级</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {volist name="project" id="value"}
+                                        <tr>
+                                            <td><a href="/tp5/public/index.php/contractor/historyprojcet/index/id/{$value.id}">{$value.name}</a></td>
+                                            <td>{$value.starttime}</td>
+                                            <td>{$value.safetygrade}</td>
+                                            <td>{$value.state}</td>
+                                            <td style="color:orange;font-size: 18px">{$value.grade}</td>
+                                        </tr>
+                                        {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><a href="/tp5/public/index.php/contractor/companydetail/index/id/{$data.companyid}">所属公司信息</a></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <blockquote>
+                                    <h4>公司名：<span style="color: #00ace6">{$company.name}</span></h4>
+                                    <h4>安全等级：<span style="color: orange;font-size: 20px"><strong>{$company.safetygrade}</strong></span></h4>
+                                    <h4>信誉等级：<span style="color: orange;font-size: 25px">{$company.creditrating}</span></h4>
+                                    <h4>擅长方向：<span style="color: #00ace6">{$company.advantage}</span></h4>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>个人评价</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <blockquote>
+                                    <h1 style="font-size: 25px">分数<strong style="color:orange;font-size: 50px">{$data.grade}</strong></h1>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {include file='common/js'}
+    <script>
+        $('.table').DataTable({
+            "dom": '<"toolbar">rtip'
+        });
+        option = {
+            title: {
+                text: '能力雷达图'
+            },
+            tooltip: {
+                formatter: function(a) {
+                    switch (a['value'][4]) {
+                        case 0:
+                            level = '低';
+                            break;
+                        case 1:
+                            level = '中';
+                            break;
+                        case 2:
+                            level = '高';
+                            break;
+                    }
+                    return a['name'] + '<br>参与项目: ' + a['value'][0] + '<br>语种数量: ' + a['value'][1] + '<br>工作时长: ' + Math.round(a['value'][2]) + '<br>准时率: ' + Math.round(a['value'][3]) + '%<br>安全等级: ' + level + '<br>市场价值创造: ' + a['value'][5] + '<br>信誉等级: ' + a['value'][6];
+                }
+            },
+            legend: {
+                data: ['个人能力', '公司水平']
+            },
+            radar: {
+                // shape: 'circle',
+                name: {
+                    textStyle: {
+                        color: '#fff',
+                        backgroundColor: '#999',
+                        borderRadius: 3,
+                        padding: [3, 5]
+                    }
+                },
+                indicator: [{
+                    name: '参与项目',
+                    max: 50
+                }, {
+                    name: '语种数量',
+                    max: 15
+                }, {
+                    name: '工作时长',
+                    max: 500
+                }, {
+                    name: '准时率',
+                    max: 100
+                }, {
+                    name: '安全等级',
+                    max: 2
+                }, {
+                    name: '市场价值创造',
+                    max: 25000
+                }, {
+                    name: '信誉等级',
+                    max: 5
+                }],
+                axisLine: {
+                    lineStyle: {
+                        color: ['#000'],
+                        width: 1
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: ['#000'],
+                        width: 1
+                    }
+                }
+            },
+            series: [{
+                name: '能力',
+                type: 'radar',
+                // areaStyle: {normal: {}},
+                data: [{
+                    value: [],
+                    name: '公司水平'
+                }, {
+                    value: [],
+                    name: '个人能力'
+                }, ],
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+            }]
+        };
+        var radarchart = echarts.init(document.getElementById('radar'));
+        radarchart.setOption(option);
+        radarchart.showLoading();
+        $.get("/tp5/public/index.php/contractor/userdetail/getradarmap/id/{$id}").done(function(data) {
+            if (data.status) {
+                radarchart.hideLoading();
+                radarchart.setOption(data.data);
+            }
+        });
+    </script>
+</body>
+
+</html>

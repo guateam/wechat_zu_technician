@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <img src="__STATIC__/admin/image/3.jpg" alt="">Graman
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="javascript:;">编辑信息</a></li>
+                                    <li><a href="login"><i class="fa fa-sign-out pull-right"></i> 登出</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>人员详情</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li class="dropdown"><a data-toggle="tooltip" data-placement="top" title="编辑" href="admin/revisecom"><i class="fa fa-wrench"></i></a>
+                                        </li>
+                                        <li><a data-toggle="tooltip" data-placement="top" title="删除" href="#"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table id="datatable" class="table table-striped table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>公司名称</td>
+                                                <td>{$company.Name}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>公司规模</td>
+                                                <td>{$company.MembersNumber}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>擅长方向</td>
+                                                <td>{$company.Advantage}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>员工总工时</td>
+                                                <td>{$company.TotalWorkTime}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>信誉等级</td>
+                                                <td>{$company.CreditRating}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>对公银行卡号</td>
+                                                <td>{$company.BankCardNumber}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>公司证件</td>
+                                                <td>{$company.Document}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "C:\\Users\\zhang\\Documents\\Tencent Files\\1374821639\\FileRecv\\web模板"
+		}
+	],
+	"settings": {
+		"line-counter.excludes": [
+			"**/.vscode/**",
+		],
+		"line-counter.includes": [
+			"**/application/**"
+		],
+		"powermode.enabled": false,
+	}
+}

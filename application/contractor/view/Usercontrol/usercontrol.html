@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="x_title">
+                    <h3>人员管理</h3>
+                    <div class="clearfix"></div>
+                </div>
+                <div class='row'>
+                    <div class="col-md-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>接包人员</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>姓名</th>
+                                            <th>擅长方向</th>
+                                            <th>所属公司</th>
+                                            <th>信誉等级</th>
+                                            <th>安全等级</th>
+                                            <th>工作时长</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {volist name="userlist" id="user"}
+                                        <tr>
+                                            <td><a href='/tp5/public/index.php/contractor/userdetail/index/id/{$user.id}'>{$user.name}</a></td>
+                                            <td>{$user.advantage}</td>
+                                            <td>{$user.company}</td>
+                                            <td style="color:orange;font-size: 20px">{$user.creditrating}</td>
+                                            <td style="color:orange;font-size: 18px">{switch name="user.safetygrade"}{case value="0"}低{/case}{case value="1"}中{/case}{case value="2"}高{/case}{/switch}</td>
+                                            <td style="color:orange;font-size: 20px">{$user.worktime}</td>
+                                        </tr>
+                                        {/volist}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>接包企业</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>公司名</th>
+                                            <th>擅长方向</th>
+                                            <th>成员数量</th>
+                                            <th>信誉等级</th>
+                                            <th>安全等级</th>
+                                            <th>工作时长</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {volist name="companylist" id="company"}
+                                        <tr>
+                                            <td><a href='/tp5/public/index.php/contractor/companydetail/index/id/{$company.id}'>{$company.name}</a></td>
+                                            <td>{$company.advantage}</td>
+                                            <td>{$company.membersnumber}</td>
+                                            <td style="color:orange;font-size: 20px">{$company.creditrating}</td>
+                                            <td style="color:orange;font-size: 18px">{switch name="company.safetygrade"}{case value="0"}低{/case}{case value="1"}中{/case}{case value="2"}高{/case}{/switch}</td>
+                                            <td style="color:orange;font-size: 20px">{$company.worktime}</td>
+                                        </tr>
+                                        {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+        </div>
+    </div>
+
+    {include file='common/js'}
+    <script>
+        $('.table').DataTable({
+            "dom": '<"toolbar">frtip'
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>服务器状况</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>基础信息</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <table>
+                                                        <tr>
+                                                            <td>Web服务器:</td>
+                                                            <td>{$sysos}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>PHP版本:</td>
+                                                            <td>{$sysversion}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>MySQL版本:</td>
+                                                            <td>{$mysqlinfo}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>GD库版本:</td>
+                                                            <td>{$gdinfo}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>FreeType:</td>
+                                                            <td>{$freetype}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>远程文件获取:</td>
+                                                            <td>{$allowurl}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>最大上传限制:</td>
+                                                            <td>{$max_upload}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>最大执行时间:</td>
+                                                            <td>{$max_ex_time}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>服务器时间:</td>
+                                                            <td>{$systemtime}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>服务器负载</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <canvas id="OnlineStatus" width="400" height="100"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>登记信息</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>日志</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+
+                                                    <ul id='log'>
+                                                        info:
+                                                        <ul v-for='item in log.info'>
+                                                            {{item}}
+                                                        </ul>
+                                                        log:
+                                                        <ul v-for='item in log.log'>
+                                                            {{item}}
+                                                        </ul>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /page content -->
+
+                        <!-- footer content -->
+                        <footer>
+                            <div class="pull-right">
+                            </div>
+                            <div class="clearfix"></div>
+                        </footer>
+                        <!-- /footer content -->
+                    </div>
+                </div>
+
+                {include file='common/js'}
+                <script>
+                    var log = new Vue({
+                        el: '#log',
+                        data: {
+                            log: []
+                        }
+                    });
+                    getServer();
+                    getLog();
+                    setInterval(function() {
+                        getServer();
+                        getLog();
+                    }, 20000);
+
+                    function getServer() {
+                        var xmlhttp;
+                        if (window.XMLHttpRequest) {
+                            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                            xmlhttp = new XMLHttpRequest();
+                        } else {
+                            // IE6, IE5 浏览器执行代码
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                                var json = JSON.parse(xmlhttp.responseText);
+                                var data = {
+                                    type: 'horizontalBar',
+                                    data: {
+                                        labels: ["Administractor", "Contractor", "User"],
+                                        datasets: [{
+                                            label: '在线人数',
+                                            data: [json['administractor'], json['contractor'], json['user']],
+                                            backgroundColor: [
+                                                'rgba(255,99,132,1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)'
+                                            ],
+                                        }]
+                                    }
+                                };
+                                var ctx = document.getElementById("OnlineStatus").getContext("2d");
+                                var myNewChart = new Chart(ctx, data);
+                            }
+                        }
+                        xmlhttp.open("GET", "{:url('admin/getstatus')}", false);
+                        xmlhttp.send();
+                    }
+
+                    function getLog() {
+                        var xmlhttp;
+                        if (window.XMLHttpRequest) {
+                            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                            xmlhttp = new XMLHttpRequest();
+                        } else {
+                            // IE6, IE5 浏览器执行代码
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                var json = JSON.parse(xmlhttp.responseText);
+                                log.log = json;
+                                //for (item in json['log']) {
+                                //log.log.push(json['log'][item]);
+                                //}
+                            }
+                        }
+                        xmlhttp.open("GET", "{:url('admin/getlog')}", false);
+                        xmlhttp.send();
+                    }
+                </script>
+</body>
+
+</html>

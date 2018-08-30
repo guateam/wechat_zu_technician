@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>资源管理</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class='row'>
+                    <div class="col-md-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>旧资源内容</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <h2>资源名称：
+                                    <span style="color: #00ace6">{$old.name}</span>
+                                </h2>
+                                <h2>安全等级：
+                                    <span style="color: #00ace6">{$old.safetygrade}</span>
+                                </h2>
+                                <h2>资源种类：
+                                    <span style="color: #00ace6">{$old.type}</span>
+                                </h2>
+                                <h2>公开情况：
+                                    <span style="color: #00ace6">{$old.state}</span>
+                                </h2>
+                                <br />
+                                <div class="col-md-12">
+                                    {switch name="old.type"} {case value="文档"}
+                                    <iframe id="pdf" src="/tp5/public/pdf/build/generic/web/viewer.html?file=/tp5/public/uploads/resource/{$old.address}.pdf"
+                                        class="col-md-12" style="height:800px">
+                                        当前文件不支持浏览
+                                    </iframe> {/case} {case value="图片"}
+                                    <img src="/tp5/public/uploads/resource/{$old.address}" alt="无法显示"> {/case} {default /}
+                                    <h1>:( 不支持的文件格式</h1>
+                                    <a href="/tp5/public/uploads/resource/{$old.address}" class="btn btn-success">下载</a>{/switch}
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>新资源内容</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <h2>资源名称：
+                                    <span style="color: #00ace6">{$new.name}</span>
+                                </h2>
+                                <h2>安全等级：
+                                    <span style="color: #00ace6">{$new.safetygrade}</span>
+                                </h2>
+                                <h2>资源种类：
+                                    <span style="color: #00ace6">{$new.type}</span>
+                                </h2>
+                                <h2>公开情况：
+                                    <span style="color: #00ace6">{$new.state}</span>
+                                </h2>
+                                <br />
+                                <div class="col-md-12">
+                                    {switch name="new.type"} {case value="文档"}
+                                    <iframe id="pdf" src="/tp5/public/pdf/build/generic/web/viewer.html?file=/tp5/public/uploads/resource/{$new.address}.pdf"
+                                        class="col-md-12" style="height:800px">
+                                        当前文件不支持浏览
+                                    </iframe> {/case} {case value="图片"}
+                                    <img src="/tp5/public/uploads/resource/{$new.address}" alt="无法显示"> {/case} {default /}
+                                    <h1>:( 不支持的文件格式</h1>
+                                    <a href="/tp5/public/uploads/resource/{$new.address}" class="btn btn-success">下载</a> {/switch}
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <button class="btn btn-success" id="accept">通过</button>
+                                <button class="btn btn-danger" id="cancel">拒绝</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {include file='common/js'}
+    <script>
+        $('#accept').click(function () {
+            swal('提示', '是否通过修改？', 'info', {
+                buttons:
+                    {
+                        yes: {
+                            text: "是",
+                            value: true,
+                        },
+                        no: {
+                            text: '否',
+                            value: false,
+                        }
+                    },
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            }).then((ok) => {
+                if (ok) {
+                    $.get('/tp5/public/index.php/api/resource/editaccept', {
+                        oldid: "{$old.id}",
+                        newid: "{$new.id}",
+                        logid: "{$logid}"
+                    }).done(function (data) {
+                        if (data.status) {
+                            swal('成功', '通过成功！', 'success', {
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                            }).then((ok) => {
+                                if (ok) window.location.href = '/tp5/public/index.php/contractor/index/index';
+                            })
+                        }
+                    });
+                }
+            })
+        });
+        $('#cancel').click(function () {
+            swal('提示', '是否否决修改？', 'info', {
+                buttons:
+                    {
+                        yes: {
+                            text: "是",
+                            value: true,
+                        },
+                        no: {
+                            text: '否',
+                            value: false,
+                        }
+                    },
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            }).then((ok) => {
+                if (ok) {
+                    $.get('/tp5/public/index.php/api/resource/editcancel', {
+                        newid: '{$new.id}',
+                        logid: "{$logid}"
+                    }).done(function (data) {
+                        if (data.status) {
+                            swal('成功', '否决成功！', 'success', {
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                            }).then((ok) => {
+                                if (ok) window.location.href = '/tp5/public/index.php/contractor/index/index';
+                            })
+                        }
+                    });
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

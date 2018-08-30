@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>资源新建</title>
+    {include file='common/css'}
+    <link href="__STATIC__/vendors/dropzone/dist/min/dropzone.min.css" rel="stylesheet">
+    <link href="__STATIC__/vendors/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file="common/left"}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>资源新建</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div id="wizard" class="form_wizard wizard_horizontal">
+                                        <ul class="wizard_steps">
+                                            <li>
+                                                <a href="#step-1">
+                                                    <span class="step_no">1</span>
+                                                    <span class="step_descr">
+                                                        第一步<br />
+                                                        <small>第一步 上传资源 </small>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#step-2">
+                                                    <span class="step_no">2</span>
+                                                    <span class="step_descr">
+                                                        第二步<br />
+                                                        <small>第二步 资源信息</small>
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                        <div id="step-1">
+                                            <h2 class="StepTitle">第一步上传资源</h2>
+                                            <form class="col-md-12" id='dropzone' action="/tp5/public/index.php/contractor/uploadresource/upload"></form>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br/>
+                                        </div>
+                                        <div id="step-2" style="height:400px">
+
+                                            <h2 class="StepTitle">第二步 资源信息</h2>
+                                            <form class="form-horizontal form-label-left">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">资源名称 <span class="required">*</span>
+                                                    </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" name='name'>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">类型 <span class="required">*</span>
+                                                        </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <select class="form-control" id="type">
+                                                                <option value="文档">文档</option>
+                                                                <option value="图片">图片</option>
+                                                                <option value="代码">代码</option>
+                                                                <option value="其他">其他</option>
+                                                            </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">安全等级 <span class="required">*</span>
+                                                            </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <select class="form-control" id="safetygrade">
+                                                            <option value="0">低</option>
+                                                            <option value="1">中</option>
+                                                            <option value="2">高</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">公开情况 <span class="required">*</span>
+                                                            </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <select class="form-control" id="state">
+                                                            <option value="public">公开</option>
+                                                            <option value="private">私有</option>
+                                                            <option value="protect">保护</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" id="protectform">
+                                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">开放人员 <span class="required">*</span>
+                                                            </label>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <input id="open" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" name='open'>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+
+    <script src="__STATIC__/vendors/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="__STATIC__/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <script src="__STATIC__/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <script src="__STATIC__/vendors/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script>
+        $("#open").tagsInput({
+            'height': '100px',
+            'width': '750px',
+            'autocomplete_url': '/tp5/public/index.php/contractor/uploadresource/auto',
+            'defaultText': "添加授权人",
+        });
+        $("#protectform").hide()
+        var address = '';
+        Dropzone.autoDiscover = false;
+        $('#dropzone').addClass('dropzone')
+        $('#dropzone').dropzone({
+            url: '/tp5/public/index.php/contractor/uploadresource/upload',
+            success: function(file, data) {
+                if (data.status) {
+                    address = data.address
+                    typeflag = false;
+                    type = [".ppt", '.pptx', '.doc', '.docx', '.xls', '.xlsx'];
+                    for (i = 0; i < 6; i++) {
+                        if (address.indexOf(type[i]) > 0) {
+                            typeflag = true;
+                            break;
+                        }
+                    }
+                    if (typeflag) {
+                        $.get('/tp5/public/pdf/tramslate.php', {
+                            localaddress: address
+                        }).done(function(data) {})
+                    }
+                }
+            }
+        });
+        $("#state").change(function() {
+            if ($(this).val() == 'protect') {
+                $("#protectform").show()
+            } else {
+                $("#protectform").hide()
+            }
+        })
+        var step = {
+            nextStepCallback: function(stepObj) {
+                var step_num = stepObj.attr('rel');
+                console.info(step_num)
+                switch (step_num) {
+                    case '1':
+
+                        if (address == '') {
+                            swal('失败', '请上传资源！', 'error');
+                            return false;
+                        }
+                        return true;
+                        break;
+                    case '2':
+
+                        return true;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            onSubmit: function(stepObj) {
+                if (address != '' && $("input[name='name']").val() != '' && $("input[name='type']").val() != '' && $("input[name='safetygrade']").val() != '') {
+
+                    if ($("#state").val() != "protect") {
+                        $.post('/tp5/public/index.php/contractor/uploadresource/addresource', {
+                            name: $("input[name='name']").val(),
+                            type: $("#type").val(),
+                            safetygrade: $("#safetygrade").val(),
+                            address: address,
+                            uploader: $.cookie('contractorid'),
+                            state: $("#state").val(),
+                        }).done(function(data) {
+                            if (data.status) {
+                                swal('成功', '修改成功！', 'success', {
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                }).then((ok) => {
+                                    if (ok) window.location.href = '/tp5/public/index.php/contractor/resourcecontrol/index'
+                                })
+                            } else {
+                                swal('失败', '添加失败！', 'error')
+                            }
+                        })
+                    } else {
+                        $.post('/tp5/public/index.php/contractor/uploadresource/addresource', {
+                            name: $("input[name='name']").val(),
+                            type: $("input[name='type']").val(),
+                            safetygrade: $("#safetygrade").val(),
+                            address: address,
+                            uploader: $.cookie('contractorid'),
+                            state: "," + $("#open").val() + ",",
+                        }).done(function(data) {
+                            if (data.status) {
+                                swal('成功', '修改成功！', 'success', {
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                }).then((ok) => {
+                                    if (ok) window.location.href = '/tp5/public/index.php/contractor/resourcecontrol/index'
+                                })
+
+                            } else {
+                                swal('失败', '添加失败！', 'error')
+                            }
+                        })
+                    }
+
+                } else if (address != '') {
+                    swal('失败', '请输入正确内容！', 'error')
+                } else {
+                    swal('失败', '请上传文件！', 'error')
+                }
+            }
+        }
+        $('#wizard').smartWizard({
+            keyNavigation: false,
+            onFinish: step.onSubmit,
+            onNextStep: step.nextStepCallback,
+            lang: { // Language variables
+                next: '下一个',
+                previous: '上一个'
+            },
+        })
+    </script>
+</body>
+
+</html>

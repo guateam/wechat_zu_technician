@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .high {
+            color: #F54F4A
+        }
+        
+        .mid {
+            color: #FCCE10
+        }
+        
+        .low {
+            color: #B5C334
+        }
+    </style>
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>概况</h3>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2> <a href="/tp5/public/index.php/contractor/workingprojectlist">当前进行</a> </h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div id="pan" style="height:500%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>待办事件</h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-striped table-bordered bulk_action table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>等待事件</th>
+                                                <th>提交人</th>
+                                                <th>提交时间</th>
+                                                <th>所属项目</th>
+                                                <th>种类</th>
+                                                <th>严重等级</th>
+                                                <th>概述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name='waitinglist' id='value'}
+                                            <tr class="{$value.color}">
+                                                <td><a href='{$value.link}'>{$value.name}</a></td>
+                                                <td>{$value.poster}</td>
+                                                <td>{$value.time}</td>
+                                                <td>{$value.project}</td>
+                                                <td>{$value.type}</td>
+                                                <td>{$value.level}</td>
+                                                <td>{$value.note}</td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2> 日志 </h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <ul id='log'>
+                                        <li v-for='(item,key) in items' v-if="key>items.length-25">[{{item.time}}]@[{{item.username}}]#[{{item.type}}]%[{{item.project}}]:{{item.note}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2> 项目概况 </h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-striped table-bordered bulk_action table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>项目名</th>
+                                                <th>负责人</th>
+                                                <th>截至时间</th>
+                                                <th>等级</th>
+                                                <th>状态</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name='projectlist' id='value'}
+                                            <tr class="{$value.color}">
+                                                <td><a href="/tp5/public/index.php/contractor/project/index/id/{$value.id}">{$value.name}</a></td>
+                                                <td>{$value.username}</td>
+                                                <td>{$value.endtime}</td>
+                                                <td>{$value.level}</td>
+                                                <td>{$value.status}</td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2> 接包人员概况 </h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-striped table-bordered bulk_action table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>接包人员</th>
+                                                <th>安全等级</th>
+                                                <th>状态</th>
+                                                <th>繁忙指数</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name='userlist' id='value'}
+                                            <tr class="{$value.color}">
+                                                <td><a href="/tp5/public/index.php/contractor/userdetail/index/id/{$value.id}">{$value.name}</a></td>
+                                                <td>{switch name="value.safetygrade"}{case value="0"}低{/case}{case value="1"}中{/case}{case value="2"}高{/case}{/switch}</td>
+                                                <td>{$value.state}</td>
+                                                <td>{$value.busylevel}</td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-6 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2> 交流工作台 </h2>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <ul id='chatingbox'>
+                                        <li v-for='(item,key) in items' v-if="key>items.length-25" v-bind:class="{'high':item.iserror,'mid':item.iswarning,'low':item.issuccess}">[{{item.time}}]@[{{item.user}}]#[{{item.status}}]%[{{item.projectname}}]:{{item.note}}</li>
+                                    </ul>
+                                    <form class="form-group" id='chartform'>
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <select id="chartingtype" class="form-control">
+                                                <option value="普通">普通</option>
+                                                <option value="Note">通知</option>
+                                                <option value="Debug">Bug</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name='message'>
+
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <button type="button" class="btn btn-success" id="sendchat">发送</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+            <div class="pull-right">
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+    </div>
+
+    {include file='common/js'}
+    <script>
+        $('.table').DataTable({
+            "dom": '<"toolbar">rtip',
+            'ordering': false,
+        });
+        option = {
+            title: {
+                text: '正在进行项目',
+                subtext: '',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['进度正常', '可能延期', '延期', '待接收']
+            },
+            series: [{
+                name: '项目数量',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        var panChart = echarts.init(document.getElementById('pan'));
+        panChart.setOption(option);
+        panChart.showLoading();
+        $.get("{:url('contractor/index/getprojectpan')}", {
+            userid: $.cookie('contractorid')
+        }).done(function(data) {
+            if (data.status) {
+                panChart.hideLoading();
+                panChart.setOption(data.data);
+            }
+        });
+        panChart.on('click', function(params) {
+            switch (params.data.name) {
+                case '进度正常':
+                    window.location.href = "/tp5/public/index.php/contractor/workingprojectlist/ontimelist"
+                    break;
+                case '可能延期':
+                    window.location.href = "/tp5/public/index.php/contractor/workingprojectlist/busylist"
+                    break;
+                case '延期':
+                    window.location.href = "/tp5/public/index.php/contractor/workingprojectlist/delaylist"
+                    break;
+                default:
+                    window.location.href = "/tp5/public/index.php/contractor/workingprojectlist"
+            }
+        });
+        var chatingbox = new Vue({
+            el: '#chatingbox',
+            data: {
+                items: []
+            }
+        });
+
+        function getChartingboxData() {
+            $.get("/tp5/public/index.php/contractor/index/chatingbox/id/" + $.cookie('contractorid')).done(function(data) {
+                if (data.status == 1) {
+                    chatingbox.items = [];
+                    items = data.data;
+
+                    for (key in items) {
+                        item = items[key];
+                        issuccess = false;
+                        iswarning = false;
+                        iserror = false;
+                        switch (item['status']) {
+                            case 'Note':
+                                iswarning = true;
+                                break;
+                            case 'Debug':
+                                iserror = true;
+                                break;
+                            case '管理员':
+                                issuccess = true;
+                                break;
+                            default:
+
+                                break;
+                        }
+
+                        chatingbox.items.push({
+                            'time': item['time'],
+                            'status': item['status'],
+                            'user': item['user'],
+                            'note': item['note'],
+                            'projectname': item['projectname'],
+                            'issuccess': issuccess,
+                            'iswarning': iswarning,
+                            'iserror': iserror,
+                        });
+                    }
+                    //console.info(resourcelist.items);
+                } else {
+                    chatingbox.items = [];
+                }
+            });
+        }
+        getChartingboxData()
+        $('#sendchat').click(function() {
+            $.get('/tp5/public/index.php/contractor/index/send', {
+                id: $.cookie('contractorid'),
+                status: $('#chartingtype').val(),
+                note: $("input[name='message'] ").val()
+            }).done(function(data) {
+                if (data.status == 1) {
+                    getChartingboxData()
+                    $("input[name='message'] ").val('')
+                }
+            });
+        });
+        var charting = setInterval('getChartingboxData()', 5000);
+        var loglist = new Vue({
+            el: '#log',
+            data: {
+                items: []
+            }
+        });
+        $.get('/tp5/public/index.php/contractor/index/getlog').done(function(data) {
+            if (data.status) {
+                loglist.items = data.data;
+            }
+        })
+    </script>
+</body>
+
+</html>

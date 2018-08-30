@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .high {
+            color: #F54F4A
+        }
+        
+        .mid {
+            color: #FCCE10
+        }
+        
+        .low {
+            color: green
+        }
+    </style>
+    <title>历史记录</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-7 col-xs-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>{$project.name}</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-7 col-xs-12 col-sm-12">
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <h2>项目名称：<span style="color: #00ace6">{$project.name}</span></h2>
+                                            <h2>起始时间：<span style="color: #00ace6">{$project.starttime}</span></h2>
+                                            <h2>截止时间：<span style="color: #00ace6">{$project.endtime}</span></h2>
+                                            <h2>发包人员：<span style="color: #00ace6">{$project.contractor}</span></h2>
+                                            <h2>接包人员：<span style="color: #00ace6">{$project.user}</span></h2>
+                                            <h2>安全等级：<span class="{$project.color}">{$project.safetygrade}</span></h2>
+                                            <h2>主计划：<span style="color: #00ace6"><span style="color: red">{$rating.totalgrade}</span>/100</span>
+                                            </h2>
+                                            <h2>项目团队能力：<span style="color: #00ace6"><span style="color: red">{$rating.contractorgrade}</span>/100</span>
+                                            </h2>
+                                            <h2>完成程度：<span style="color: #00ace6"><span style="color: red">{$rating.completegrade}</span>/100</span>
+                                            </h2>
+                                            <h2>需求实现程度：<span style="color: #00ace6"><span style="color: red">{$rating.implementationgrade}</span>/100</span>
+                                            </h2>
+                                            <h2>质量控制：<span style="color: #00ace6"><span style="color: red">{$rating.responsespeed}</span>/100</span>
+                                            </h2>
+                                            <br />
+                                        </div>
+                                        <!-- blockquote -->
+                                        <blockquote>
+                                            <h3>具体说明：</h3>
+                                            <p>{$project.plan}</p>
+                                        </blockquote>
+
+                                    </div>
+
+
+
+                                </div>
+                                <div class="clearfix"></div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-5 col-sm-11 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h3>评分雷达图</h3>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div id="radar" style="height:500px"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>子项目</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>项目名</th>
+                                                <th>负责人</th>
+                                                <th>安全等级</th>
+                                                <th>评分</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name="childrenlist" id="list"}
+                                            <tr>
+                                                <td><a href="/tp5/public/index.php/contractor/historyproject/index/id/{$list.id}">{$list.name}</a></td>
+                                                <td>{$list.user}</td>
+                                                <td>{switch name="list.safetygrade"}{case value="0"}低{/case}{case value="1"}中{/case}{case value="2"}高{/case}{/switch}</td>
+                                                <td>{$list.grade}</td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+    <script>
+        $('.table').DataTable();
+        option = {
+            title: {
+                text: '评分雷达图'
+            },
+            tooltip: {
+
+            },
+            legend: {
+                data: ['当前项目', '平均']
+            },
+            radar: {
+                // shape: 'circle',
+                name: {
+                    textStyle: {
+                        color: '#fff',
+                        backgroundColor: '#999',
+                        borderRadius: 3,
+                        padding: [3, 5]
+                    }
+                },
+                indicator: [{
+                    name: '主计划',
+                    max: 100
+                }, {
+                    name: '项目团队能力',
+                    max: 100
+                }, {
+                    name: '完成程度',
+                    max: 100
+                }, {
+                    name: '需求实现程度',
+                    max: 100
+                }, {
+                    name: '质量控制',
+                    max: 100
+                }, {
+                    name: '项目价值',
+                    max: 5000
+                }],
+                axisLine: {
+                    lineStyle: {
+                        color: ['#000'],
+                        width: 1
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: ['#000'],
+                        width: 1
+                    }
+                }
+            },
+            series: [{
+                name: '能力',
+                type: 'radar',
+                // areaStyle: {normal: {}},
+                data: [{
+                    value: [79, 80, 91, 76, 80, 2100],
+                    name: '平均',
+                    itemStyle: {
+                        normal: {
+                            color: '#ff9900'
+                        }
+                    }
+                }, {
+                    value: [88, 78, 84, 96, 86, 2300],
+                    name: '当前项目',
+                    itemStyle: {
+                        normal: {
+                            color: '#009900'
+                        }
+                    }
+                }, ],
+                itemStyle: {
+                    normal: {
+                        areaStyle: {
+                            type: 'default'
+                        }
+                    }
+                },
+            }]
+        };
+        var radarchart = echarts.init(document.getElementById('radar'));
+        radarchart.setOption(option);
+        radarchart.showLoading();
+        $.get("/tp5/public/index.php/user/historyproject/getradarmap/id/{$id}").done(function(data) {
+            if (data.status) {
+                radarchart.hideLoading();
+                radarchart.setOption(data.data);
+            }
+        });
+    </script>
+</body>
+
+</html>4

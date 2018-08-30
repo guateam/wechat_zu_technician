@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file="common/css"}
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+           {include file="common/left"}
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>接包人员列表</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>姓名</th>
+                          <th>手机号码</th>
+                          <th>工作时长</th>
+                          <th>入职日期</th>
+                          <th>上次登录时间</th>
+                          <th>审核状态</th>
+                          <th>审核</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+                          <td><a href="{:url('admin/detailsuser',array('id'=>$vo['UserID']))}">{$vo.UserName}</a></td>
+                          <td>{$vo.PhoneNumber}</td>
+                          <td>{$vo.WorkTime}</td>
+                          <td>{$vo.Jointime}</td>
+                          <td>{$vo.Logintime}</td>
+                          <td>{if condition="$vo['State'] eq 1 "}已审核{else /}未审核{/if}</td>
+                          <td align="center">
+                              <a href="{:url('admin/examine',array('id'=>$vo['UserID']))}">
+                              <i class="fa fa-edit"></i> {if condition="$vo['State'] eq 1 "}已审核{else /}审核{/if}</a></td>
+                          <td align="center">
+                              <a href="{:url('admin/email',array('id'=>$vo['UserID']))}">
+                                        <i class="fa fa-envelope-o"></i>邮件
+                              <a href="#" onClick="warning('确实要删除吗', '{:url('admin/deluser',array('id'=>$vo['UserID']))}')">
+                                  <i class="fa fa-trash-o"></i> 删除
+                              </a>
+                          </td>
+                        </tr>
+                        {/volist}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+        <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+      </div>
+    </div>
+
+    {include file="common/js"}
+    
+    <!--Basic Scripts-->
+<!--     <script src="__PUBLIC__/static/admin/style/jquery_002.js"></script>
+    <script src="__PUBLIC__/static/admin/style/bootstrap.js"></script>
+    <script src="__PUBLIC__/static/admin/style/jquery.js"></script> -->
+    <!--Beyond Scripts-->
+    <script src="__PUBLIC__/static/admin/style/beyond.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    <style type="text/css">
+        input {
+            background-color: transparent;
+            border: 0;
+        }
+    </style>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <form role="form" action="" method="post" class="login-form">
+                                    <div class="x_title">
+                                        <h2>人员详情</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <table id="datatable" class="table table-striped table-bordered">
+                                            <input type="hidden" name="id" value="{$list.UserID}">
+                                            <tbody>
+                                                <tr>
+                                                    <td>姓名</td>
+                                                    <td><input type="text" name="UserName" id="name" value="{$list['UserName']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>性别</td>
+                                                    <td><select class="form-control" name="Gender" id="sex">
+                                                        <option value="男">男</option>
+                                                        <option value="女">女</option>
+                                                    </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>出生日期</td>
+                                                    <td>
+                                                        <div class="col-md-11 xdisplay_inputx form-group has-feedback">
+                                                            <input type="text" class="form-control has-feedback-left" id="birthday" aria-describedby="inputSuccess2Status2" name="Birthday" value="{$list['Birthday']}">
+                                                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                                            <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>手机号码</td>
+                                                    <td><input type="text" name="PhoneNumber" id="phone" value="{$list['PhoneNumber']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>擅长方向</td>
+                                                    <td><input type="text" name="Advantage" id="Advantage" value="{$list['Advantage']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>所在公司</td>
+                                                    <td><input type="text" name="Company" id="company" value="{$list['Company']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>紧急联系人</td>
+                                                    <td><input type="text" name="EmergencyContactName" id="EmergencyContactName" value="{$list['EmergencyContactName']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>紧急联系号码</td>
+                                                    <td><input type="text" name="EmergencyContactPhone" id="EmergencyContactPhone" value="{$list['EmergencyContactPhone']}" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>信誉等级</td>
+                                                    <td><select class="form-control" name="CreditRating" id="CreditRating">
+                                                        <option value="0">低</option>
+                                                        <option value="1">中</option>
+                                                        <option value="2">高</option>
+                                                    </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>权限等级</td>
+                                                    <td><select class="form-control" name="SecurityPermissions" id="SecurityPermissions">
+                                                        <option value="0">低</option>
+                                                        <option value="1">中</option>
+                                                        <option value="2">高</option>
+                                                    </select></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">确认</button>
+                                    <button class="btn btn-default" type="button" onclick="javascript:history.back(-1);">取消</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+
+</body>
+<script src="__STATIC__/build/js/custom.min.js"></script>
+<script src="__STATIC__/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="__STATIC__/vendors/moment/min/moment.min.js"></script>
+<script src="__STATIC__/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="__STATIC__/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+<script src="__STATIC__/vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+<script src="__STATIC__/vendors/google-code-prettify/src/prettify.js"></script>
+<!-- jQuery Tags Input -->
+<script src="__STATIC__/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+<!-- Switchery -->
+<script src="__STATIC__/vendors/switchery/dist/switchery.min.js"></script>
+<!-- Select2 -->
+<script src="__STATIC__/vendors/select2/dist/js/select2.full.min.js"></script>
+<!-- Parsley -->
+<script src="__STATIC__/vendors/parsleyjs/dist/parsley.min.js"></script>
+<!-- Autosize -->
+<script src="__STATIC__/vendors/autosize/dist/autosize.min.js"></script>
+<!-- jQuery autocomplete -->
+<script src="__STATIC__/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+<!-- starrr -->
+<script src="__STATIC__/vendors/starrr/dist/starrr.js"></script>
+
+
+<script type="text/javascript">
+    window.onload = function() {
+        // alert('{$list['Gender']}');
+        if ("{$list.Gender}" == '男') {
+            var options2 = document.getElementById('sex').children;
+            options2[0].selected = true;
+        } else {
+            var options2 = document.getElementById('sex').children;
+            options2[1].selected = true;
+        };
+        var options = document.getElementById('SecurityPermissions').children;
+        options["{$list['SecurityPermissions']}"].selected = true;
+        var options1 = document.getElementById('CreditRating').children;
+        options1["{$list['CreditRating']}"].selected = true;
+        $("#name").attr("placeholder", "");
+        $("#birthday").attr("placeholder", "");
+        $("#nation").attr("placeholder", "");
+        $("#phone").attr("placeholder", "");
+        $("#Advantage").attr("placeholder", "");
+        $("#company").attr("placeholder", "");
+        $("#EmergencyContactName").attr("placeholder", "");
+        $("#EmergencyContactPhone").attr("placeholder", "");
+        $("#CreditRating").attr("placeholder", "");
+        $("#SecurityPermissions").attr("placeholder", "");
+    }
+    $("input[type=text]").click(function() {
+        $(this).attr("placeholder", "");
+        // body...
+    });
+</script>
+<script>
+    $('input[name="Birthday"]').daterangepicker({
+        singleDatePicker: true,
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'YYYY-MM-DD'
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file="common/css"}
+    <style type="text/css">
+        input{
+            background-color: transparent;
+            border: 0;
+        }
+    </style>
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+           {include file="common/left"}
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <form role="form" action="" method="post" class="login-form">
+                  <div class="x_title">
+                    <h2>人员详情</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                     <tbody>
+                      <input type="hidden" name="id" value="{$list.ID}">
+                                            <tr>
+                                                <td>公司名称</td>
+                                                <td><input type="text" name="Name" id="Comname" value="{$list['Name']}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>联系电话</td>
+                                                <td><input type="text" name="PhoneNumber" id="PhoneNumber" value="{$list['PhoneNumber']}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>公司规模</td>
+                                                <td><span type="text" name="MembersNumber" id="MembersNumber" value="">{$list['MembersNumber']}人</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>擅长方向</td>
+                                                <td><input type="text" name="Advantage" id="Advantage" value="{$list['Advantage']}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>信誉等级</td>
+                                                <td><select class="form-control" name="CreditRating" id="CreditRating">
+                                                        <option value="0">低</option>
+                                                        <option value="1">中</option>
+                                                        <option value="2">高</option>
+                                                    </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td>安全等级</td>
+                                                <td><select class="form-control" name="SecurityPermissions" id="SecurityPermissions">
+                                                        <option value="0">低</option>
+                                                        <option value="1">中</option>
+                                                        <option value="2">高</option>
+                                                    </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td>对公银行卡号</td>
+                                                <td><input type="text" name="BankCardNumber" id="BankCardNumber" value="{$list['BankCardNumber']}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>证件签约程度</td>
+                                                <td><span type="text" name="fname" id="Inform">{if condition="$list['Document'] eq 1 "}完整{else /}不完整{/if}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>简介</td>
+                                                <td><textarea type="text" class="form-control" name="PrincipalName" id="PrincipalName">{$list['PrincipalName']}</textarea></td>
+                                            </tr>
+                                        </tbody>
+                    </table>
+                  </div>
+                  <button class="btn btn-primary " type="submit">确认</button>
+                  <button class="btn btn-default" type="button" onclick="javascript:history.back(-1);">取消</button>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    {include file="common/js"}
+
+  </body>
+  <script type="text/javascript">
+    window.onload=function () {
+      var options = document.getElementById('SecurityPermissions').children;
+        options[{$list['SecurityPermissions']}].selected=true;
+        var options1 = document.getElementById('CreditRating').children;
+        options1[{$list['CreditRating']}].selected=true;
+        $("#Comname").attr("placeholder","");
+        $("#MembersNumber").attr("placeholder","");
+        $("#Advantage").attr("placeholder","");
+        $("#Time").attr("placeholder","");
+        $("#CreditRating").attr("placeholder","");
+        $("#BankCardNumber").attr("placeholder","");
+        $("#Inform").attr("placeholder","");
+        $("#SecurityPermissions").attr("placeholder","");
+    }
+    $("input[type=text]").click(function () {
+        $(this).attr("placeholder","");
+        // body...
+    });
+</script>
+</html>

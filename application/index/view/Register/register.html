@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="__STATIC__/vendors/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__STATIC__/vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__STATIC__/build/css/login-form-elements.css">
+    <link rel="stylesheet" href="__STATIC__/build/css/login-style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <!-- Favicon and touch icons -->
+    <!-- <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png"> -->
+
+</head>
+
+<body>
+
+    <!-- Top content -->
+    <div class="top-content">
+
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1>
+                            <strong> 众包平台 </strong> | Early alpha</h1>
+                        <div class="description">
+                            <p>
+                                这里应该写什么？
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3>选择身份</h3>
+                                <p>请选择相应身份进行注册</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-location-arrow"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            <form role="form" action="" method="post" class="login-form">
+                                <div class="form-group well">
+                                    <div>
+                                        <input type='radio' name='identity' value='user' />接包人员
+                                    </div>
+                                    <div>
+                                        <input type='radio' name='identity' value='contractor' />发包人员
+                                    </div>
+                                </div>
+                                <div>
+                                    <p id='identityInfo'>身份说明..</p>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn" id='next'>下一步</button>
+                                </div>
+                                <div>
+                                    <hr>
+                                </div>
+                                <div class="foot" style="margin-top: 10px;">
+                                    <span style="float:left;">
+                                        <a href="{:url('index/login/index')}">返回</a>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Javascript -->
+    <script src="__STATIC__/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="__STATIC__/vendors/jquery-cookie/jquery.cookie.js"></script>
+    <script src="__STATIC__/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="__STATIC__/build/js/login-jquery.backstretch.min.js"></script>
+    <script src="__STATIC__/build/js/before-register.js"></script>
+
+    <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+    <script>
+        $('input[type = "radio"]').on('click', function() {
+            if ($('input[type = "radio"]:checked').val() == 'user') {
+                $('p#identityInfo').text("接包人员,接受来自发包人员的各种任务，完成后能获取酬劳。能方便地查看自己的项目和历史信息");
+            } else if ($('input[type = "radio"]:checked').val() == 'contractor') {
+                $('#identityInfo').text("发包人员，发布任务以招募接包人员来参与，完成后需要给与相应报酬，可以方便地管理自己的项目以及接包人员");
+            } else {
+                $('#identityInfo').text("w身份说明...");
+            }
+        });
+        $('#next').on('click', function() {
+            if ($('input[type = "radio"]:checked').val() == 'user') {
+
+                window.location.href = "/tp5/public/index.php/index/Register/indexuser";
+            } else window.location.href = "/tp5/public/index.php/index/Register/indexcontractor";
+        });
+    </script>
+
+</body>
+
+</html>

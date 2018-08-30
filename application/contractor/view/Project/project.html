@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .high {
+            color: #F54F4A
+        }
+        
+        .mid {
+            color: #FCCE10
+        }
+        
+        .low {
+            color: #B5C334
+        }
+    </style>
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>{$project.name}</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-12 col-lg-12 col-sm-11">
+
+                                        <div class="col-md-12 col-lg-12 col-sm-11">
+                                            <h2>项目名称：
+                                                <span style="color: #00ace6">{$project.name}</span>
+                                            </h2>
+                                            <h2>起始时间：
+                                                <span style="color: #00ace6">{$project.starttime}</span>
+                                            </h2>
+                                            <h2>截止时间：
+                                                <span style="color: #00ace6">{$project.endtime}</span>
+                                            </h2>
+                                            <h2>发包人员：
+                                                <span style="color: #00ace6">{$project.contractor}</span>
+                                            </h2>
+                                            <h2>安全等级：
+                                                <span class="{$project.color}">{$project.safetygrade}</span>
+                                            </h2>
+                                            <br />
+                                        </div>
+                                        <!-- blockquote -->
+                                        <blockquote>
+                                            <h3>具体说明：</h3>
+                                            <p>{$project.plan}
+                                            </p>
+                                        </blockquote>
+
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-12 none">
+                                        <!-- 啊，好麻烦，后悔这么写了 -->
+                                        <div class="ln_solid"></div>
+                                        <button class="btn btn-primary" id='add'>添加子项目</button>
+                                        <button class="btn btn-success" id='accept'>确认验收</button>
+                                        <button class="btn btn-danger" id='delete'>清除项目</button>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="x_title">
+                                    <h3>当前进度</h3>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            {volist name='tablist' id='tab'}
+                                            <li role="presentation" class="{$tab.class}">
+                                                <a href="#{$tab.id}" id="{$tab.type}" role="tab" data-toggle="tab" aria-expanded="true">{$tab.name}</a>
+                                            </li>
+                                            {/volist}
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            {volist name='childlist' id='child'}
+                                            <div role="tabpanel" class="tab-pane fade {$child.class}" id="{$child.id}" aria-labelledby="{$child.tabtype}">
+                                                <div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-11">
+                                                        <h2>项目名称：
+                                                            <span style="color: #00ace6">{$child.name}</span>
+                                                        </h2>
+                                                        <h2>起始时间：
+                                                            <span style="color: #00ace6">{$child.starttime}</span>
+                                                        </h2>
+                                                        <h2>截止时间：
+                                                            <span style="color: #00ace6">{$child.endtime}</span>
+                                                        </h2>
+                                                        <h2>负责人：
+                                                            <span style="color: #00ace6">{$child.user}</span>
+                                                        </h2>
+                                                        <h2>安全等级：
+                                                            <span class="{$child.color}">{$child.safetygrade}</span>
+                                                        </h2>
+                                                        <hr />
+                                                        <div class="col-xs-3">
+                                                            <!-- required for floating -->
+                                                            <!-- Nav tabs -->
+                                                            <ul class="nav nav-tabs tabs-left">
+                                                                <li class="active">
+                                                                    <a href="#product{$child.id}" data-toggle="tab">项目成果审核</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#bug{$child.id}" data-toggle="tab">问题报告</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#log{$child.id}" data-toggle="tab">日志</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+                                                        <div class="col-xs-9">
+                                                            <!-- Tab panes -->
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="product{$child.id}">
+                                                                    <table class="table table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>成果名称</th>
+                                                                                <th>种类</th>
+                                                                                <th>状态</th>
+                                                                                <th>操作</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {volist name="child.result" id="result"}
+                                                                            <tr class='{$result.color}'>
+                                                                                <td>{$result.name}</td>
+                                                                                <td>{$result.type}</td>
+                                                                                <td>{$result.state}</td>
+                                                                                <td>
+                                                                                    <a href='{$result.link}'>
+                                                                                        <i class="fa fa-file"></i>查看</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            {/volist}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                                <div class="tab-pane" id="bug{$child.id}">
+                                                                    <table class="table table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>问题名称</th>
+                                                                                <th>种类</th>
+                                                                                <th>状态</th>
+                                                                                <th>操作</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {volist name="child.bug" id='bug'}
+                                                                            <tr class='{$bug.color}'>
+                                                                                <td>{$bug.name}</td>
+                                                                                <td>{$bug.type}</td>
+                                                                                <td>{$bug.status}</td>
+                                                                                <td>
+                                                                                    <a href="{$bug.link}">
+                                                                                        <i class="fa fa-check"></i>详情</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                            {/volist}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="tab-pane" id="log{$child.id}">
+                                                                    <ul>
+                                                                        {volist name="child.log" id="log"}
+                                                                        <li>[{$log.time}]@[{$log.username}]#[{$log.type}]:{$log.note}</li>
+                                                                        {/volist}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="height: 20px">
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-6 none">
+                                                        <a class="btn btn-primary" href="/tp5/public/index.php/contractor/project/index/id/{$child.id}" style="margin-bottom: 6px">子项目详情</a>
+                                                        <button type="submit" class="btn btn-success" onclick="accept('{$child.id}')" style="margin-bottom: 6px">确认接收</button>
+                                                        <a class="btn btn-primary" href='/tp5/public/index.php/contractor/sendemail/index' style="margin-bottom: 6px">发布反馈</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/volist}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="height: 20px">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="x_title">
+                                    <h3>交流工作台</h3>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <ul id='chartingbox'>
+                                        <li v-for='(item,key) in items' v-if="key>items.length-25" v-bind:class="{'high':item.iserror,'mid':item.iswarning,'low':item.issuccess}">[{{item.time}}]@[{{item.user}}]#[{{item.status}}]:{{item.note}}</li>
+                                    </ul>
+                                    <form class="form-group" id='chartform'>
+                                        <div class="col-md-2 col-xs-12">
+                                            <select id="chartingtype" class="form-control">
+                                                <option value="普通">普通</option>
+                                                <option value="Note">通知</option>
+                                                <option value="Debug">Bug</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name='message'>
+
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <button type="button" class="btn btn-success" id="sendchat">发送</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-12" style="height: 20px">
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="x_title">
+                                    <h3>项目成果</h3>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>成果名称</th>
+                                                <th>种类</th>
+                                                <th>状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name="resultlist" id="value"}
+                                            <tr class='{$value.color}'>
+                                                <td>{$value.name}</td>
+                                                <td>{$value.type}</td>
+                                                <td>{$value.state}</td>
+                                                <td>
+                                                    <a href='{$value.link}'>
+                                                        <i class="fa fa-file"></i>查看</a>
+                                                </td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>项目概况</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div id="speeder" style="height:500px"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>接包人员</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div style="height:500px">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>接包人员</th>
+                                                    <th>安全等级</th>
+                                                    <th>状态</th>
+                                                    <th>繁忙指数</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id='userlist'>
+                                                <tr v-bind:class="{'success':item.issuccess,'warning':item.iswarning,'danger':item.iserror}" v-for='item in items'>
+                                                    <td>
+                                                        <a :href="item.link">{{item.name}}</a>
+                                                    </td>
+                                                    <td>{{item.safetygrade}}</td>
+                                                    <td>{{item.state}}</td>
+                                                    <td>{{item.busylevel}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>子项目</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>项目名</th>
+                                                <th>负责人</th>
+                                                <th>等级</th>
+                                                <th>状态</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='childrenlist'>
+                                            <tr v-bind:class="{'success':item.issuccess,'warning':item.iswarning,'danger':item.iserror,'info':item.isinfo}" v-for='item in items'>
+                                                <td>
+                                                    <a v-bind:href="item.link">{{item.name}}</td>
+                                                <td>{{item.username}}</td>
+                                                <td>{{item.level}}</td>
+                                                <td>{{item.status}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xs-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>项目资源</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>资源名称</th>
+                                                <th>上传人</th>
+                                                <th>上传时间</th>
+                                                <th>状态</th>
+                                                <th>安全等级</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {volist name="resource" id="value"}
+                                            <tr class='{$value.color}'>
+                                                <td>{$value.name}</td>
+                                                <td>{$value.uploader}</td>
+                                                <td>{$value.uploadtime}</td>
+                                                <td>{$value.status}</td>
+                                                <td>{switch name="value.safetygrade"}{case value="0"}低{/case}{case value="1"}中{/case}{case value="2"}高{/case}{/switch}</td>
+                                                <td>
+                                                    <a href="{$value.link}">
+                                                        <i class="fa fa-file"></i>查看</a>
+                                                </td>
+                                            </tr>
+                                            {/volist}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /page content -->
+
+                <!-- footer content -->
+                <!--         <footer>
+          <div class="pull-right">
+          </div>
+          <div class="clearfix"></div>
+        </footer> -->
+                <!-- /footer content -->
+            </div>
+        </div>
+
+        {include file='common/js'}
+        <script>
+            //$('.table').DataTable();
+            option = {
+                title: {
+                    text: '{$project.name}',
+                    subtext: '项目概况',
+                    x: 'center'
+                },
+                tooltip: {
+                    formatter: "{a} <br/>{b} : {c}"
+                },
+                toolbox: {
+                    feature: {
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                series: [{
+                    name: '项目完成率',
+                    type: 'gauge',
+                    detail: {
+                        formatter: '{value}%'
+                    },
+                    radius: '55%',
+                    tooltip: {
+                        formatter: "{a} <br/>{b} : {c}%"
+                    },
+                    axisLine: { // 坐标轴线
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            width: 10
+                        }
+                    },
+                    axisTick: { // 坐标轴小标记
+                        length: 15, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: { // 分隔线
+                        length: 20, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        backgroundColor: 'auto',
+                        borderRadius: 2,
+                        color: '#eee',
+                        padding: 3,
+                        textShadowBlur: 2,
+                        textShadowOffsetX: 1,
+                        textShadowOffsetY: 1,
+                        textShadowColor: '#222'
+                    },
+                    data: [{
+                        value: 0,
+                        name: '完成率'
+                    }]
+                }, {
+                    name: '安全等级',
+                    type: 'gauge',
+                    center: ['20%', '55%'],
+                    radius: '40%',
+                    endAngle: 45,
+                    min: 0,
+                    max: 2,
+                    splitNumber: 2,
+                    axisLine: { // 坐标轴线
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            width: 10
+                        }
+                    },
+                    axisTick: { // 坐标轴小标记
+                        length: 15, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: { // 分隔线
+                        length: 20, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        backgroundColor: 'auto',
+                        borderRadius: 2,
+                        color: '#eee',
+                        padding: 3,
+                        textShadowBlur: 2,
+                        textShadowOffsetX: 1,
+                        textShadowOffsetY: 1,
+                        textShadowColor: '#222'
+                    },
+                    detail: {
+                        show: false
+                    },
+                    data: [{
+                        value: 0,
+                        name: '等级'
+                    }]
+                }, {
+                    name: '状态',
+                    type: 'gauge',
+                    center: ['80%', '55%'], // 默认全局居中
+                    radius: '40%',
+                    min: 0,
+                    max: 2,
+                    startAngle: 135,
+                    endAngle: -45,
+                    splitNumber: 2,
+                    axisLine: { // 坐标轴线
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            width: 10
+                        }
+                    },
+                    axisTick: { // 坐标轴小标记
+                        length: 15, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: { // 分隔线
+                        length: 20, // 属性length控制线长
+                        lineStyle: { // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        backgroundColor: 'auto',
+                        borderRadius: 2,
+                        color: '#eee',
+                        padding: 3,
+                        textShadowBlur: 2,
+                        textShadowOffsetX: 1,
+                        textShadowOffsetY: 1,
+                        textShadowColor: '#222',
+                        formatter: function(v) {
+                            switch (v + '') {
+                                case '0':
+                                    return '进度正常';
+                                case '1':
+                                    return '可能延期';
+                                case '2':
+                                    return '延期';
+                            }
+                        }
+                    },
+                    tooltip: {
+                        formatter: function(params, ticket, callback) {
+                            switch (params.value) {
+                                case 0:
+                                    return "项目状态<br/>状态：进度正常";
+                                case 1:
+                                    return "项目状态<br/>状态：可能延期";
+                                case 2:
+                                    return "项目状态<br/>状态：延期";
+                            }
+                        }
+                    },
+                    pointer: {
+                        width: 2
+                    },
+                    detail: {
+                        show: false
+                    },
+                    title: {
+                        show: false
+                    },
+                    data: [{
+                        value: 0,
+                        name: '状态'
+                    }]
+                }]
+            };
+            var speederchart = echarts.init(document.getElementById('speeder'));
+            speederchart.setOption(option);
+            speederchart.showLoading();
+            $.get("/tp5/public/index.php/contractor/project/getprojectstatus/id/{$id}").done(function(data) {
+                if (data.status) {
+                    speederchart.hideLoading();
+                    speederchart.setOption(data.data);
+                }
+            });
+
+            $('#accept').click(function() {
+                swal('提示', '确认要验收本项目吗', 'info', {
+                    buttons: {
+                        yes: {
+                            text: "是",
+                            value: true,
+                        },
+                        no: {
+                            text: '否',
+                            value: false,
+                        }
+                    },
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                }).then((ok) => {
+                    if (ok) {
+                        $.post('/tp5/public/index.php/api/project/acceptcheck/id/{$id}').done(function(data) {
+                            if (data.status == 0) {
+                                var returnn = false;
+                                swal('提示', '有子项目未验收，确认验收吗', 'info', {
+                                    buttons: {
+                                        yes: {
+                                            text: "是",
+                                            value: true,
+                                        },
+                                        no: {
+                                            text: '否',
+                                            value: false,
+                                        }
+                                    },
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                }).then((ok) => {
+                                    if (ok) {} else {
+                                        returnn = true;
+                                    }
+                                })
+                                if (returnn) return;
+                            }
+                            $.post('/tp5/public/index.php/api/project/accept/id/{$id}').done(function(data) {
+                                if (data.status) {
+                                    swal('成功', '添加成功！', 'success', {
+                                        closeOnClickOutside: false,
+                                        closeOnEsc: false,
+                                    }).then((ok) => {
+                                        if (ok) window.location.href = '/tp5/public/index.php/contractor/projectrank/index/id/{$id}';
+                                    })
+                                } else {
+                                    swal('失败', '确认失败！', 'error');
+                                    return;
+                                }
+                            })
+
+                        })
+                    } else {}
+                })
+                return;
+            });
+
+            function accept(id) {
+                swal('提示', '确认要验收本项目吗', 'info', {
+                    buttons: {
+                        yes: {
+                            text: "是",
+                            value: true,
+                        },
+                        no: {
+                            text: '否',
+                            value: false,
+                        }
+                    },
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                }).then((ok) => {
+                    if (ok) {
+                        $.post('/tp5/public/index.php/api/project/acceptcheck/id/' + id).done(function(data) {
+                            if (data.status == 0) {
+                                var returnn = false;
+                                swal('提示', '确认要验收本项目吗', 'info', {
+                                    buttons: {
+                                        yes: {
+                                            text: "是",
+                                            value: true,
+                                        },
+                                        no: {
+                                            text: '否',
+                                            value: false,
+                                        }
+                                    },
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                }).then((ok) => {
+                                    if (ok) {
+                                        $.post('/tp5/public/index.php/api/project/accept/id/' + id).done(function(data) {
+                                            if (data.status) {
+                                                swal('成功', '确认成功！', 'success', {
+                                                    closeOnClickOutside: false,
+                                                    closeOnEsc: false,
+                                                }).then((ok) => {
+                                                    if (ok) window.location.href = '/tp5/public/index.php/contractor/projectrank/index/id/{$id}';
+                                                })
+
+                                            } else {
+                                                swal('失败', '确认失败！', 'error');
+                                                return;
+                                            }
+                                        })
+                                    } else returnn = true;
+                                })
+                                if (returnn) return;
+                            }
+                        })
+                    }
+                })
+                return;
+            }
+            $('#add').click(function() {
+                window.location.href = "/tp5/public/index.php/contractor/add/addtree/id/{$id}"
+            })
+            $('#delete').click(function() {
+                swal('提示', '确认要删除本项目吗', 'info', {
+                    buttons: {
+                        yes: {
+                            text: "是",
+                            value: true,
+                        },
+                        no: {
+                            text: '否',
+                            value: false,
+                        }
+                    },
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                }).then((ok) => {
+                    if (ok) {
+                        $.post('/tp5/public/index.php/api/project/delete/id/{$id}').done(function(data) {
+                            if (data.status) {
+                                swal('成功', '添加成功！', 'success', {
+                                    closeOnClickOutside: false,
+                                    closeOnEsc: false,
+                                }).then((ok) => {
+                                    if (ok) window.location.href = '/tp5/public/index.php/contractor/workingprojectlist/index';
+                                })
+
+                            }
+                        });
+                    }
+                })
+            });
+
+            var chartingbox = new Vue({
+                el: '#chartingbox',
+                data: {
+                    items: []
+                }
+            });
+
+
+            function updatechatingbox() {
+                $.get("/tp5/public/index.php/contractor/project/chartingboxdata/id/{$id}").done(function(data) {
+                    if (data.status == 1) {
+                        chartingbox.items = [];
+                        items = data.data;
+
+                        for (key in items) {
+                            item = items[key];
+                            issuccess = false;
+                            iswarning = false;
+                            iserror = false;
+                            switch (item['status']) {
+                                case 'Note':
+                                    iswarning = true;
+                                    break;
+                                case 'Debug':
+                                    iserror = true;
+                                    break;
+                                case '管理员':
+                                    issuccess = true;
+                                    break;
+                                default:
+
+                                    break;
+                            }
+
+                            chartingbox.items.push({
+                                'time': item['time'],
+                                'status': item['status'],
+                                'user': item['user'],
+                                'note': item['note'],
+                                'issuccess': issuccess,
+                                'iswarning': iswarning,
+                                'iserror': iserror,
+                            });
+                        }
+                        //console.info(resourcelist.items);
+                    } else {
+                        chartingbox.items = [];
+                    }
+                });
+            }
+            updatechatingbox();
+            $('#sendchat').click(function() {
+                $.get('/tp5/public/index.php/contractor/project/send', {
+                    id: $.cookie('contractorid'),
+                    status: $('#chartingtype').val(),
+                    note: $("input[ name='message'] ").val(),
+                    projectid: '{$id}'
+                }).done(function(data) {
+                    if (data.status) {
+                        updatechatingbox();
+                        $("input[name='message']").val('')
+                    }
+                });
+            });
+            var charting = setInterval('updatechatingbox()', 5000);
+            var projectlist = new Vue({
+                el: '#childrenlist',
+                data: {
+                    items: []
+                }
+            })
+
+            $.get("/tp5/public/index.php/contractor/project/getallprojectchildrenlist/id/{$id}").done(function(data) {
+                if (data.status == 1) {
+                    projectlist.items = [];
+                    items = data.data;
+
+                    for (key in items) {
+                        item = items[key];
+                        issuccess = false;
+                        iswarning = false;
+                        iserror = false;
+                        isinfo = false;
+                        switch (item['status']) {
+                            case '完成':
+                            case '进度正常':
+                                issuccess = true;
+                                break;
+                            case '等待资源':
+                            case '等待人员':
+                            case '可能延期':
+                                iswarning = true;
+                                break;
+
+                            case '延期':
+                                iserror = true;
+                                break;
+                            case '待接收':
+                                isinfo = true;
+                                break;
+                            default:
+
+                                break;
+                        }
+                        projectlist.items.push({
+                            'name': item['name'],
+                            'username': item['username'],
+                            'endtime': item['endtime'],
+                            'status': item['status'],
+                            'level': item['level'],
+                            'link': '/tp5/public/index.php/contractor/project/index/id/' + item['id'],
+                            'issuccess': issuccess,
+                            'iswarning': iswarning,
+                            'iserror': iserror,
+                            'isinfo': isinfo
+                        });
+                    }
+                } else {
+                    projectlist.items = [];
+                }
+            });
+
+            var userlist = new Vue({
+                el: '#userlist',
+                data: {
+                    items: []
+                }
+            });
+
+            $.get("/tp5/public/index.php/contractor/project/getuserlist/id/{$id}").done(function(data) {
+                if (data.status == 1) {
+                    userlist.items = [];
+                    items = data.data;
+
+                    for (key in items) {
+                        item = items[key];
+                        issuccess = false;
+                        iswarning = false;
+                        iserror = false;
+                        switch (item['busylevel']) {
+                            case '空闲':
+                                issuccess = true;
+                                break;
+                            case '正常':
+                                iswarning = true;
+                                break;
+
+                            case '繁忙':
+                                iserror = true;
+                                break;
+                            default:
+
+                                break;
+                        }
+                        switch (item['safetygrade']) {
+                            case 0:
+                                item['safetygrade'] = '低';
+                                break;
+                            case 1:
+                                item['safetygrade'] = '中';
+                                break;
+                            case 2:
+                                item['safetygrade'] = '高';
+                                break;
+                        }
+                        userlist.items.push({
+                            'name': item['name'],
+                            'safetygrade': item['safetygrade'],
+                            'state': item['state'],
+                            'busylevel': item['busylevel'],
+                            'issuccess': issuccess,
+                            'iswarning': iswarning,
+                            'iserror': iserror,
+                            'link': '/tp5/public/index.php/contractor/userdetail/index/id/' + item['id']
+                        });
+                    }
+                } else {
+                    userlist.items = [];
+                }
+            });
+        </script>
+</body>
+
+</html>

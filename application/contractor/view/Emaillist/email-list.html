@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>通知列表</h3>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    {volist name='data' id='email'}
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>{$email.name}</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li>
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="close-link">
+                                                <i class="fa fa-close"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="col-md-12 col-lg-12 col-sm-11">
+
+                                        <div class="col-md-12 col-lg-12 col-sm-11">
+                                            <h2>发件人：
+                                                <span style="color: #00ace6">{$email.poster}</span>
+                                            </h2>
+                                            <h2>时间：
+                                                <span style="color: #00ace6">{$email.time}</span>
+                                            </h2>
+                                            <br />
+                                        </div>
+                                        <!-- blockquote -->
+                                        <blockquote>
+                                            <p>{$email.note}
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-primary" onClick="{$email.link}">查看详情</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="height: 20px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    {/volist}
+
+                </div>
+                <!-- /page content -->
+
+                <!-- footer content -->
+                <!--<footer>
+                    <div class="pull-right">
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+                <!- /footer content -->
+            </div>
+        </div>
+
+        {include file='common/js'}
+        <script>
+            function jumptodetail(id) {
+                window.location.href = '/tp5/public/index.php/contractor/email/index/id/' + id;
+            }
+        </script>
+</body>
+
+</html>

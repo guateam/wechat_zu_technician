@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>添加发包人员</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <br />
+                                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserName">姓名<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="UserName" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">性别</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="Gender" value="男"> &nbsp; 男 &nbsp;
+                            </label>
+                                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="Gender" value="女"> 女
+                            </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Birthday">出生日期<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="Birthday" name="Birthday" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Nation" class="control-label col-md-3 col-sm-3 col-xs-12">民族<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="Nation" class="form-control col-md-7 col-xs-12" type="text" name="Nation">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">手机号<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="PhoneNumber" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="EmergencyContactName" class="control-label col-md-3 col-sm-3 col-xs-12">紧急联系人<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="EmergencyContactName" class="form-control col-md-7 col-xs-12" type="text" name="EmergencyContactName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="EmergencyContactPhone" class="control-label col-md-3 col-sm-3 col-xs-12">紧急联系号码<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="EmergencyContactPhone" class="form-control col-md-7 col-xs-12" type="text" name="EmergencyContactPhone">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">脸部信息录入情况</label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="FaceInformation" value="已录入"> &nbsp; 已录入 &nbsp;
+                            </label>
+                                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="FaceInformation" value="未录入"> 未录入
+                            </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Jointime" class="control-label col-md-3 col-sm-3 col-xs-12">入职时间<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="Jointime" class="form-control col-md-7 col-xs-12" type="text" name="Jointime">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="WorkTime" class="control-label col-md-3 col-sm-3 col-xs-12">工作年限<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="WorkTime" class="form-control col-md-7 col-xs-12" type="text" name="WorkTime">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="SecurityPermissions" class="control-label col-md-3 col-sm-3 col-xs-12">权限等级<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="SecurityPermissions" class="form-control col-md-7 col-xs-12" type="text" name="SecurityPermissions">
+                                            </div>
+                                        </div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                <button class="btn btn-primary" type="button" onClick="window.location.href='admin/contractors'">取消</button>
+                                                <button class="btn btn-primary" type="reset">清空</button>
+                                                <button type="submit" class="btn btn-success">确认</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+
+</body>
+
+</html>

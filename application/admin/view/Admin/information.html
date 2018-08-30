@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file='common/css'}
+    <style type="text/css">
+        .file {
+            position: relative;
+            display: inline-block;
+            background: transparent;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+        .fileerrorTip,.showFileName{
+            margin-left: 11px;
+            vertical-align: 5px;
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>添加发包人员</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <br />
+                                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pic">头像<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="col-md-4 col-sm-6 col-xs-8 ">
+                                                <img src="__STATIC__/image/3.jpg" alt="..." class="img-circle profile_img" style="margin-left: 0">
+                                                </div><span style="bottom: 5px;position: absolute;"><a href="javascript:;" class="file">选择文件<input type="file" name="" id=""></a><span class="showFileName"></span><span class="fileerrorTip"></span></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UserName">用户名<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="UserName" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">手机号<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="PhoneNumber" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                                            </div>
+                                        </div>
+                                        <!-- 修改密码需要人脸识别验证-->   
+                                        <div class="form-group">
+                                            <label for="Password" class="control-label col-md-3 col-sm-3 col-xs-12">密码<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="Password" class="form-control col-md-7 col-xs-12" type="password" name="Password">
+                                            </div>
+                                        </div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                <button class="btn btn-primary" type="button" onClick="window.location.href='admin/contractors'">取消</button>
+                                                <button class="btn btn-primary" type="reset">清空</button>
+                                                <button type="submit" class="btn btn-success">确认</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+        </div>
+    </div>
+
+    {include file='common/js'}
+
+</body>
+<script type="text/javascript">
+    $(".man").click(function(){
+        $(this).addClass("btn-primary");
+        $(this).siblings(".man").removeClass("btn-primary");
+    });
+
+
+    window.onload=function () {
+        $("#image").attr("src","__STATIC__/image/3.jpg");
+        $("#UserName").attr("placeholder","蛤");
+        $("#PhoneNumber").attr("placeholder","13838383864");
+        $("#Password").attr("placeholder","*******");
+    }
+    $("input[type=text]").click(function () {
+        $(this).attr("placeholder","");
+        // body...
+    });
+
+    $(".file").on("change","input[type='file']",function(){
+    var filePath=$(this).val();
+    if(filePath.indexOf("jpg")!=-1 || filePath.indexOf("png")!=-1){
+        $(".fileerrorTip").html("").hide();
+        var arr=filePath.split('\\');
+        var fileName=arr[arr.length-1];
+        $(".showFileName").html(fileName);
+    }else{
+        $(".showFileName").html("");
+        $(".fileerrorTip").html("您未上传文件，或者您上传文件类型有误！").show();
+        return false 
+    }
+})
+</script>
+</html>

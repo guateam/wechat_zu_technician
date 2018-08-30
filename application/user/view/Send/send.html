@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>进度提交</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>当前进度提交</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <br />
+                                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="companiesname">项目名称<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="CompaniesName" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="MembersNumber">起始时间<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input type="text" id="MembersNumber" name="MembersNumber" required="required" class="form-control col-md-7 col-xs-12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Advantage" class="control-label col-md-3 col-sm-3 col-xs-12">提交人员<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="Advantage" class="form-control col-md-7 col-xs-12" type="text" name="Advantage">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">备注<span class="required">*</span>
+                        </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input id="BankCardNumber" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">是否完全完成该项目<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div id="gender" class="btn-group" data-toggle="buttons">
+                                                    <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="#" value="完成"> &nbsp; 完成 &nbsp;
+                            </label>
+                                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                              <input type="radio" name="#" value="未完成"> 未完成
+                            </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">添加附件<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="x_panel">
+                                                    <div class="x_content">
+                                                        <p>将文件拖到下面的框中进行上传，或单击选择文件 (这里出了点未知bug我也很绝望qaq)
+                                                        </p>
+                                                        <form action="send.html" class="dropzone dz-clickable"></form>
+                                                        <br />
+                                                        <br />
+                                                        <br />
+                                                        <br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                                <button class="btn btn-primary" type="button" onClick="window.location.href='companies.html'">取消</button>
+                                                <button class="btn btn-primary" type="reset">清空</button>
+                                                <button type="submit" class="btn btn-success">确认</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /page content -->
+
+                <!-- footer content -->
+                <!--         <footer>
+          <div class="pull-right">
+          </div>
+          <div class="clearfix"></div>
+        </footer> -->
+                <!-- /footer content -->
+            </div>
+        </div>
+
+        {include file='common/js'}
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>发包人员</title>
+    {include file='common/css'}
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file="common/left"}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h1>设置</h1>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <h3>常规设置</h3>
+                                    <div class="clearfix"></div>
+                                    <h2 id="basic">个人信息</h2>
+                                    <hr>
+                                    <div class="clearfix"></div>
+                                    <h2 id="privacy">隐私设置</h2>
+                                    <hr>
+                                    <h4>使用真实头像</h4>
+                                    <div id="trueicon" class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-primary man">
+                                            <input type="radio" name="TrueIcon" value="true" checked> 是 
+                                        </label>
+                                        <label class="btn btn-default man">
+                                            <input type="radio" name="TrueIcon" value="false"> 否
+                                        </label>
+                                    </div>
+                                    <br>
+                                    <h3>安全设置</h3>
+                                    <div class="clearfix"></div>
+                                    <h2 id="password">关键信息修改</h2>
+                                    <hr>
+                                    <span><h4></h4></span>
+                                    <div class="clearfix"></div>
+                                    <h2 id="logindata">登陆记录</h2>
+                                    <hr>
+
+                                    <div class="clearfix"></div>
+                                    <h2 id="protocol">安全协议</h2>
+                                    <hr>
+                                    <span><h4></h4></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    {include file='common/js'}
+    <script>
+        $(".man").click(function() {
+            $(this).addClass("btn-primary");
+            $(this).siblings(".man").removeClass("btn-primary").addClass("btn-default");
+        });
+    </script>
+</body>
+
+</html>

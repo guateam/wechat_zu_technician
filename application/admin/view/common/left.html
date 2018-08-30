@@ -1,0 +1,91 @@
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="{:url('admin/index')}" class="site_title"><i class="fa fa-paper-plane"></i> <span>众包平台</span></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile clearfix">
+            <div class="profile_pic">
+                <img src="__STATIC__/image/a.jpg" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+                <span>欢迎,</span>
+                <h2>{$username}</h2>
+            </div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <ul class="nav side-menu">
+                    <li><a><i class="fa fa-home"></i> 发包人员 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{:url('admin/contractors')}">人员列表</a></li>
+                            <li class="none"><a href="{:url('admin/addcon')}">添加人员</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> 外包公司 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{:url('admin/companies')}">公司列表</a></li>
+                            <li class="none"><a href="{:url('admin/addcom')}">添加公司</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-desktop"></i> 接包人员 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{:url('admin/unuser')}">未审核人员</a></li>
+                            <li><a href="{:url('admin/user')}">已审核人员</a></li>
+                            <li class="none"><a href="{:url('admin/adduser')}">添加人员</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-calendar"></i>人员考勤<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{:url('admin/kaoqing')}">考勤人员</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-server"></i>服务器维护<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{:url('admin/index')}">服务器现状</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="信息编辑" href="/tp5/public/index.php/admin/setting/index">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="发送邮件" href="{:url('admin/sendemail/index')}">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="登出" href="#" id="logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+        </div>
+        <!-- /menu footer buttons -->
+    </div>
+</div>
+<!-- top navigation -->
+{include file='common/top'}
+
+<script type="text/javascript">
+    window.onload = function() {
+        if (window.screen.width < 768) {
+            $(".none").css({
+                "display": 'none'
+            });
+        }
+    }
+</script>

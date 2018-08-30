@@ -1,0 +1,463 @@
+index.250 /*var data = [{
+                name: '关于竞技场防背叛还是防碾压墙的论证系统的实现',
+                itemStyle: itemcolor[2],
+                children: [{
+                    name: '准备工作',
+                    value: 6,
+                    itemStyle: itemcolor[0],
+                    children: [{
+                        name: '刷金币',
+                        value: 2,
+                        itemStyle: itemcolor[0],
+                    }, {
+                        name: '对照组',
+                        value: 2,
+                        itemStyle: itemcolor[0],
+                        children: [{
+                            name: '创小号',
+                            value: 1,
+                            itemStyle: itemcolor[0],
+                        }]
+                    }, {
+                        name: '刷胜率',
+                        value: 2,
+                        itemStyle: itemcolor[2],
+                    }]
+                }, {
+                    name: '实验操作',
+                    value: 6,
+                    itemStyle: itemcolor[1],
+                    children: [{
+                        name: '收集在许可范围内的竞技场比赛',
+                        value: 2,
+                        children: [{
+                            name: '收集视频',
+                            value: 1
+                        }, {
+                            name: '自己打',
+                            value: 1,
+                            itemStyle: itemcolor[0],
+                        }]
+                    }]
+                }, {
+                    name: '实验操作',
+                    value: 4,
+                    children: [{
+                        name: '胡扯',
+                        value: 2,
+                        itemStyle: itemcolor[1],
+                    }]
+                }]
+            }];*/
+
+index.409 /*,
+                dataZoom: [{
+                    type: 'slider',
+                    show: true,
+                    xAxisIndex: [0],
+                    start: 0,
+                    end: 100
+                }, {
+                    type: 'inside',
+                    xAxisIndex: [0],
+                    start: 0,
+                    end: 100
+                }]
+                不知道为啥不能用。。。
+                */
+index.718 /*
+function getChartingData(key) {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        json = JSON.parse(xmlhttp.responseText);
+                        if (json['status'] == 1) {
+                            chartingbox.items = [];
+                            items = json['data'];
+
+                            for (key in items) {
+                                item = items[key];
+                                issuccess = false;
+                                iswarning = false;
+                                iserror = false;
+                                switch (item['status']) {
+                                    case 'Note':
+                                        iswarning = true;
+                                        break;
+                                    case 'Debug':
+                                        iserror = true;
+                                        break;
+                                    case '管理员':
+                                        issuccess = true;
+                                        break;
+                                    default:
+
+                                        break;
+                                }
+
+                                chartingbox.items.push({
+                                    'time': item['time'],
+                                    'status': item['status'],
+                                    'user': item['user'],
+                                    'note': item['note'],
+                                    'issuccess': issuccess,
+                                    'iswarning': iswarning,
+                                    'iserror': iserror,
+                                });
+                            }
+                            //console.info(resourcelist.items);
+                        } else {
+                            chartingbox.items = [];
+                        }
+                    }
+                }
+                if (key) {
+                    xmlhttp.open("GET", "{:url('user/chartingboxdata')}", false);
+                    var form = document.getElementById("chartform");
+                    var form_data = new FormData(form);
+                    xmlhttp.send(form_data);
+                } else {
+                    xmlhttp.open("GET", "{:url('user/index/chartingboxdata')}", false);
+                    xmlhttp.send();
+                }
+            }
+            //getChartingData();
+*/
+index.589/*
+function getRescourceData() {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        json = JSON.parse(xmlhttp.responseText);
+                        if (json['status'] == 1) {
+                            resourcelist.items = [];
+                            items = json['data'];
+
+                            for (key in items) {
+                                item = items[key];
+                                isinfo = false;
+                                issuccess = false;
+                                iswarning = false;
+                                iserror = false;
+                                switch (item['status']) {
+                                    case '可用':
+                                        issuccess = true;
+                                        switch (item['type']) {
+                                            case '计划书':
+                                                issuccess = false;
+                                                isinfo = true;
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+                                        break;
+                                    case '特殊':
+                                        iswarning = true;
+                                        break;
+                                    case '不可用':
+                                        iserror = true;
+                                        break;
+                                    default:
+
+                                        break;
+                                }
+
+                                resourcelist.items.push({
+                                    'name': item['name'],
+                                    'uploader': item['uploader'],
+                                    'uploadtime': item['uploadtime'],
+                                    'status': item['status'],
+                                    'safetygrade': item['safetygrade'],
+                                    'link': item['link'],
+                                    'issuccess': issuccess,
+                                    'iswarning': iswarning,
+                                    'iserror': iserror,
+                                    'isinfo': isinfo
+                                });
+                            }
+                            //console.info(resourcelist.items);
+                        } else {
+                            resourcelist.items = [];
+                        }
+                    }
+                }
+                xmlhttp.open("GET", "{:url('user/index/resourcelist')}", false);
+                xmlhttp.send();
+            }
+            //getRescourceData();
+*/
+index.486/*
+function getWaitingList() {
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                        json = JSON.parse(xmlhttp.responseText);
+
+                        if (json['status'] == 1) {
+                            waitinglist.items = [];
+                            items = json['data'];
+
+                            for (key in items) {
+                                item = items[key];
+                                issuccess = false;
+                                iswarning = false;
+                                iserror = false;
+                                switch (item['status']) {
+                                    case '正点':
+                                        issuccess = true;
+                                        break;
+                                    case '可能延期':
+                                        iswarning = true;
+                                        break;
+                                    case '延期':
+                                        iserror = true;
+                                        break;
+                                    default:
+
+                                        break;
+                                }
+                                waitinglist.items.push({
+                                    'name': item['name'],
+                                    'user': item['user'],
+                                    'endtime': item['endtime'],
+                                    'status': item['status'],
+                                    'level': item['level'],
+                                    'issuccess': issuccess,
+                                    'iswarning': iswarning,
+                                    'iserror': iserror
+                                });
+                            }
+                        } else {
+                            waitinglist.items = [];
+                        }
+                    }
+                }
+                xmlhttp.open("GET", "{:url('user/index/waitinglist')}", false);
+                xmlhttp.send();
+            }
+            //getWaitingList();
+*/
+index.392/*
+function getWaterfallData() {
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        json = JSON.parse(xmlhttp.responseText);
+                        if (json['status'] == 1) {
+                            start = [];
+                            end = [];
+                            projstatus = [];
+                            projectName = []
+                            for (key in json['data']) {
+                                item = json['data'][key];
+                                projectName.push(item['name']);
+                                start.push(item['starttime']);
+                                end.push(item['endtime']);
+                                projstatus.push(item['status']);
+                            }
+                            option = {
+
+                                yAxis: {
+
+                                    data: projectName
+                                },
+                                series: [{
+
+                                    data: start
+                                }, {
+
+                                    data: end
+                                }, {
+
+                                    data: projstatus
+                                }]
+                            };
+                            waterfallChart.hideLoading();
+                            waterfallChart.setOption(option);
+                        }
+                    }
+                }
+                xmlhttp.open("GET", "{:url('user/index/waterfall')}", false);
+                xmlhttp.send();
+            }
+            //getWaterfallData();
+*/
+index.250/*
+    function getStuctureData() {
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    // IE6, IE5 浏览器执行代码
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        json = JSON.parse(xmlhttp.responseText);
+                        if (json['status'] == 1) {
+                            option = {
+                                series: {
+                                    data: json['data']
+                                }
+                            };
+                            structureChart.hideLoading();
+                            structureChart.setOption(option);
+                        }
+                    }
+                }
+                xmlhttp.open("POST", "{:url('user/index/structuredata')}", false);
+                xmlhttp.send();
+            }
+            //getStuctureData();
+*/
+contractor.company/*
+option = {
+            title: {
+                text: 'Idea Factory Inc.',
+                subtext: '实时数据'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#283b56'
+                    }
+                }
+            },
+            legend: {
+                data: ['价值产出', '进行中项目', '完成项目', '延期项目']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    dataView: {
+                        readOnly: false
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: {
+                show: false,
+                start: 0,
+                end: 100
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: true,
+                data: (function() {
+                    var now = new Date();
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
+                        now = new Date(now - 2000);
+                    }
+                    return res;
+                })()
+            }],
+            yAxis: [{
+                type: 'value',
+                scale: true,
+                name: '价格',
+                max: 30,
+                min: 0,
+                boundaryGap: [0.2, 0.2]
+            }, {
+                type: 'value',
+                scale: true,
+                name: '项目数',
+                max: 40,
+                min: 0,
+                boundaryGap: [0.2, 0.2]
+            }],
+            series: [{
+                name: '进行中项目',
+                type: 'bar',
+                xAxisIndex: 0,
+                yAxisIndex: 1,
+                data: (function() {
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push(Math.round(Math.random()));
+                    }
+                    return res;
+                })()
+            }, {
+                name: '完成项目',
+                type: 'bar',
+                xAxisIndex: 0,
+                yAxisIndex: 1,
+                data: (function() {
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push(Math.round(Math.random() * 10));
+                    }
+                    return res;
+                })()
+            }, {
+                name: '延期项目',
+                type: 'bar',
+                xAxisIndex: 0,
+                yAxisIndex: 1,
+                data: (function() {
+                    var res = [];
+                    var len = 10;
+                    while (len--) {
+                        res.push(Math.round(Math.random() * 10));
+                    }
+                    return res;
+                })()
+            }, {
+                name: '价值产出',
+                type: 'line',
+                data: (function() {
+                    var res = [];
+                    var len = 0;
+                    while (len < 10) {
+                        res.push((Math.random() * 10 + 5).toFixed(1) - 0);
+                        len++;
+                    }
+                    return res;
+                })()
+            }]
+        };
+        var barchart = echarts.init(document.getElementById("bar"));
+        barchart.setOption(option);
+*/

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>管理员</title>
+    {include file='common/css'}
+    <style type="text/css">
+        @media only screen and (max-width: 768px) {
+            .none {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            {include file='common/left'}
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>服务器状况</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>基础信息</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <table>
+                                                        <tr>
+                                                            <td>Web服务器:</td>
+                                                            <td>{$sysos}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>PHP版本:</td>
+                                                            <td>{$sysversion}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>MySQL版本:</td>
+                                                            <td>{$mysqlinfo}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>GD库版本:</td>
+                                                            <td>{$gdinfo}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>FreeType:</td>
+                                                            <td>{$freetype}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>远程文件获取:</td>
+                                                            <td>{$allowurl}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>最大上传限制:</td>
+                                                            <td>{$max_upload}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>最大执行时间:</td>
+                                                            <td>{$max_ex_time}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>服务器时间:</td>
+                                                            <td>{$systemtime}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 none">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <h2>服务器负载</h2>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <div id="onlinestatus" style="height:200px" class="col-md-12"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /page content -->
+                    </div>
+                </div>
+
+                {include file='common/js'}
+                <script>
+                    var onlinestatechart = echarts.init(document.getElementById('onlinestatus'));
+                    option = {
+                        title: {
+                            text: '在线情况',
+                        },
+                        xAxis: {
+                            type: 'value',
+                            splitLine: {
+                                show: true
+                            },
+                            minInterval: 1
+                        },
+                        yAxis: {
+                            type: 'category',
+                            splitLine: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: true
+                            },
+                            data: ['管理员', '发包人员', '接包人员'],
+
+                        },
+                        series: [{
+                            name: '在线人数',
+                            type: 'bar',
+                            data: [0, 0, 0],
+                            itemStyle: {
+                                normal: {　　　　　　　　　　　　　　 //好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
+                                    color: function(params) {
+                                        // build a color map as your need.
+                                        var colorList = [
+                                            '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                            '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                            '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                                        ];
+                                        return colorList[params.dataIndex]
+                                    }
+                                }
+                            },
+                        }]
+                    }
+                    onlinestatechart.setOption(option);
+
+                    getServer();
+
+                    setInterval(function() {
+                        getServer();
+                        getLog();
+                    }, 20000);
+
+                    function getServer() {
+                        $.get("{:url('admin/getstatus')}").done(function(data) {
+                            option = {
+                                series: [{
+                                    name: '在线人数',
+                                    type: 'bar',
+                                    data: [data.administractor, data.contractor, data.user]
+                                }]
+                            }
+                            onlinestatechart.setOption(option);
+                        });
+                    }
+                </script>
+</body>
+
+</html>
