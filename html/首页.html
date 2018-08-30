@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>首页</title>
+    <link rel="stylesheet" href="../css/weui-min.css" />
+    <link rel="stylesheet" href="../css/example.css" />
+</head>
+
+<body style="background-color: #f2f2f2">
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
+        <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">杭州下沙铂金宫</div>
+        <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
+            <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
+            <div class="item weui-flex__item" style="margin-left: 10px">
+                <h3 style="color: white;font-size: 17px;font-weight: 400">付婷婷</h3>
+                <h1 style="color: white;font-size: 15px;font-weight: 400">031/技师</h1>
+            </div>
+        </div>
+    </div>
+    <div style="height: 30%;text-align: center;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+        <h1 style="color: gray;font-size: 15px;font-weight: 400;margin-top: 10px">最近提成趋势图（元）</h1>
+        <div id="container" style="height: 100%"></div>
+    </div>
+    <div class="" style="height: 26%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+            <div class="weui-flex__item" style="margin-left: 20px">
+                <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成（元）</h3>
+                <h1 style="color: #404040;font-size: 15px">499</h1>
+            </div>
+            <div class="weui-flex__item" style="margin-left: 20px">
+                <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成（元）</h3>
+                <h1 style="color: #404040;font-size: 15px">11199</h1>
+            </div>
+        </div>
+        <div class="weui-flex" style="height: 50%;align-items: center;">
+            <div class="weui-flex__item" style="margin-left: 20px">
+                <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟（次）</h3>
+                <h1 style="color: #404040;font-size: 15px">2</h1>
+            </div>
+            <div class="weui-flex__item" style="margin-left: 20px">
+                <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总种数（次）</h3>
+                <h1 style="color: #404040;font-size: 15px">29</h1>
+            </div>
+        </div>
+    </div>
+    <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+        <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="window.open('业绩汇总.html')">
+                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
+                <h1 style="color: grey;font-size: 10px;margin-left: 50px">数据分析总结</h1>
+            </div>
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('业绩汇总.html')">
+                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
+                <h1 style="color: grey;font-size: 10px;margin-left: 50px">查询每条明细</h1>
+            </div>
+        </div>
+    </div>
+    <div class="weui-footer" style="margin-top: 20px">
+        <p class="weui-footer__text">查帐方式以结账时间为准</p>
+    </div>
+</body>
+<script type="text/javascript" src="../js/jweixin.js"></script>
+<script type="text/javascript" src="../js/example.js"></script>
+<script type="text/javascript" src="../js/weui-min.js"></script>
+<script type="text/javascript" src="../js/zepto.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/echarts-simple-min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option = null;
+    option = {
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['08-26', '08-26', '08-27', '08-28', '08-29', '08-30', '08-31']
+        },
+        yAxis: {
+            type: 'value',
+            show: false,
+        },
+        itemStyle: {
+            // 设置扇形的颜色
+            color: '#cc99cc',
+            shadowBlur: 200,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+        },
+        series: [{
+            data: [220, 180, 320, 460, 290, 330, 320],
+            type: 'line',
+            areaStyle: {},
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true
+                    }
+                }
+            }
+        }]
+    };;
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>
+
+</html>
