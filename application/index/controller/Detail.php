@@ -3,6 +3,6 @@ use think\Controller;
 
 class Detail extends Controller{
     public function index(){
-        return $this->fetch('index')
+        
     }
 }
