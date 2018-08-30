@@ -2,8 +2,8 @@
 namespace app\index\controller;
 use think\Controller;
 
-class Index extends Controller{
+class Servicelist extends Controller{
     public function index(){
-        return $this->fetch('index');
+        return $this->fetch('service_list');
     }
 }

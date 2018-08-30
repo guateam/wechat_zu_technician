@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>首页</title>
-    <link rel="stylesheet" href="../css/weui-min.css" />
-    <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" href="__STATIC__/css/weui-min.css" />
+    <link rel="stylesheet" href="__STATIC__/css/example.css" />
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(__STATIC__/src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
         <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">杭州下沙铂金宫</div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
-            <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
+            <img src="__STATIC__/src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
             <div class="item weui-flex__item" style="margin-left: 10px">
                 <h3 style="color: white;font-size: 17px;font-weight: 400">付婷婷</h3>
                 <h1 style="color: white;font-size: 15px;font-weight: 400">031/技师</h1>
@@ -48,13 +48,17 @@
     </div>
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="window.open('overview.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(__STATIC__/src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="window.open('__ROOT__/index.php/index/overview')">
                 <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                 <h1 style="color: grey;font-size: 10px;margin-left: 50px">数据分析总结</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('detail.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(__STATIC__/src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('__ROOT__/index.php/index/detail')">
                 <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                 <h1 style="color: grey;font-size: 10px;margin-left: 50px">查询每条明细</h1>
+            </div>
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(__STATIC__/src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('__ROOT__/index.php/index/servicelist')">
+                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">服务列表</h3>
+                <h1 style="color: grey;font-size: 10px;margin-left: 50px">查询服务列表</h1>
             </div>
         </div>
     </div>
@@ -62,12 +66,12 @@
         <p class="weui-footer__text">查帐方式以结账时间为准</p>
     </div>
 </body>
-<script type="text/javascript" src="../js/jweixin.js"></script>
-<script type="text/javascript" src="../js/example.js"></script>
-<script type="text/javascript" src="../js/weui-min.js"></script>
-<script type="text/javascript" src="../js/zepto.js"></script>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/echarts-simple-min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jweixin.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/js/example.js"></script>
+<script type="text/javascript" src="__STATIC__/js/weui-min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/zepto.js"></script>
+<script type="text/javascript" src="__STATIC__/js/echarts-simple-min.js"></script>
 <script type="text/javascript">
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);

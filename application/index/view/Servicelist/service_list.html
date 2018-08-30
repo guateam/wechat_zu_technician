@@ -14,33 +14,33 @@
 </head>
 
 <body>
-<div id="app">
-    <row>
-        <i-col>
-            <breadcrumb style="padding: 6px;">
-                <breadcrumb-item>
-                    <icon type="ios-home-outline"></icon> 铂金宫
-                </breadcrumb-item>
-                <breadcrumb-item>
-                    <icon type="logo-buffer"></icon> 服务列表
-                </breadcrumb-item>
-            </breadcrumb>
-        </i-col>
-    </row>
-    <row>
-        <i-col>
-            <i-table :columns="columns" :data="data"></i-table>
-        </i-col>
-    </row>
-    <row>
-        <i-col style="position: fixed; bottom: 0; width: 100%; text-align: center">
-            <span>铂金宫 @2018</span>
-        </i-col>
-    </row>
+    <div id="app">
+        <row>
+            <i-col>
+                <breadcrumb style="padding: 6px;">
+                    <breadcrumb-item>
+                        <icon type="ios-home-outline"></icon> 铂金宫
+                    </breadcrumb-item>
+                    <breadcrumb-item>
+                        <icon type="logo-buffer"></icon> 服务列表
+                    </breadcrumb-item>
+                </breadcrumb>
+            </i-col>
+        </row>
+        <row>
+            <i-col>
+                <i-table :columns="columns" :data="data"></i-table>
+            </i-col>
+        </row>
+        <row>
+            <i-col style="position: fixed; bottom: 0; width: 100%; text-align: center">
+                <span>铂金宫 @2018</span>
+            </i-col>
+        </row>
 
-</div>
+    </div>
 </body>
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
 <script>
     let ExpandRow = Vue.component('ExpandRow', {
         props: {
@@ -64,58 +64,57 @@
 
     new Vue({
         el: '#app',
-        components: { ExpandRow },
-        data () {
+        components: {
+            ExpandRow
+        },
+        data() {
             return {
-                columns: [
-                    {
-                        title: '详情',
-                        type: 'expand',
-                        width: 60,
-                        render: (h, params) => {
-                            return h(ExpandRow, {
-                                props: {
-                                    row: params.row,
-                                }
-                            })
-                        }
-                    },
-                    { title: '服务名称', key: 'name' },
-                    {
-                        title: '价格',
-                        key: 'price',
-                        align: 'right',
-                        render: (h, params) => {
-                            return h('span', [
-                                h('span', '¥ '),
-                                h('span', params.row.price)
-                            ])
-                        }
-                    },
-                ],
-                data: [
-                ],
+                columns: [{
+                    title: '详情',
+                    type: 'expand',
+                    width: 60,
+                    render: (h, params) => {
+                        return h(ExpandRow, {
+                            props: {
+                                row: params.row,
+                            }
+                        })
+                    }
+                }, {
+                    title: '服务名称',
+                    key: 'name'
+                }, {
+                    title: '价格',
+                    key: 'price',
+                    align: 'right',
+                    render: (h, params) => {
+                        return h('span', [
+                            h('span', '¥ '),
+                            h('span', params.row.price)
+                        ])
+                    }
+                }, ],
+                data: [],
             }
         },
         created() {
             var that = this
-            $.post("../php/getservice.php").done((result)=>{
+            $.post("__STATIC__/php/getservice.php").done((result) => {
                 result = JSON.parse(result);
-                if(result.status == 1){
+                if (result.status == 1) {
                     var data = result.data;
-                    for(var i = 0;i<data.length;i++){
+                    for (var i = 0; i < data.length; i++) {
                         that.data.push({
-                            name:data[i].name,
-                            price:data[i].price,
-                            duration:data[i].duration,
-                            vipPrice:data[i].price*result.max_discount
+                            name: data[i].name,
+                            price: data[i].price,
+                            duration: data[i].duration,
+                            vipPrice: data[i].price * result.max_discount
                         })
                     }
                 }
             })
         },
     })
-
 </script>
 
 </html>
