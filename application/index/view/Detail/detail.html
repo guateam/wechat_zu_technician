@@ -7,97 +7,100 @@
     <title>业绩明细</title>
     <link rel="stylesheet" href="__STATIC__/css/weui-min.css" />
     <link rel="stylesheet" href="__STATIC__/css/example.css" />
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex">
-        <div class="weui-flex__item" style="flex: 0 0 22%;">
-            <a href="javascript:;" class="weui-btn weui-btn_default" id="show" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">全部</a>
-        </div>
-        <div class="weui-flex__item" style="flex: 0 0 22%;">
-            <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">日期</a>
-        </div>
-        <div class="weui-flex__item" style="flex: 0 0 22%;">
-            <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">月份</a>
-        </div>
-        <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
-            <a href="javascript:;" class="weui-flex__item" style="color: black">今天</a>
-            <a href="javascript:;" class="weui-flex__item" style="color: black">昨天</a>
-            <a href="javascript:;" class="weui-flex__item" style="color: black">本月</a>
-        </div>
-    </div>
-    <div style="display: none;" id="leixingxuanze">
-        <div class="weui-flex" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white;height: 50px">
-            <div class="weui-flex__item">
-                <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #cc99cc;">全部
-            </button>
+    <div id = "detail">
+        <div class="weui-flex">
+            <div class="weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="show" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">全部</a>
             </div>
-            <div class="weui-flex__item">
-                <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">服务
-            </button>
+            <div class="weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" @click="selectDate" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">日期</a>
             </div>
-            <div class="weui-flex__item">
-                <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">售卡
-            </button>
+            <div class="weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(__STATIC__/src/下箭头.png);background-repeat: no-repeat;background-position: 90%">月份</a>
             </div>
-            <div class="weui-flex__item">
-                <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">还款
-            </button>
+            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
+                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" style="color: black">今天</a>
+                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" style="color: black">昨天</a>
+                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" style="color: black">本月</a>
             </div>
         </div>
-    </div>
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
-        <div class="box weui-flex" style="flex: 0 0 91%;height:70%; background-image: url(__STATIC__/src/background.png);border-radius: 5px;align-items: center">
-            <div class="item weui-flex__item">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">业绩（元）</h3>
-                <h1 style="color: #404040;font-size: 15px;margin-left: 20px">{$sum}</h1>
-            </div>
-            <div class="item weui-flex__item">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px;margin-left: 20px">{$salarysum}</h1>
-            </div>
-            <div class="item weui-flex__item">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">总钟数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px;margin-left: 20px">{$count}</h1>
+        <div style="display: none;" id="leixingxuanze">
+            <div class="weui-flex" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white;height: 50px">
+                <div class="weui-flex__item">
+                    <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #cc99cc;">全部
+                </button>
+                </div>
+                <div class="weui-flex__item">
+                    <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">服务
+                </button>
+                </div>
+                <div class="weui-flex__item">
+                    <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">售卡
+                </button>
+                </div>
+                <div class="weui-flex__item">
+                    <button class="weui-flex__item weui-btn weui-btn_mini weui-btn_primary" style="color: black;background-color: #f2f2f2;">还款
+                </button>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
+            <div class="box weui-flex" style="flex: 0 0 91%;height:70%; background-image: url(__STATIC__/src/background.png);border-radius: 5px;align-items: center">
+                <div class="item weui-flex__item">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">业绩（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px;margin-left: 20px"v-text="total_income"></h1>
+                </div>
+                <div class="item weui-flex__item">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">提成（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px;margin-left: 20px"v-text="bonus"></h1>
+                </div>
+                <div class="item weui-flex__item">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200;margin-left: 10px">总钟数（次）</h3>
+                    <h1 style="color: #404040;font-size: 15px;margin-left: 20px"v-text="total_clock"></h1>
+                </div>
+            </div>
+        </div>
 
-    <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
-        <div class="weui-panel__hd">业绩详情</div>
-        {volist name='data' id='item'}
-        <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
-            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
-                <div class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99">
-                    <span>{$item.clocktype}</span>
-                </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{$item.name}</h4>
-                    <p class="weui-media-box__desc">房号：{$item.roomid} 服务类型：{$item.servicetype}</p>
-                </div>
-                <div class="weui-media-box__bd" style="float: right;text-align: right">
-                    <h4 class="weui-media-box__title" style="color: #cc99cc">+{$item.salary}</h4>
-                    <p class="weui-media-box__desc">{$item.date}</p>
-                </div>
-            </a>
-            <div class="weui-panel__bd display-none" style="display: none;background-color: #f2f2f2">
-                <div class="weui-media-box weui-media-box_text">
-                    <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc ">{$item.orderid}</p>
+        <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
+            <div class="weui-panel__hd">业绩详情</div>
+
+            <div v-for="(service, index) in service_list" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
+                    <div class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99">
+                        <span v-text="service.clock_type"></span>
                     </div>
-                    <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                    <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;margin-top: -10px">
-                        业绩金额（元）</h4>
-                    <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc">{$item.price}</p>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title"v-text="service.service_name"></h4>
+                        <p class="weui-media-box__desc"v-text="service.room_number"></p>
+                    </div>
+                    <div class="weui-media-box__bd" style="float: right;text-align: right">
+                        <h4 class="weui-media-box__title" style="color: #cc99cc"v-text="service.bonus"></h4>
+                        <p class="weui-media-box__desc"v-text="service.time"></p>
+                    </div>
+                </a>
+                <div class="weui-panel__bd display-none" style="display: none;background-color: #f2f2f2">
+                    <div class="weui-media-box weui-media-box_text">
+                        <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
+                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
+                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc "v-text="service.order_id"></p>
+                        </div>
+                        <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
+                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;margin-top: -10px">
+                            业绩金额（元）</h4>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc"v-text="service.income"></p>
+                    </div>
                 </div>
             </div>
+
         </div>
-        {/volist}
-    </div>
-    <div class="weui-footer" style="margin-top: 20px">
-        <p class="weui-footer__text">查帐方式以结账时间为准</p>
+        <div class="weui-footer" style="margin-top: 20px">
+            <p class="weui-footer__text">查帐方式以结账时间为准</p>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="__STATIC__/js/jweixin.js"></script>
@@ -106,6 +109,183 @@
 <script type="text/javascript" src="__STATIC__/js/zepto.js"></script>
 <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
 <script type="text/javascript">
+new Vue({
+        el: '#detail',
+        data() {
+            return {
+                total_clock: 0,
+                bonus: 0,
+                total_income: 0,
+                service_list: [{
+                    service_name: '',
+                    room_number: '',
+                    bonus: 0,
+                    time: '',
+                    order_id: '',
+                    income: 0,
+                    clock_type: "",
+                    show: false
+                }],
+            }
+        },
+        methods: {
+            showDetail(index) {
+                this.service_list[index].show = !this.service_list[index].show;
+                // this.service_list[index].bonus += 1;
+            },
+            selectDate() {
+                var that = this;
+                weui.datePicker({
+                    start: 1990,
+                    end: new Date().getFullYear(),
+
+                    onConfirm: function (result) {
+                        y = result[0] + "-";
+                        m = result[1];
+                        d = result[2];
+                        if (result[1] < 10) {
+                            m = "0" + m + "-";
+                        }
+                        if (result[2] < 10) {
+                            d = "0" + d;
+                        }
+                        var date = y + m + d;
+                        
+                        $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician", {
+                            id: "AKB48",
+                            begin: date+" 00:00:00",
+                            end:date+" 23:59:59"
+                        }).done((result) => {
+                            that.service_list = [];
+                            for(var i in result){
+                                that.total_clock++;
+                                that.bonus+=result[i]['salary'];
+                                that.total_income+=result[i]['price'];
+                                that.service_list.push({
+                                    service_name: result[i]['name'],
+                                    room_number: result[i]['roomid'],
+                                    bonus: result[i]['salary'],
+                                    time: result[i]['date'],
+                                    order_id: result[i]['orderid'],
+                                    income: result[i]['price'],
+                                    clock_type: result[i]['clocktype'],
+                                    show: false
+                                })
+                            }
+
+                        })
+                    }
+                });
+            },
+            init() {
+                var that = this;
+                $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician", {
+                    id: "AKB48",
+                }).done((result) => {
+                    that.service_list = []
+
+                    that.service_list = [];
+                            for(var i in result){
+                                that.total_clock++;
+                                that.bonus+=result[i]['salary'];
+                                that.total_income+=result[i]['price'];
+                                that.service_list.push({
+                                    service_name: result[i]['name'],
+                                    room_number: result[i]['roomid'],
+                                    bonus: result[i]['salary'],
+                                    time: result[i]['date'],
+                                    order_id: result[i]['orderid'],
+                                    income: result[i]['price'],
+                                    clock_type: result[i]['clocktype'],
+                                    show: false
+                                })
+                            }
+
+                })
+            },
+            certaindate(mode) {
+                var that = this;
+                var date = new Date();
+                var str = "";
+                var str2 = "";
+                str += date.getFullYear() + "-";
+                if (date.getMonth() < 10) str += "0";
+                str += date.getMonth() + 1 + "-";
+                if (mode == 1) {
+                    if (date.getDate() < 10) str += "0";
+                    str += date.getDate();
+                    str2 = str;
+                } else if (mode == 2) {
+                    date.setTime(date.getTime() - 24 * 60 * 60 * 1000)
+                    if (date.getDate() < 10) str += "0";
+                    str += date.getDate();
+                    str2 = str;
+                } else if (mode == 3) {
+                    str2 = str;
+                    str += "01";
+                    month = date.getMonth()
+                    var new_year = date.getFullYear(); //取当前的年份   
+                    var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
+                    if (month > 11) //如果当前大于12月，则年份转到下一年   
+                    {
+                        new_month -= 12; //月份减   
+                        new_year++; //年份增   
+                    }
+                    var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
+                    new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
+                    if (new_date.getDate() < 10) str2 += "0";
+                    str2 += new_date.getDate() //获取当月最后一天日期  
+                }
+
+                $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician", {
+                    id: "AKB48",
+                    begin: str,
+                    end: str2,
+                }).done((result) => {
+                    that.service_list = [];
+                            for(var i in result){
+                                that.total_clock++;
+                                that.bonus+=result[i]['salary'];
+                                that.total_income+=result[i]['price'];
+                                that.service_list.push({
+                                    service_name: result[i]['name'],
+                                    room_number: result[i]['roomid'],
+                                    bonus: result[i]['salary'],
+                                    time: result[i]['date'],
+                                    order_id: result[i]['orderid'],
+                                    income: result[i]['price'],
+                                    clock_type: result[i]['clocktype'],
+                                    show: false
+                                })
+                            }
+                })
+            }
+        },
+        created() {
+            var that = this
+
+            $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician", {
+                id: "AKB48",
+            }).done((result) => {
+                that.service_list = [];
+                            for(var i in result){
+                                that.total_clock++;
+                                that.bonus+=result[i]['salary'];
+                                that.total_income+=result[i]['price'];
+                                that.service_list.push({
+                                    service_name: result[i]['name'],
+                                    room_number: result[i]['roomid'],
+                                    bonus: result[i]['salary'],
+                                    time: result[i]['date'],
+                                    order_id: result[i]['orderid'],
+                                    income: result[i]['price'],
+                                    clock_type: result[i]['clocktype'],
+                                    show: false
+                                })
+                            }
+            })
+        }
+    })
     var onehide = 1;
     $('#show').on('click', function() {
         if (onehide === 1) {
@@ -214,25 +394,25 @@
     });
     // 日期选择器
     // var twohide = 1;
-    $('#showDatePicker').on('click', function() {
-        // if (twohide === 1) {
-        //     $('#showDatePicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
-        //     twohide = 0;
-        // } else {
-        //     $('#showDatePicker').css({'color':'black','background-image':'url(下箭头.png)'});
-        //     twohide = 1;
-        // }
-        weui.datePicker({
-            start: 1990,
-            end: new Date().getFullYear(),
-            onChange: function(result) {
-                console.log(result);
-            },
-            onConfirm: function(result) {
-                console.log(result);
-            }
-        });
-    });
+    // $('#showDatePicker').on('click', function() {
+    //     // if (twohide === 1) {
+    //     //     $('#showDatePicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
+    //     //     twohide = 0;
+    //     // } else {
+    //     //     $('#showDatePicker').css({'color':'black','background-image':'url(下箭头.png)'});
+    //     //     twohide = 1;
+    //     // }
+    //     weui.datePicker({
+    //         start: 1990,
+    //         end: new Date().getFullYear(),
+    //         onChange: function(result) {
+    //             console.log(result);
+    //         },
+    //         onConfirm: function(result) {
+    //             console.log(result);
+    //         }
+    //     });
+    // });
     var hide = 1;
     $('.display-block').on('click', function() {
         if (hide === 1) {

@@ -4,6 +4,7 @@ use think\Controller;
 
 class Overview extends Controller{
     public function index(){
+        
         return $this->fetch('overview');
     }
 }
