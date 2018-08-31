@@ -4,7 +4,7 @@ use think\Controller;
 
 class Detail extends Controller{
     public function index(){
-        $id='r6s1';
+        $id='AKB48';
         if($id){
             $order=new \app\api\controller\Serviceorder();
             $data=$order->getdetaillistfortechnician($id);

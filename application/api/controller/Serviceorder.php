@@ -53,9 +53,9 @@ class Serviceorder extends Controller
                     }
                     $room=\app\api\model\Privateroom::get(['ID'=>$value->private_room_number]);
                     $roomid='未知';
-                    if($room){
-                        $roomid=$room->room_id;
-                    }
+                    //if($room){
+                        $roomid=$value->private_room_number;
+                    //}
                     $clocktype='未知';
                     switch($value->clock_type){
                         case 1:
