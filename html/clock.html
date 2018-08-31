@@ -11,12 +11,14 @@
 
 <body style="background-color: #f2f2f2">
     <div id="detail" style="height:100%">
-        <div class="weui-flex">
-            <div @click="init" class="weui-flex__item" style="flex: 0 0 25%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white">全部</a>
+
+
+        <div class="weui-flex" style="height: 6%;">
+            <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="show" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">全部</a>
             </div>
-            <div @click="selectDate" class="weui-flex__item" style="flex: 0 0 30%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white">时间</a>
+            <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">日期</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
                 <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" style="color: black">今天</a>
@@ -24,6 +26,7 @@
                 <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" style="color: black">本月</a>
             </div>
         </div>
+
         <div style="display: none;" id="leixingxuanze">
             <div class="weui-flex" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white;height: 50px">
                 <div class="weui-flex__item">
