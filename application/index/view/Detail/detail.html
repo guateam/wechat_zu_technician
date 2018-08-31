@@ -215,11 +215,15 @@ new Vue({
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
+                    str+=" 00:00:00";
+                    str2+=" 23:59:59";
                 } else if (mode == 2) {
                     date.setTime(date.getTime() - 24 * 60 * 60 * 1000)
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
+                    str+=" 00:00:00";
+                    str2+=" 23:59:59";
                 } else if (mode == 3) {
                     str2 = str;
                     str += "01";
@@ -235,6 +239,8 @@ new Vue({
                     new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
                     if (new_date.getDate() < 10) str2 += "0";
                     str2 += new_date.getDate() //获取当月最后一天日期  
+                    str+=" 00:00:00";
+                    str2+=" 23:59:59";
                 }
 
                 $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician", {
