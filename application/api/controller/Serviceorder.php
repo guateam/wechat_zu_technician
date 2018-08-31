@@ -51,7 +51,6 @@ class Serviceorder extends Controller
                             }
                         }
                     }
-                    $room=\app\api\model\Privateroom::get(['ID'=>$value->private_room_number]);
                     $roomid='未知';
                     //if($room){
                         $roomid=$value->private_room_number;
