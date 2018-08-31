@@ -100,6 +100,7 @@
 <script type="text/javascript" src="../js/spin.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
     //月份选择器，以多列选择器代替
     // var threehide = 1;
@@ -226,6 +227,10 @@
                 });
             },
             get_data(begin = "", end = "") {
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 var that = this;
                 that.figure = [];
                 income = bonus = total_bonus = clock = point_clock = charge = charge_count = 0;
@@ -284,6 +289,7 @@
                     data = JSON.parse(result);
                     that.invite_count = data.count;
                     that.invite_num = data.bonus;
+                    swal.close();
                 });
             }
         },

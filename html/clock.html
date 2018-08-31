@@ -65,9 +65,6 @@
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="weui-panel__hd">业绩详情</div>
 
-            <div id="spin">
-                    <img style="width:30px;height:30px;margin-left:150px"src="../src/ajax-loader.gif">
-            </div>
 
             <div class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
                 @click="showDetail(index)">
@@ -117,7 +114,6 @@
 <!-- <script type="text/javascript" src="example.js"></script> -->
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
-<script type="text/javascript" src="../js/spin.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script>
     new Vue({
@@ -145,7 +141,10 @@
                 // this.service_list[index].bonus += 1;
             },
             selectDate() {
-                $("#spin").attr('hidden',false);
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 var that = this;
                 weui.datePicker({
                     start: 1990,
@@ -186,14 +185,17 @@
                                     show: false
                                 })
                             }
-                            $("#spin").attr('hidden',true);
+                            swal.close();
                         })
                     }
                 });
             },
             init() {
                 var that = this;
-                $("#spin").attr('hidden',false);
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 $.post("../php/getorder.php", {
                     job_number: "AKB48",
                     date: "",
@@ -217,12 +219,15 @@
                             show: false
                         })
                     }
-                    $("#spin").attr('hidden',true);
+                    swal.close();
                 })
             },
             certaindate(mode) {
                 var that = this;
-                $("#spin").attr('hidden',false);
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 var date = new Date();
                 var str = "";
                 var str2 = "";
@@ -279,13 +284,16 @@
                             show: false
                         })
                     }
-                    $("#spin").attr('hidden',true);
+                    swal.close();
                 })
             }
         },
         created() {
             var that = this
-            $("#spin").attr('hidden',false);
+            swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
             $.post("../php/getorder.php", {
                 job_number: "AKB48",
                 date: "",
@@ -308,7 +316,7 @@
                         show: false
                     })
                 }
-                $("#spin").attr('hidden',true);
+                swal.close();
             })
         }
     })
