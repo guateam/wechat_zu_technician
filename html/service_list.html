@@ -25,6 +25,7 @@
         <i-col>
             <breadcrumb separator="|">
                 <breadcrumb-item>
+                    <icon type="ios-home-outline"></icon> {{name}}
                 </breadcrumb-item>
                 <breadcrumb-item>
                     <icon type="logo-buffer"></icon> 服务列表
@@ -47,7 +48,7 @@
             </i-col>
         </row>
     </scroll>
-    <row class="footer"><i-col> <span>铂金宫 @2018</span> </i-col></row>
+    <row class="footer"><i-col> <span>{{ name }} @2018</span> </i-col></row>
 </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -74,44 +75,13 @@
     let Main = {
         data () {
             return {
-<<<<<<< HEAD
                 data_list: [],
+                name: '',
             }
         },
         computed: {
             tableHeight () {
                 return $(window).height() * 0.9;
-=======
-                columns: [
-                    {
-                        title: '详情',
-                        type: 'expand',
-                        width: 60,
-                        render: (h, params) => {
-                            return h(ExpandRow, {
-                                props: {
-                                    row: params.row,
-                                }
-                            })
-                        }
-                    },
-                    { title: '服务名称', key: 'name' },
-                    {
-                        title: '价格',
-                        key: 'price',
-                        align: 'right',
-                        render: (h, params) => {
-                            return h('span', [
-                                h('span', '¥ '),
-                                h('span', params.row.price)
-                            ])
-                        }
-                    },
-                ],
-                data: [
-                ],
-                name:"",
->>>>>>> 9738f2af9169656d52e0334004c05f90c3156a4b
             }
         },
         methods: {
