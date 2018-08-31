@@ -14,18 +14,19 @@
     <div id="pg" style="width:100%;height:100%">
         <div class="weui-flex">
             <div class="weui-flex__item" style="flex: 0 0 50%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img src="../src/日历.png" style="float: left;margin: 10px auto">2018-08</a>
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
-                <a href="javascript:;" class="weui-flex__item" style="color: black">本月</a>
-                <a href="javascript:;" class="weui-flex__item" style="color: black">上月</a>
+                <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black">本月</a>
+                <a href="javascript:;" @click="return_month(-1)" class="weui-flex__item" style="color: black">上月</a>
             </div>
         </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 91%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总提成（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px"v-text="bonus+invite_num"></h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="bonus+invite_num"></h1>
                 </div>
             </div>
         </div>
@@ -37,7 +38,7 @@
                 </div>
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">项目提成（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px"v-text="bonus"></h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="bonus"></h1>
                 </div>
             </div>
             <div class="weui-flex" style="height: 50%;align-items: center;">
@@ -55,7 +56,7 @@
             <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="justify-content: space-between;">
                     <span style="background-image: url(../src/时钟.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">点钟率</span>
-                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px"v-text="point_clock/clock*100"></span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="point_ratio"></span>
                 </div>
             </div>
             <div class="weui-flex" style="height: 70%;align-items: center;">
@@ -73,17 +74,17 @@
             <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="justify-content: space-between;">
                     <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">售卡业绩</span>
-                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text = "charge_num"></span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num"></span>
                 </div>
             </div>
             <div class="weui-flex" style="height: 70%;align-items: center;">
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡次数（次）</h3>
-                    <h1 style="color: #404040;font-size: 15px"v-text = "charge_count"></h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="charge_count"></h1>
                 </div>
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡金额（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px" v-text = "charge_num"></h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="charge_num"></h1>
                 </div>
             </div>
         </div>
@@ -102,85 +103,193 @@
     // var threehide = 1;
     var job_number = "AKB48";
     new Vue({
-        el:"#pg",
-        data(){return {
-            figure:[],
-            income:0,
-            bonus:0,
-            total_bonus:0,
-            clock:0,
-            point_clock:0,
-            charge_count:0,
-            charge_num:0,
-            invite_count:0,
-            invite_num:0
-        }},
-        methods:{
-            get_data(begin="",end=""){
-                var that=this;
+        el: "#pg",
+        data() {
+            return {
+                figure: [],
+                income: 0,
+                bonus: 0,
+                total_bonus: 0,
+                clock: 0,
+                point_clock: 0,
+                point_ratio: 0,
+                charge_count: 0,
+                charge_num: 0,
+                invite_count: 0,
+                invite_num: 0,
+                choosen: "本月",
+            }
+        },
+        methods: {
+            return_month(m = 1) {
+                if (m == 1) {
+                    this.choosen = "本月";
+                    this.get_data();
+                } else if (m == -1) {
+                    this.choosen = "上月";
+                    var nowdays = new Date();
+                    var year = nowdays.getFullYear();
+                    var month = nowdays.getMonth();
+                    if (month == 0) {
+                        month = 12;
+                        year = year - 1;
+                    }
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    var firstDay = year + "-" + month + "-" + "01"; //上个月的第一天
+                    var myDate = new Date(year, month, 0);
+                    var lastDay = year + "-" + month + "-" + myDate.getDate(); //上个月的最后一天
+                    this.get_data(firstDay,lastDay);
+                }
+            },
+            choose_month() {
+                var that = this;
+                weui.picker([{
+                    label: '2015',
+                    value: '2015'
+                }, {
+                    label: '2016',
+                    value: '2016'
+                }, {
+                    label: '2017',
+                    value: '2017'
+                }, {
+                    label: '2018',
+                    value: '2018'
+                }, {
+                    label: '2019',
+                    value: '2019'
+                }, {
+                    label: '2020',
+                    value: '2020'
+                }, {
+                    label: '2021',
+                    value: '2021'
+                }, {
+                    label: '2022',
+                    value: '2022'
+                }, {
+                    label: '2023',
+                    value: '2023'
+                }, {
+                    label: '2024',
+                    value: '2024'
+                }, {
+                    label: '2025',
+                    value: '2025'
+                }], [{
+                    label: '1月',
+                    value: '01'
+                }, {
+                    label: '2月',
+                    value: '02'
+                }, {
+                    label: '3月',
+                    value: '03'
+                }, {
+                    label: '4月',
+                    value: '04'
+                }, {
+                    label: '5月',
+                    value: '05'
+                }, {
+                    label: '6月',
+                    value: '06'
+                }, {
+                    label: '7月',
+                    value: '07'
+                }, {
+                    label: '8月',
+                    value: '08'
+                }, {
+                    label: '9月',
+                    value: '09'
+                }, {
+                    label: '10月',
+                    value: '10'
+                }, {
+                    label: '11月',
+                    value: '11'
+                }, {
+                    label: '12月',
+                    value: '12'
+                }], {
+                    onConfirm: function (result) {
+                        that.choosen = result[0] + "-" + result[1];
+                        begin = result[0] + "-" + result[1] + "-01 00:00:00";
+                        end = result[0] + "-" + result[1] + "-31 23:59:59";
+                        that.get_data(begin, end);
+                    }
+                });
+            },
+            get_data(begin = "", end = "") {
+                var that = this;
                 that.figure = [];
                 income = bonus = total_bonus = clock = point_clock = charge = charge_count = 0;
                 invite_count = invite_num = 0;
-                var date = new Date();
-                var str = "";
-                var str2 = "";
-                str += date.getFullYear() + "-";
-                if (date.getMonth() < 10) str += "0";
-                str += date.getMonth() + 1 + "-";
-                str2 = str;
-                str += "01";
-                month = date.getMonth()
-                var new_year = date.getFullYear(); //取当前的年份   
-                var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
-                if (month > 11) //如果当前大于12月，则年份转到下一年   
-                {
+
+                if (begin == "" && end == "") {
+                    var date = new Date();
+                    begin += date.getFullYear() + "-";
+                    if (date.getMonth() < 10) begin += "0";
+                    begin += date.getMonth() + 1 + "-";
+                    end = begin;
+                    begin += "01";
+                    month = date.getMonth()
+                    var new_year = date.getFullYear(); //取当前的年份   
+                    var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
+                    if (month > 11) //如果当前大于12月，则年份转到下一年   
+                    {
                         new_month -= 12; //月份减   
                         new_year++; //年份增   
+                    }
+                    var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
+                    new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
+                    if (new_date.getDate() < 10) end += "0";
+                    end += new_date.getDate() //获取当月最后一天日期  
                 }
-                var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
-                new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
-                if (new_date.getDate() < 10) str2 += "0";
-                str2 += new_date.getDate() //获取当月最后一天日期  
-                
 
-                $.post("../php/getorder.php",{
-                    job_number:job_number,
-                    date:str,
-                    date2:str2
-                }).done((result)=>{
+                $.post("../php/getorder.php", {
+                    job_number: job_number,
+                    date: begin,
+                    date2: end
+                }).done((result) => {
                     data = JSON.parse(result);
                     that.clock = data.total_clock;
                     that.bonus = data.bonus;
                     that.income = data.total_income;
-                    for(var i = 0;i<data.length;i++){
-                        if(data[i]['clock_type']==1)point_clock++;
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i]['clock_type'] == 1) point_clock++;
                     }
+                    if (point_clock == 0 || clock == 0) point_ratio = 0;
+                    else point_ratio = point_clock / clock * 100;
                 });
-                $.post("../php/getcharge.php",{
-                    job_number:job_number,
-                    begin:str,
-                    end:str2,
-                }).done((result)=>{
+                $.post("../php/getcharge.php", {
+                    job_number: job_number,
+                    begin: begin,
+                    end: end,
+                }).done((result) => {
                     data = JSON.parse(result);
                     that.charge_count = data.count;
                     that.charge_num = data.charge;
                 });
-                $.post("../php/getinvite.php",{
-                    job_number:job_number,
-                    begin:str,
-                    end:str2,
-                }).done((result)=>{
+                $.post("../php/getinvite.php", {
+                    job_number: job_number,
+                    begin: begin,
+                    end: end,
+                }).done((result) => {
                     data = JSON.parse(result);
                     that.invite_count = data.count;
                     that.invite_num = data.bonus;
                 });
             }
         },
-        created(){
+        created() {
             this.get_data();
         }
     })
-    $('#showPicker').on('click', function() {
+    $('#showPicker').on('click', function () {
         // if (threehide === 1) {
         //     $('#showPicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
         //     threehide = 0;
@@ -188,83 +297,7 @@
         //     $('#showPicker').css({'color':'black','background-image':'url(下箭头.png)'});
         //     threehide = 1;
         // }
-        weui.picker([{
-            label: '2015',
-            value: '1'
-        }, {
-            label: '2016',
-            value: '2'
-        }, {
-            label: '2017',
-            value: '3'
-        }, {
-            label: '2018',
-            value: '4'
-        }, {
-            label: '2019',
-            value: '5'
-        }, {
-            label: '2020',
-            value: '6'
-        }, {
-            label: '2021',
-            value: '7'
-        }, {
-            label: '2022',
-            value: '8'
-        }, {
-            label: '2023',
-            value: '9'
-        }, {
-            label: '2024',
-            value: '10'
-        }, {
-            label: '2025',
-            value: '11'
-        }], [{
-            label: '1月',
-            value: 'A'
-        }, {
-            label: '2月',
-            value: 'B'
-        }, {
-            label: '3月',
-            value: 'C'
-        }, {
-            label: '4月',
-            value: 'D'
-        }, {
-            label: '5月',
-            value: 'E'
-        }, {
-            label: '6月',
-            value: 'F'
-        }, {
-            label: '7月',
-            value: 'G'
-        }, {
-            label: '8月',
-            value: 'H'
-        }, {
-            label: '9月',
-            value: 'I'
-        }, {
-            label: '10月',
-            value: 'J'
-        }, {
-            label: '11月',
-            value: 'K'
-        }, {
-            label: '12月',
-            value: 'L'
-        }], {
-            onChange: function(result) {
-                console.log(result);
-            },
-            onConfirm: function(result) {
-                console.log(result);
-            }
-        });
+
     });
 </script>
 
