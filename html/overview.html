@@ -82,7 +82,7 @@
                     <h1 style="color: #404040;font-size: 15px"v-text = "charge_count"></h1>
                 </div>
                 <div class="weui-flex__item" style="margin-left: 20px">
-                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡提成（元）</h3>
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡金额（元）</h3>
                     <h1 style="color: #404040;font-size: 15px" v-text = "charge_num"></h1>
                 </div>
             </div>
@@ -116,35 +116,53 @@
         methods:{
             get_data(begin="",end=""){
                 var that=this;
-                var time_limit=true;
-                if(begin=="" && end=="")time_limit = false;
                 that.figure = [];
                 income = bonus = total_bonus = clock = point_clock = charge = charge_count = 0;
-                $.post("__ROOT__/index.php/api/Serviceorder/getdetaillistfortechnician/",{
-                    id:job_number
-                }).done((result=>{
-                    for(var i = 0;i<result.length;i++){
-                        that.total_bonus += result[i]['salary'];
-                        if( !time_limit || result['date']>=begin && result['date']<=end){
-                            that.figure.push(result[i]);
-                            that.income+=result[i]['price'];
-                            that.bonus+=result[i]['salary'];
-                            that.clock++;
-                            if(result[i]['clocktype']=="点钟")point_clock++;
-                        }
 
-                    }
-                }));
-                $.post("__ROOT__/index.php/api/Rechargerecord/get",{
-                    job_number:job_number
-                }).done((result)=>{
-                    that.charge_count = result.length;
-                    for(var i =0;i<result.length;i++){
-                        that.charge_num+=result[i]['charge'];
-                    }
-                })
-
+                var date = new Date();
+                var str = "";
+                var str2 = "";
+                str += date.getFullYear() + "-";
+                if (date.getMonth() < 10) str += "0";
+                str += date.getMonth() + 1 + "-";
+                str2 = str;
+                str += "01";
+                month = date.getMonth()
+                var new_year = date.getFullYear(); //取当前的年份   
+                var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
+                if (month > 11) //如果当前大于12月，则年份转到下一年   
+                {
+                        new_month -= 12; //月份减   
+                        new_year++; //年份增   
+                }
+                var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
+                new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
+                if (new_date.getDate() < 10) str2 += "0";
+                str2 += new_date.getDate() //获取当月最后一天日期  
                 
+
+                $.post("../php/getorder.php",{
+                    job_number:job_number,
+                    date:str,
+                    date2:str2
+                }).done((result)=>{
+                    data = JSON.parse(result);
+                    that.clock = data.total_clock;
+                    that.bonus = data.bonus;
+                    that.income = data.total_income;
+                    for(var i = 0;i<data.length;i++){
+                        if(data[i]['clock_type']==1)point_clock++;
+                    }
+                });
+                $.post("../php/getcharge.php",{
+                    job_number:job_number,
+                    begin:str,
+                    end:str2,
+                }).done((result)=>{
+                    data = JSON.parse(result);
+                    that.charge_count = data.count;
+                    that.charge_num = data.charge;
+                });
             }
         },
         created(){

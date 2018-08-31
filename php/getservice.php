@@ -1,11 +1,6 @@
 <?php
+require("database.php");
 
-global $con ;
-$con = mysqli_connect("localhost","root","smhhyyz508234","wechat_zu");
-if (!$con)
-  {
-  die('Could not connect: ' . mysql_error());
-  }
 $service_type = get("service_type");
 $vip = get("vip_information");
 $max_discount = 100;
@@ -32,26 +27,4 @@ if(!$service_type){
 
 
 // some code
-mysqli_close($con);
-
-function get($table,$label="",$value=""){
-    global $con;
-    $statement="";
-
-    if($label=="" && $value=="")$statement = "SELECT * FROM $table";
-    else{
-        $statement = "SELECT * FROM $table WHERE $label = '$value'";
-    }
-    $result = $con->query($statement);
-    if($result->num_rows<=0)return [];
-
-    $data=[];
-    while($row = $result->fetch_assoc()){
-        array_push($data,$row);
-    }
-    if(count($data)==1)return $data[0];
-    return $data;
-
-}
-
 ?>
