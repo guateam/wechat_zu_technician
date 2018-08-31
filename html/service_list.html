@@ -20,36 +20,41 @@
 </head>
 
 <body>
-<div id="app">
-    <row class="header">
-        <i-col>
-            <breadcrumb separator="|">
-                <breadcrumb-item>
-                    <icon type="ios-home-outline"></icon> {{name}}
-                </breadcrumb-item>
-                <breadcrumb-item>
-                    <icon type="logo-buffer"></icon> 服务列表
-                </breadcrumb-item>
-            </breadcrumb>
-        </i-col>
-    </row>
-    <!--表格-->
-    <scroll :height="tableHeight" :on-reach-bottom="handleReachBottom" :distance-to-edge="20">
-        <row class="content">
+    <div id="app">
+        <row class="header">
             <i-col>
-                <div v-for="(data, index) in data_list" style="margin-bottom: 8px;">
-                    <collapse simple>
-                        <panel>
-                            <strong>{{ data.name }}</strong> <span style="float: right; margin-right: 16px;">标准价: ¥ {{ data.price }}</span>
-                            <p slot="content"> <expand-row :row="data"></expand-row> </p>
-                        </panel>
-                    </collapse>
-                </div>
+                <breadcrumb separator="|">
+                    <breadcrumb-item>
+                        <icon type="ios-home-outline"></icon> {{name}}
+                    </breadcrumb-item>
+                    <breadcrumb-item>
+                        <icon type="logo-buffer"></icon> 服务列表
+                    </breadcrumb-item>
+                </breadcrumb>
             </i-col>
         </row>
-    </scroll>
-    <row class="footer"><i-col> <span>{{ name }} @2018</span> </i-col></row>
-</div>
+        <!--表格-->
+        <scroll :height="tableHeight" :on-reach-bottom="handleReachBottom" :distance-to-edge="20">
+            <row class="content">
+                <i-col>
+                    <div v-for="(data, index) in data_list" style="margin-bottom: 8px;">
+                        <collapse simple>
+                            <panel>
+                                <strong>{{ data.name }}</strong> <span style="float: right; margin-right: 16px;">标准价: ¥
+                                    {{ data.price }}</span>
+                                <p slot="content">
+                                    <expand-row :row="data"></expand-row>
+                                </p>
+                            </panel>
+                        </collapse>
+                    </div>
+                </i-col>
+            </row>
+        </scroll>
+        <row class="footer">
+            <i-col> <span>{{ name }} @2018</span> </i-col>
+        </row>
+    </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
@@ -73,47 +78,53 @@
             '    </div>',
     });
     let Main = {
-        data () {
+        data() {
             return {
                 data_list: [],
                 name: '',
+                index: 0,
             }
         },
         computed: {
-            tableHeight () {
+            tableHeight() {
                 return $(window).height() * 0.9;
             }
         },
         methods: {
-            handleReachBottom () {
+            handleReachBottom() {
                 return new Promise(resolve => {
-                    console.log('这里请求数据并push到data_list里');
+                    this.index += 20;
+                    this.getData();
                     resolve();
                 });
             },
+            getData() {
+                var that = this;
+                $.post("../php/getservice.php", {
+                    index: this.index
+                }).done((result) => {
+                    result = JSON.parse(result);
+                    if (result.status == 1) {
+                        var data = result.data;
+                        for (var i = 0; i < data.length; i++) {
+                            that.data_list.push({
+                                name: data[i].name,
+                                price: data[i].price,
+                                duration: data[i].duration,
+                                vipPrice: data[i].price * result.max_discount
+                            })
+                        }
+                    }
+                    $("#spin").attr('hidden', true);
+                })
+                $.post("../php/getshop.php").done((result) => {
+                    result = JSON.parse(result);
+                    that.name = result['name'];
+                })
+            }
         },
         created() {
-            var that = this;
-            $.post("../php/getservice.php").done((result)=>{
-                result = JSON.parse(result);
-                if (result.status == 1) {
-                    var data = result.data;
-                    for (var i = 0; i < data.length; i++) {
-                        that.data.push({
-                            name: data[i].name,
-                            price: data[i].price,
-                            duration: data[i].duration,
-                            vipPrice: data[i].price * result.max_discount
-                        })
-                    }
-                }
-                $("#spin").attr('hidden',true);
-            })
-            $.post("../php/getshop.php").done((result) => {
-                result = JSON.parse(result);
-                that.name = result['name'];
-            })
-
+            this.getData();
         },
     };
     let Component = Vue.extend(Main);

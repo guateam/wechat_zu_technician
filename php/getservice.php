@@ -1,7 +1,7 @@
 <?php
 require("database.php");
-
-$service_type = get("service_type");
+$index = $_POST['index'];
+$service_type = get_limit("service_type",$index);
 $vip = get("vip_information");
 $max_discount = 100;
 foreach($vip as $lv){
