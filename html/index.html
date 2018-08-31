@@ -14,7 +14,7 @@
         <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">杭州下沙铂金宫</div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
             <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
-            <div class="item weui-flex__item" style="margin-left: 10px">
+            <div class="item weui-flex__item" style="margin-left: 10px" id='name'>
                 <h3 style="color: white;font-size: 17px;font-weight: 400">付婷婷</h3>
                 <h1 style="color: white;font-size: 15px;font-weight: 400">031/技师</h1>
             </div>
@@ -48,13 +48,11 @@
     </div>
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer "
-                onclick="navi('overview.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="navi('overview.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px">数据分析总结</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('clock.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="navi('clock.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px">查询每条明细</h1>
             </div>
@@ -74,9 +72,11 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
-<script type="text/javascript">
 
-    function navi(url){
+<script type="text/javascript">
+    id = 'r6s1'
+
+    function navi(url) {
         window.location.href = url;
     }
     var dom = document.getElementById("container");
@@ -115,6 +115,24 @@
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
+    new Vue({
+        data: {
+            name: '',
+            id: ''
+        },
+        methods: {
+            created() {
+                $.post('../php/gettechnician.php', {
+                    id: id
+                }).done((data) => {
+                    if (data.status == 1) {
+                        this.name = data.name
+                        this.id = id
+                    }
+                })
+            },
+        }
+    })
 </script>
 
 </html>
