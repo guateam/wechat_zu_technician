@@ -25,7 +25,7 @@
             <div class="box weui-flex" style="flex: 0 0 91%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总提成（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px"v-text="total_bonus"></h1>
+                    <h1 style="color: #404040;font-size: 15px"v-text="bonus+invite_num"></h1>
                 </div>
             </div>
         </div>
@@ -43,11 +43,11 @@
             <div class="weui-flex" style="height: 50%;align-items: center;">
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐次数（次）</h3>
-                    <h1 style="color: #404040;font-size: 15px">1</h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
                 </div>
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐提成（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px">99</h1>
+                    <h1 style="color: #404040;font-size: 15px" v-text="invite_num"></h1>
                 </div>
             </div>
         </div>
@@ -112,13 +112,15 @@
             point_clock:0,
             charge_count:0,
             charge_num:0,
+            invite_count:0,
+            invite_num:0
         }},
         methods:{
             get_data(begin="",end=""){
                 var that=this;
                 that.figure = [];
                 income = bonus = total_bonus = clock = point_clock = charge = charge_count = 0;
-
+                invite_count = invite_num = 0;
                 var date = new Date();
                 var str = "";
                 var str2 = "";
@@ -162,6 +164,15 @@
                     data = JSON.parse(result);
                     that.charge_count = data.count;
                     that.charge_num = data.charge;
+                });
+                $.post("../php/getinvite.php",{
+                    job_number:job_number,
+                    begin:str,
+                    end:str2,
+                }).done((result)=>{
+                    data = JSON.parse(result);
+                    that.invite_count = data.count;
+                    that.invite_num = data.bonus;
                 });
             }
         },
