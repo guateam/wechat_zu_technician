@@ -14,7 +14,7 @@ class Serviceorder extends Controller
     public function getdetaillistfortechnician($id,$begin="",$end="")
     {
         $time_limit = true;
-        if($begin == "" && $end = "") $time_limit = false;
+        if($begin == "" && $end == "") $time_limit = false;
 
         $servicelist = Service::all(['job_number' => $id]);
         $data = [];
@@ -84,33 +84,6 @@ class Serviceorder extends Controller
                         ];
                         array_push($data,$item);
                     }
-                    $roomid='未知';
-                    //if($room){
-                        $roomid=$value->private_room_number;
-                    //}
-                    $clocktype='未知';
-                    switch($value->clock_type){
-                        case 1:
-                            $clocktype='排钟';
-                            break;
-                            case 2:
-                            $clocktype='点钟';
-                            break;
-                    }
-                    $item = [
-                        'id' => $value->ID,
-                        'orderid' => $value->order_id,
-                        'price' => $price,
-                        'servicetype' => $servicetype,
-                        'roomid' => $roomid,
-                        'name' => $servicename,
-                        'serviceid' => $value->item_id,
-                        'salary' => $salary,
-                        'date' =>$order->generated_time,
-                        'servicetypeid'=>$value->service_type,
-                        'clocktype'=>$clocktype
-                    ];
-                    array_push($data,$item);
                 }
             }
         }
