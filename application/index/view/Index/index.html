@@ -28,21 +28,21 @@
         <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">499</h1>
+                <h1 style="color: #404040;font-size: 15px">{$today_salarysum}</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">11199</h1>
+                <h1 style="color: #404040;font-size: 15px">{$month_salarysum}</h1>
             </div>
         </div>
         <div class="weui-flex" style="height: 50%;align-items: center;">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">2</h1>
+                <h1 style="color: #404040;font-size: 15px">{$today_count}</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总种数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">29</h1>
+                <h1 style="color: #404040;font-size: 15px">{$month_count}</h1>
             </div>
         </div>
     </div>
@@ -76,12 +76,19 @@
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
+    var date = '{$date}'
+    var bonus = '{$bonus}'
+    date=date.split(',');
+    date.pop();
+    bonus = bonus.split(',');
+    bonus.pop();
+
     option = null;
     option = {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['08-26', '08-26', '08-27', '08-28', '08-29', '08-30', '08-31']
+            data: date
         },
         yAxis: {
             type: 'value',
@@ -94,7 +101,7 @@
             shadowColor: 'rgba(0, 0, 0, 0.5)'
         },
         series: [{
-            data: [220, 180, 320, 460, 290, 330, 320],
+            data: bonus,
             type: 'line',
             areaStyle: {},
             itemStyle: {
