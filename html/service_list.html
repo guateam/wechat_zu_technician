@@ -5,122 +5,131 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>服务列表</title>
-    <!-- import stylesheet -->
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
-    <!-- import Vue.js -->
-    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
-    <!-- import iView -->
-    <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+    <style>
+        .header {
+            margin-top: 10px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-<div id="app">
-    <row>
-        <i-col>
-            <breadcrumb style="padding: 6px;">
-                <breadcrumb-item>
-                    <icon type="ios-home-outline"></icon> {{name}}
-                </breadcrumb-item>
-                <breadcrumb-item>
-                    <icon type="logo-buffer"></icon> 服务列表
-                </breadcrumb-item>
-            </breadcrumb>
-        </i-col>
-    </row>
-    <row>
-        <i-col>
-            <i-table :columns="columns" :data="data"></i-table>
-        </i-col>
-    </row>
-    <row>
-        <i-col style="position: fixed; bottom: 0; width: 100%; text-align: center">
-            <span>{{name}} @2018</span>
-        </i-col>
-    </row>
-
-</div>
+    <div id="app">
+        <row class="header">
+            <i-col>
+                <breadcrumb separator="|">
+                    <breadcrumb-item>
+                        <icon type="ios-home-outline"></icon> {{name}}
+                    </breadcrumb-item>
+                    <breadcrumb-item>
+                        <icon type="logo-buffer"></icon> 服务列表
+                    </breadcrumb-item>
+                </breadcrumb>
+            </i-col>
+        </row>
+        <!--表格-->
+        <scroll :height="tableHeight" :on-reach-bottom="handleReachBottom" :distance-to-edge="20">
+            <row class="content">
+                <i-col>
+                    <div v-for="(data, index) in data_list" style="margin-bottom: 8px;">
+                        <collapse simple>
+                            <panel>
+                                <strong>{{ data.name }}</strong> <span style="float: right; margin-right: 16px;">标准价: ¥
+                                    {{ data.price }}</span>
+                                <p slot="content">
+                                    <expand-row :row="data"></expand-row>
+                                </p>
+                            </panel>
+                        </collapse>
+                    </div>
+                </i-col>
+            </row>
+        </scroll>
+        <row class="footer">
+            <i-col> <span>{{ name }} @2018</span> </i-col>
+        </row>
+    </div>
 </body>
-<script type="text/javascript" src="../js/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+<script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script>
-    let ExpandRow = Vue.component('ExpandRow', {
+    Vue.component('ExpandRow', {
         props: {
             row: Object
         },
-        template: '<div class="expand_row">\n' +
-            '        <Row style="margin-bottom: 16px">\n' +
+        template: '<div class="expand_row" style="margin-top: 8px; text-align: center">\n' +
+            '        <Row style="margin-bottom: 8px">\n' +
             '            <Col>\n' +
-            '               <span>服务时长: </span>\n' +
-            '               <span v-text="row.duration + ` 分钟`"></span>\n' +
+            '               <icon type="ios-clock" /><strong>服务时长: </strong> <span>{{ row.duration }} 分钟</span>\n' +
             '            </Col>\n' +
             '        </Row>\n' +
             '        <Row>\n' +
             '            <Col>\n' +
-            '               <span>会员价: </span>\n' +
-            '               <span v-text="`¥ ` + row.vipPrice"></span>\n' +
+            '               <icon type="logo-bitcoin" /><strong>会员价: </strong> <span>¥ {{ row.vipPrice }}</span>\n' +
             '            </Col>\n' +
             '        </Row>\n' +
             '    </div>',
     });
-
-    new Vue({
-        el: '#app',
-        components: { ExpandRow },
-        data () {
+    let Main = {
+        data() {
             return {
-                columns: [
-                    {
-                        title: '详情',
-                        type: 'expand',
-                        width: 60,
-                        render: (h, params) => {
-                            return h(ExpandRow, {
-                                props: {
-                                    row: params.row,
-                                }
+                data_list: [],
+                name: '',
+                index: 0,
+            }
+        },
+        computed: {
+            tableHeight() {
+                return $(window).height() * 0.9;
+            }
+        },
+        methods: {
+            handleReachBottom() {
+                return new Promise(resolve => {
+                    this.index += 20;
+                    this.getData();
+                    resolve();
+                });
+            },
+            getData() {
+                var that = this;
+                $.post("../php/getservice.php", {
+                    index: this.index
+                }).done((result) => {
+                    result = JSON.parse(result);
+                    if (result.status == 1) {
+                        var data = result.data;
+                        for (var i = 0; i < data.length; i++) {
+                            that.data_list.push({
+                                name: data[i].name,
+                                price: data[i].price,
+                                duration: data[i].duration,
+                                vipPrice: data[i].price * result.max_discount
                             })
                         }
-                    },
-                    { title: '服务名称', key: 'name' },
-                    {
-                        title: '价格',
-                        key: 'price',
-                        align: 'right',
-                        render: (h, params) => {
-                            return h('span', [
-                                h('span', '¥ '),
-                                h('span', params.row.price)
-                            ])
-                        }
-                    },
-                ],
-                data: [
-                ],
-                name:"",
+                    }
+                    $("#spin").attr('hidden', true);
+                })
+                $.post("../php/getshop.php").done((result) => {
+                    result = JSON.parse(result);
+                    that.name = result['name'];
+                })
             }
         },
         created() {
-            var that = this
-            $.post("../php/getservice.php").done((result)=>{
-                result = JSON.parse(result);
-                if(result.status == 1){
-                    var data = result.data;
-                    for(var i = 0;i<data.length;i++){
-                        that.data.push({
-                            name:data[i].name,
-                            price:data[i].price,
-                            duration:data[i].duration,
-                            vipPrice:data[i].price*result.max_discount
-                        })
-                    }
-                }
-            })
-            $.post("../php/getshop.php").done((result)=>{
-                result = JSON.parse(result);
-                that.name = result['name'];
-            })
+            this.getData();
         },
-    })
-
+    };
+    let Component = Vue.extend(Main);
+    new Component().$mount('#app');
 </script>
 
 </html>

@@ -7,6 +7,7 @@
     <title>业绩明细</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" href="../css/spin.css" />
 </head>
 
 <body style="background-color: #f2f2f2">
@@ -140,6 +141,10 @@
                 // this.service_list[index].bonus += 1;
             },
             selectDate() {
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 var that = this;
                 weui.datePicker({
                     start: 1990,
@@ -187,7 +192,10 @@
             },
             init() {
                 var that = this;
-
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 $.post("../php/getorder.php", {
                     job_number: "AKB48",
                     date: "",
@@ -216,6 +224,10 @@
             },
             certaindate(mode) {
                 var that = this;
+                swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
                 var date = new Date();
                 var str = "";
                 var str2 = "";
@@ -278,7 +290,10 @@
         },
         created() {
             var that = this
-
+            swal({
+                    width:120,
+                    onOpen(){swal.showLoading()}
+                });
             $.post("../php/getorder.php", {
                 job_number: "AKB48",
                 date: "",
