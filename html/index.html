@@ -28,35 +28,37 @@
         <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px"></h1>
+                <h1 style="color: #404040;font-size: 15px">499</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px"></h1>
+                <h1 style="color: #404040;font-size: 15px">11199</h1>
             </div>
         </div>
         <div class="weui-flex" style="height: 50%;align-items: center;">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟（次）</h3>
-                <h1 style="color: #404040;font-size: 15px"></h1>
+                <h1 style="color: #404040;font-size: 15px">2</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总种数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px"></h1>
+                <h1 style="color: #404040;font-size: 15px">29</h1>
             </div>
         </div>
     </div>
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="window.open('overview.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer "
+                onclick="navi('overview.html')">
                 <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                 <h1 style="color: grey;font-size: 10px;margin-left: 50px">数据分析总结</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('clock.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                onclick="navi('clock.html')">
                 <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                 <h1 style="color: grey;font-size: 10px;margin-left: 50px">查询每条明细</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="window.open('service_list.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="navi('service_list.html')">
                 <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">服务列表</h3>
                 <h1 style="color: grey;font-size: 10px;margin-left: 50px">查询服务列表</h1>
             </div>
@@ -67,42 +69,38 @@
     </div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
-<script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/example.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
 <script type="text/javascript">
+
+    function navi(url){
+        window.location.href = url;
+    }
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
-    var date = '{$date}'
-    var bonus = '{$bonus}'
-    date=date.split(',');
-    date.pop();
-    bonus = bonus.split(',');
-    bonus.pop();
-
     option = null;
     option = {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: date
+            data: ['08-26', '08-26', '08-27', '08-28', '08-29', '08-30', '08-31']
         },
         yAxis: {
             type: 'value',
             show: false,
         },
         itemStyle: {
-            // 设置扇形的颜色
             color: '#cc99cc',
             shadowBlur: 200,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
         },
-        animation:false,
+        animation: false,
         series: [{
-            data: bonus,
+            data: [220, 180, 320, 460, 290, 330, 320],
             type: 'line',
             areaStyle: {},
             itemStyle: {
