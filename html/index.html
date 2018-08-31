@@ -7,16 +7,17 @@
     <title>首页</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;">
-        <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">杭州下沙铂金宫</div>
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;" id='name'>
+        <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">{{shop}}</div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
             <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
-            <div class="item weui-flex__item" style="margin-left: 10px" id='name'>
-                <h3 style="color: white;font-size: 17px;font-weight: 400">付婷婷</h3>
-                <h1 style="color: white;font-size: 15px;font-weight: 400">031/技师</h1>
+            <div class="item weui-flex__item" style="margin-left: 10px">
+                <h3 style="color: white;font-size: 17px;font-weight: 400">{{name}}</h3>
+                <h1 style="color: white;font-size: 15px;font-weight: 400">{{id}}/技师</h1>
             </div>
         </div>
     </div>
@@ -25,24 +26,24 @@
         <div id="container" style="height: 100%"></div>
     </div>
     <div class="" style="height: 26%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid" id='salary'>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">499</h1>
+                <h1 style="color: #404040;font-size: 15px">{{todaysalary}}</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">11199</h1>
+                <h1 style="color: #404040;font-size: 15px">{{salary}}</h1>
             </div>
         </div>
-        <div class="weui-flex" style="height: 50%;align-items: center;">
+        <div class="weui-flex" style="height: 50%;align-items: center;" id='clock'>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">2</h1>
+                <h1 style="color: #404040;font-size: 15px">{{todayclock}}</h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总种数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">29</h1>
+                <h1 style="color: #404040;font-size: 15px">{{clock}}</h1>
             </div>
         </div>
     </div>
@@ -67,14 +68,72 @@
     </div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
-<script type="text/javascript" src="../js/example.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
-
 <script type="text/javascript">
-    id = 'r6s1'
+    var id = 'r6s1'
+    var app1 = new Vue({
+        el: '#name',
+        data: {
+            name: '未知',
+            id: '不知道',
+            shop: '没有这个分店'
+        },
+        methods: {},
+        created() {
+            var that = this;
+            $.post('../php/gettechnician.php', {
+                id: id
+            }).done((data) => {
+                data = JSON.parse(data)
+                if (data.status == 1) {
+                    that.name = data.name
+                    that.id = id
+                    that.shop = data.shop
+                }
+            })
+        },
+    })
+    var app2 = new Vue({
+        el: '#salary',
+        data: {
+            todaysalary: 0,
+            salary: 0
+        },
+        created() {
+            var that = this;
+            $.post('../php/getsalary.php', {
+                id: id
+            }).done((data) => {
+                data = JSON.parse(data)
+                if (data.status == 1) {
+                    that.salary = data.salary
+                    that.todaysalary = data.todaysalary
+                }
+            })
+        }
+    })
+    var app3 = new Vue({
+        el: '#clock',
+        data: {
+            todayclock: 0,
+            clock: 0
+        },
+        created() {
+            var that = this;
+            $.post('../php/getclock.php', {
+                id: id
+            }).done((data) => {
+                data = JSON.parse(data)
+                if (data.status == 1) {
+                    that.clock = data.clock
+                    that.todayclock = data.todayclock
+                }
+            })
+        }
+    })
 
     function navi(url) {
         window.location.href = url;
@@ -87,7 +146,7 @@
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['08-26', '08-26', '08-27', '08-28', '08-29', '08-30', '08-31']
+            data: []
         },
         yAxis: {
             type: 'value',
@@ -100,7 +159,7 @@
         },
         animation: false,
         series: [{
-            data: [220, 180, 320, 460, 290, 330, 320],
+            data: [],
             type: 'line',
             areaStyle: {},
             itemStyle: {
@@ -115,22 +174,12 @@
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
-    new Vue({
-        data: {
-            name: '',
-            id: ''
-        },
-        methods: {
-            created() {
-                $.post('../php/gettechnician.php', {
-                    id: id
-                }).done((data) => {
-                    if (data.status == 1) {
-                        this.name = data.name
-                        this.id = id
-                    }
-                })
-            },
+    $.post('../php/getsalarychart.php', {
+        id: id
+    }).done((data) => {
+        data = JSON.parse(data)
+        if (data.status == 1) {
+            myChart.setOption(data.data)
         }
     })
 </script>

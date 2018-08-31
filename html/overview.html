@@ -14,8 +14,7 @@
     <div id="pg" style="width:100%;height:100%">
         <div class="weui-flex">
             <div class="weui-flex__item" style="flex: 0 0 50%;">
-                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
                 <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black">本月</a>
@@ -94,7 +93,6 @@
     </div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
-<script type="text/javascript" src="../js/example.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
@@ -140,7 +138,7 @@
                     var firstDay = year + "-" + month + "-" + "01"; //上个月的第一天
                     var myDate = new Date(year, month, 0);
                     var lastDay = year + "-" + month + "-" + myDate.getDate(); //上个月的最后一天
-                    this.get_data(firstDay,lastDay);
+                    this.get_data(firstDay, lastDay);
                 }
             },
             choose_month() {
@@ -215,7 +213,7 @@
                     label: '12月',
                     value: '12'
                 }], {
-                    onConfirm: function (result) {
+                    onConfirm: function(result) {
                         that.choosen = result[0] + "-" + result[1];
                         begin = result[0] + "-" + result[1] + "-01 00:00:00";
                         end = result[0] + "-" + result[1] + "-31 23:59:59";
@@ -289,7 +287,7 @@
             this.get_data();
         }
     })
-    $('#showPicker').on('click', function () {
+    $('#showPicker').on('click', function() {
         // if (threehide === 1) {
         //     $('#showPicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
         //     threehide = 0;
