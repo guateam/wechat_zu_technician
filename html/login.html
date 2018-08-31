@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>登录</title>
+    <link rel="stylesheet" href="../css/weui-min.css" />
+    <link rel="stylesheet" href="../css/example.css" />
+    <style>
+        /*.weui-cell:before{*/
+        /*border: none;*/
+        /*}*/
+        /*.weui-cells:before{*/
+        /*border: none;*/
+        /*}*/
+        /*.weui-cells:after{*/
+        /*border: none;*/
+        /*}*/
+    </style>
+</head>
+
+<body style="background-color: #f2f2f2">
+    <div class="head" style="height:25%;display: flex;justify-content: center;align-items: center;
+">
+        <div class="box" style="width: 35%;height: 50%">
+            <img src="../src/pic-01.jpg" alt="logo" style="width: 100%;height: 100%;">
+        </div>
+    </div>
+    <form>
+        <div class="weui-cells weui-cells_form" style="height: 135px;background-color: #f2f2f2;border: none">
+            <div class="weui-cell" style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell__hd"><label class="weui-label"></label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="店家编号" />
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode" style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" placeholder="手机号" />
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" style="border: none;"><div style="border: 1px solid gray;background-color: #fe736c;border-radius: 10px;color: white;height: 35px;display: flex;justify-content: center;align-items: center;font-size: 14px;width: 100%;margin-right: 25px">获取验证码</div></button>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode" style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" placeholder="请输入验证码" />
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area" style="margin-top: 40px">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" style="background-color: #8c8ef9;border-radius: 20px">登录</a>
+        </div>
+    </form>
+</body>
+<script type="text/javascript" src="../js/jweixin.js"></script>
+<script type="text/javascript" src="../js/example.js"></script>
+<script type="text/javascript" src="../js/weui-min.js"></script>
+<script type="text/javascript" src="../js/zepto.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript">
+</script>
+
+</html>
