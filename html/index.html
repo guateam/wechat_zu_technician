@@ -12,13 +12,15 @@
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;" id='name'>
-        <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;">{{shop}}</div>
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;"
+        id='name'>
+        <div style="position: fixed;height: 30px;width: 120px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;"
+            v-text="shop"></div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
             <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
             <div class="item weui-flex__item" style="margin-left: 10px">
-                <h3 style="color: white;font-size: 17px;font-weight: 400">{{name}}</h3>
-                <h1 style="color: white;font-size: 15px;font-weight: 400">{{id}}/技师</h1>
+                <h3 style="color: white;font-size: 17px;font-weight: 400" v-text="name"></h3>
+                <h1 style="color: white;font-size: 15px;font-weight: 400" v-text="id">技师</h1>
             </div>
         </div>
     </div>
@@ -30,37 +32,35 @@
         <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid" id='salary'>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">{{todaysalary}}</h1>
+                <h1 style="color: #404040;font-size: 15px" v-text="todaysalary"></h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px">{{salary}}</h1>
+                <h1 style="color: #404040;font-size: 15px" v-text="salary"></h1>
             </div>
         </div>
         <div class="weui-flex" style="height: 50%;align-items: center;" id='clock'>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">{{todayclock}}</h1>
+                <h1 style="color: #404040;font-size: 15px" v-text="todayclock"></h1>
             </div>
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总种数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px">{{clock}}</h1>
+                <h1 style="color: #404040;font-size: 15px" v-text="clock"></h1>
             </div>
         </div>
     </div>
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer " onclick="navi('overview.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer "
+                onclick="navi('overview.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px">数据分析总结</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="navi('clock.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                onclick="navi('clock.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px">查询每条明细</h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="navi('service_list.html')">
-                <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">服务列表</h3>
-                <h1 style="color: grey;font-size: 5px;margin-left: 50px">查询服务列表</h1>
             </div>
         </div>
     </div>
@@ -71,75 +71,106 @@
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
-<script type="text/javascript" src="../js/spin.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
+<script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
     var id = 'r6s1'
-    var app1 = new Vue({
-        el: '#name',
-        data: {
-            name: '未知',
-            id: '不知道',
-            shop: '没有这个分店'
-        },
-        methods: {},
-        created() {
-            var that = this;
-            $.post('../php/gettechnician.php', {
-                id: id
-            }).done((data) => {
-                data = JSON.parse(data)
-                if (data.status == 1) {
-                    that.name = data.name
-                    that.id = id
-                    that.shop = data.shop
-                }
-            })
-        },
-    })
-    var app2 = new Vue({
-        el: '#salary',
-        data: {
-            todaysalary: 0,
-            salary: 0
-        },
-        created() {
-            var that = this;
-            $.post('../php/getsalary.php', {
-                id: id
-            }).done((data) => {
-                data = JSON.parse(data)
-                if (data.status == 1) {
-                    that.salary = data.salary
-                    that.todaysalary = data.todaysalary
-                }
-            })
+    swal({
+        width: 120,
+        onOpen() {
+            swal.showLoading()
         }
-    })
-    var app3 = new Vue({
-        el: '#clock',
-        data: {
-            todayclock: 0,
-            clock: 0
-        },
-        created() {
-            var that = this;
-            $.post('../php/getclock.php', {
-                id: id
-            }).done((data) => {
-                data = JSON.parse(data)
-                if (data.status == 1) {
-                    that.clock = data.clock
-                    that.todayclock = data.todayclock
-                }
-            })
-        }
+    });
+    phone = getQueryString("phone");
+    $.post('../php/get_tech_byphone.php', {
+        phone: phone
+    }).done((result) => {
+        result = JSON.parse(result);
+        id = result['job_number'];
+        $.post('../php/getsalarychart.php', {
+            id: id
+        }).done((data) => {
+            data = JSON.parse(data)
+            if (data.status == 1) {
+                myChart.setOption(data.data)
+            }
+        })
+        var app1 = new Vue({
+            el: '#name',
+            data: {
+                name: '',
+                id: '',
+                shop: ''
+            },
+            methods: {},
+            created() {
+                var that = this;
+                $.post('../php/gettechnician.php', {
+                    id: id
+                }).done((data) => {
+                    data = JSON.parse(data)
+                    if (data.status == 1) {
+                        that.name = data.name
+                        that.id = id
+                        that.shop = data.shop
+                    }
+                })
+            },
+        })
+        var app2 = new Vue({
+            el: '#salary',
+            data: {
+                todaysalary: '',
+                salary: ''
+            },
+            created() {
+                var that = this;
+                $.post('../php/getsalary.php', {
+                    id: id
+                }).done((data) => {
+                    data = JSON.parse(data)
+                    if (data.status == 1) {
+                        that.salary = data.salary
+                        that.todaysalary = data.todaysalary
+                    }
+                })
+            }
+        })
+        var app3 = new Vue({
+            el: '#clock',
+            data: {
+                todayclock: '',
+                clock: ''
+            },
+            created() {
+                var that = this;
+                $.post('../php/getclock.php', {
+                    id: id
+                }).done((data) => {
+                    data = JSON.parse(data)
+                    if (data.status == 1) {
+                        that.clock = data.clock
+                        that.todayclock = data.todayclock
+                    }
+                    swal.close();
+                })
+            }
+        })
     })
 
-    function navi(url) {
-        window.location.href = url;
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
     }
+
+    function navi(url) {
+        window.location.href = url + "?id=" + id;
+    }
+
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
@@ -176,14 +207,6 @@
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
-    $.post('../php/getsalarychart.php', {
-        id: id
-    }).done((data) => {
-        data = JSON.parse(data)
-        if (data.status == 1) {
-            myChart.setOption(data.data)
-        }
-    })
 </script>
 
 </html>

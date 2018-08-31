@@ -7,7 +7,6 @@
     <title>业绩汇总</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
-    <link rel="stylesheet" href="../css/spin.css" />
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 </head>
 
@@ -43,7 +42,7 @@
             </div>
             <div class="weui-flex" style="height: 50%;align-items: center;">
                 <div class="weui-flex__item" style="margin-left: 20px">
-                    <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐次数（次）</h3>
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐人数（人）</h3>
                     <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
                 </div>
                 <div class="weui-flex__item" style="margin-left: 20px">
@@ -95,14 +94,19 @@
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
-<script type="text/javascript" src="../js/spin.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
     //月份选择器，以多列选择器代替
     // var threehide = 1;
-    var job_number = "AKB48";
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var job_number = getQueryString("id");
     new Vue({
         el: "#pg",
         data() {

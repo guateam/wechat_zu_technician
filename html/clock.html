@@ -7,7 +7,6 @@
     <title>业绩明细</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
-    <link rel="stylesheet" href="../css/spin.css" />
 </head>
 
 <body style="background-color: #f2f2f2">
@@ -116,6 +115,14 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var job_number = getQueryString("id");
+
     new Vue({
         el: '#detail',
         data() {
@@ -163,7 +170,7 @@
                         var date = y + m + d;
 
                         $.post("../php/getorder.php", {
-                            job_number: "AKB48",
+                            job_number: job_number,
                             date: date,
                             dataType: 'json',
                         }).done((result) => {
@@ -197,7 +204,7 @@
                     onOpen(){swal.showLoading()}
                 });
                 $.post("../php/getorder.php", {
-                    job_number: "AKB48",
+                    job_number: job_number,
                     date: "",
                     dataType: 'json',
                 }).done((result) => {
@@ -261,7 +268,7 @@
                 }
 
                 $.post("../php/getorder.php", {
-                    job_number: "AKB48",
+                    job_number: job_number,
                     date: str,
                     date2: str2,
                     dataType: 'json',
@@ -295,7 +302,7 @@
                     onOpen(){swal.showLoading()}
                 });
             $.post("../php/getorder.php", {
-                job_number: "AKB48",
+                job_number: job_number,
                 date: "",
                 dataType: 'json',
             }).done((result) => {
