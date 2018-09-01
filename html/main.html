@@ -12,10 +12,8 @@
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;"
-        id='name'>
-        <div style="position: fixed;height: 30px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;padding-left: 5px"
-            v-text="shop"></div>
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;" id='name'>
+        <div style="position: fixed;height: 30px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;padding-left: 5px" v-text="shop"></div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
             <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
             <div class="item weui-flex__item" style="margin-left: 10px">
@@ -52,13 +50,11 @@
     </div>
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 100%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer;"
-                onclick="navi('overview.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer;" onclick="navi('overview.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px;margin-top: 6px">数据分析总结</h1>
             </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('clock.html')">
+            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer" onclick="navi('clock.html')">
                 <h3 style="color: black;font-size: 10px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                 <h1 style="color: grey;font-size: 5px;margin-left: 50px;margin-top: 6px">查询每条明细</h1>
             </div>
@@ -76,6 +72,7 @@
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
     var id = 'r6s1'
+
     swal({
         width: 120,
         onOpen() {
@@ -88,14 +85,23 @@
     }).done((result) => {
         result = JSON.parse(result);
         id = result['job_number'];
-        $.post('../php/getsalarychart.php', {
-            id: id
+        var back = {}
+        $.ajax({
+            type: 'POST',
+            async: false,
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            url: '../php/getmainpage.php',
         }).done((data) => {
-            data = JSON.parse(data)
             if (data.status == 1) {
-                myChart.setOption(data.data)
+                back = data.data
             }
         })
+        if (back.chart.status == 1) {
+            myChart.setOption(back.chart.data)
+        }
         var app1 = new Vue({
             el: '#name',
             data: {
@@ -106,16 +112,12 @@
             methods: {},
             created() {
                 var that = this;
-                $.post('../php/gettechnician.php', {
-                    id: id
-                }).done((data) => {
-                    data = JSON.parse(data)
-                    if (data.status == 1) {
-                        that.name = data.name
-                        that.id = id
-                        that.shop = data.shop
-                    }
-                })
+                data = back.app1
+                if (data.status == 1) {
+                    that.name = data.name
+                    that.id = id
+                    that.shop = data.shop
+                }
             },
         })
         var app2 = new Vue({
@@ -126,15 +128,12 @@
             },
             created() {
                 var that = this;
-                $.post('../php/getsalary.php', {
-                    id: id
-                }).done((data) => {
-                    data = JSON.parse(data)
-                    if (data.status == 1) {
-                        that.salary = data.salary
-                        that.todaysalary = data.todaysalary
-                    }
-                })
+                data = back.app2
+                if (data.status == 1) {
+                    that.salary = data.salary
+                    that.todaysalary = data.todaysalary
+                }
+
             }
         })
         var app3 = new Vue({
@@ -145,19 +144,18 @@
             },
             created() {
                 var that = this;
-                $.post('../php/getclock.php', {
-                    id: id
-                }).done((data) => {
-                    data = JSON.parse(data)
-                    if (data.status == 1) {
-                        that.clock = data.clock
-                        that.todayclock = data.todayclock
-                    }
-                    swal.close();
-                })
+                data = back.app3
+                if (data.status == 1) {
+                    that.clock = data.clock
+                    that.todayclock = data.todayclock
+                }
+                swal.close();
+
             }
         })
     })
+
+
 
 
     function getQueryString(name) {
