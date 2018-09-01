@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>服务列表</title>
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <style>
         .demo-upload-list{
             display: inline-block;
@@ -53,37 +54,12 @@
         <row type="flex" justify="center" style="margin-top: 20px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <!-- <img :src="personalInfo.pictureList[0].url" alt="" style="width: 100%; height: 100%"> -->
-                    <!--<i-button style="width: 100%; margin-top: 3px">上传照片</i-button>-->
-                    <div class="demo-upload-list" v-for="item in uploadList">
-                        <template v-if="item.status === 'finished'">
-                            <img :src="item.url">
-                            <div class="demo-upload-list-cover">
-                                <icon type="ios-eye-outline" @click.native="handleView(item.name)"></icon>
-                                <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
-                        </template>
-                    </div>
-                    <upload ref="upload" :show-upload-list="false" :default-file-list="personalInfo.pictureList" v-show="uploadList.length < 1"
-                        :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError"
-                        :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag"
-                        action="../photo" style="display: inline-block;width:100%;;">
-                        <div style="width: 100%;height:100%;line-height: 100%;">
-                            <icon type="ios-camera" size="150"></icon>
-                        </div>
+                    <!-- <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%"> -->
+
+                    <upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
+                        :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="../php/upload_photo.php">
+                        <img :src="personalInfo.picture" alt="" style="width: 100%; height: 100%">
                     </upload>
-                    <modal title="查看照片" v-model="visible">
-                        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
-                    </modal>
-                    <form id="upload" enctype="multipart/form-data" method="post">
-                        <input type="file" name="file" id="pic" />
-                        <input type="button" value="提交" onclick="uploadPic();" />
-                        <span class="showUrl"></span>
-                        <img src="" class="showPic" alt="">
-                    </form>
                 </card>
             </i-col>
         </row>
@@ -142,6 +118,8 @@
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 <script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+<script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+<script src="../js/tinyImgUpload.js"></script>
 <script>
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -150,7 +128,6 @@
         return null;
     }
     var id = getQueryString('id');
-    id = "AKB48"
     let Main = {
         data() {
             return {
@@ -167,22 +144,23 @@
                     rate: 0,
                     intro: '',
                 },
-                imgName: '',
-                visible: false,
-                uploadList: []
             }
         },
         methods: {
-            handleView(name) {
-                this.imgName = name;
-                this.visible = true;
-            },
-            handleRemove(file) {
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
-            },
             handleSuccess(res, file) {
-                console.log("成功" + file.name);
+                console.log("成功" + file);
+                swal({
+                    width: 120,
+                    onOpen() {
+                        swal.showLoading()
+                    }
+                });
+                $.post("../php/set_photo.php", {
+                    job_number: id,
+                    url: "../photo/" + file.name
+                }).done(() => {
+                    location.reload()
+                })
             },
             handleFormatError(file) {
                 this.$Notice.warning({
@@ -196,22 +174,14 @@
                     desc: '图片  ' + file.name + ' 太大了, 不能超过 2MB.'
                 });
             },
-            handleBeforeUpload(file) {
-                console.log(file)
-                const check = this.uploadList.length < 1;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: '最多只能上传1张图片.'
-                    });
-                }
-                return check;
-            }
-        },
-        mounted() {
-            this.uploadList = this.$refs.upload.fileList;
-            console.log(this.$refs.upload)
         },
         created() {
+            swal({
+                width: 120,
+                onOpen() {
+                    swal.showLoading()
+                }
+            });
             var that = this;
             $.post("../php/gettechdetail.php", {
                 job_number: id
@@ -232,41 +202,14 @@
                     that.personalInfo.inviter = info['inviter'];
                     that.personalInfo.rate = info['rate'];
                     that.personalInfo.intro = info['description'];
-                    that.personalInfo.pictureList.push({
-                        url: info['photo']
-                    })
+                    that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
                 }
+                swal.close();
             })
         }
     };
     let Component = Vue.extend(Main);
     let app = new Component().$mount('#space');
-
-    function uploadPic() {
-        var form = document.getElementById('upload'),
-            formData = new FormData(form);
-        $.ajax({
-            url: "http://localhost/wechat_zu_technician/photo",
-            type: "post",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                if (res) {
-                    alert("上传成功！");
-                }
-                console.log(res);
-                $("#pic").val("");
-                $(".showUrl").html(res);
-                $(".showPic").attr("src", res);
-            },
-            error: function (err) {
-                alert("网络连接失败,稍后重试", err);
-            }
-
-        })
-
-    }
 </script>
 
 </html>

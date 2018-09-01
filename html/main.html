@@ -15,7 +15,7 @@
     <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;" id='name'>
         <div style="position: fixed;height: 30px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;padding-left: 5px" v-text="shop"></div>
         <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
-            <img src="../src/头像.png" alt="头像" style="width: 64px;height: 64px;margin-left: 10px">
+            <img onclick="navi('space.html')" :src="head" style="width: 64px;height: 64px;margin-left: 10px;border-radius:50%">
             <div class="item weui-flex__item" style="margin-left: 10px">
                 <h3 style="color: white;font-size: 17px;font-weight: 400" v-text="name"></h3>
                 <h1 style="color: white;font-size: 15px;font-weight: 400" v-text="id"></h1>
@@ -105,7 +105,8 @@
             data: {
                 name: '',
                 id: '',
-                shop: ''
+                shop: '',
+                head:''
             },
             methods: {},
             created() {
@@ -116,6 +117,14 @@
                     that.id = id
                     that.shop = data.shop
                 }
+                $.post("../php/gettechdetail.php",{
+                    job_number:id
+                }).done((result)=>{
+                    result = JSON.parse(result);
+                    if(result.status==1){
+                        that.head = result.data[0].photo
+                    }
+                })
             },
         })
         var app2 = new Vue({
@@ -203,6 +212,7 @@
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
+
 </script>
 
 </html>
