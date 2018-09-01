@@ -14,7 +14,8 @@
     <div id="pg" style="width:100%;height:100%">
         <div class="weui-flex">
             <div class="weui-flex__item" style="flex: 0 0 50%;">
-                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                        src="../src/日历.png" style="float: left;margin: 10px auto" >{{choosen}}</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
                 <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black">本月</a>
@@ -126,12 +127,39 @@
             }
         },
         methods: {
+            get_now_month() {
+                var date = new Date();
+                var begin = "";
+                var end = "";
+                begin += date.getFullYear() + "-";
+                if (date.getMonth() < 10) begin += "0";
+                begin += date.getMonth() + 1 + "-";
+                end = begin;
+                begin += "01";
+                month = date.getMonth()
+                var new_year = date.getFullYear(); //取当前的年份   
+                var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
+                if (month > 11) //如果当前大于12月，则年份转到下一年   
+                {
+                    new_month -= 12; //月份减   
+                    new_year++; //年份增   
+                }
+                var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
+                new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
+                if (new_date.getDate() < 10) end += "0";
+                end += new_date.getDate() //获取当月最后一天日期  
+
+                return [begin, end];
+            },
             return_month(m = 1) {
                 if (m == 1) {
-                    this.choosen = "本月";
+                    var mth = this.get_now_month();
+                    var this_mth = mth[0];
+                    this_mth = this_mth.substr(0, 7);
+                    this.choosen = this_mth;
                     this.get_data();
                 } else if (m == -1) {
-                    this.choosen = "上月";
+
                     var nowdays = new Date();
                     var year = nowdays.getFullYear();
                     var month = nowdays.getMonth();
@@ -142,6 +170,7 @@
                     if (month < 10) {
                         month = "0" + month;
                     }
+                    this.choosen = year + "-" + month;
                     var firstDay = year + "-" + month + "-" + "01"; //上个月的第一天
                     var myDate = new Date(year, month, 0);
                     var lastDay = year + "-" + month + "-" + myDate.getDate(); //上个月的最后一天
@@ -220,7 +249,7 @@
                     label: '12月',
                     value: '12'
                 }], {
-                    onConfirm: function(result) {
+                    onConfirm: function (result) {
                         that.choosen = result[0] + "-" + result[1];
                         begin = result[0] + "-" + result[1] + "-01 00:00:00";
                         end = result[0] + "-" + result[1] + "-31 23:59:59";
@@ -230,8 +259,10 @@
             },
             get_data(begin = "", end = "") {
                 swal({
-                    width:120,
-                    onOpen(){swal.showLoading()}
+                    width: 120,
+                    onOpen() {
+                        swal.showLoading()
+                    }
                 });
                 var that = this;
                 that.figure = [];
@@ -239,24 +270,9 @@
                 invite_count = invite_num = 0;
 
                 if (begin == "" && end == "") {
-                    var date = new Date();
-                    begin += date.getFullYear() + "-";
-                    if (date.getMonth() < 10) begin += "0";
-                    begin += date.getMonth() + 1 + "-";
-                    end = begin;
-                    begin += "01";
-                    month = date.getMonth()
-                    var new_year = date.getFullYear(); //取当前的年份   
-                    var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
-                    if (month > 11) //如果当前大于12月，则年份转到下一年   
-                    {
-                        new_month -= 12; //月份减   
-                        new_year++; //年份增   
-                    }
-                    var new_date = new Date(new_year, new_month, 1); //取当年当月中的第一天   
-                    new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
-                    if (new_date.getDate() < 10) end += "0";
-                    end += new_date.getDate() //获取当月最后一天日期  
+                    var mth = this.get_now_month();
+                    begin = mth[0];
+                    end = mth[1];
                 }
 
                 $.post("../php/getorder.php", {
@@ -296,10 +312,14 @@
             }
         },
         created() {
+            var mth = this.get_now_month();
+            var this_mth = mth[0];
+            this_mth = this_mth.substr(0, 7);
+            this.choosen = this_mth;
             this.get_data();
         }
     })
-    $('#showPicker').on('click', function() {
+    $('#showPicker').on('click', function () {
         // if (threehide === 1) {
         //     $('#showPicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
         //     threehide = 0;

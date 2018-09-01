@@ -20,6 +20,9 @@
             <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
                 <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">日期</a>
             </div>
+            <div @click="choose_month" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
+                <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">月份</a>
+            </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
                 <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" style="color: black">今天</a>
                 <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" style="color: black">昨天</a>
@@ -148,10 +151,6 @@
                 // this.service_list[index].bonus += 1;
             },
             selectDate() {
-                swal({
-                    width:120,
-                    onOpen(){swal.showLoading()}
-                });
                 var that = this;
                 weui.datePicker({
                     start: 1990,
@@ -168,7 +167,12 @@
                             d = "0" + d;
                         }
                         var date = y + m + d;
-
+                        swal({
+                            width: 120,
+                            onOpen() {
+                                swal.showLoading()
+                            }
+                        });
                         $.post("../php/getorder.php", {
                             job_number: job_number,
                             date: date,
@@ -197,11 +201,120 @@
                     }
                 });
             },
+
+            choose_month() {
+                var that = this;
+                weui.picker([{
+                    label: '2015',
+                    value: '2015'
+                }, {
+                    label: '2016',
+                    value: '2016'
+                }, {
+                    label: '2017',
+                    value: '2017'
+                }, {
+                    label: '2018',
+                    value: '2018'
+                }, {
+                    label: '2019',
+                    value: '2019'
+                }, {
+                    label: '2020',
+                    value: '2020'
+                }, {
+                    label: '2021',
+                    value: '2021'
+                }, {
+                    label: '2022',
+                    value: '2022'
+                }, {
+                    label: '2023',
+                    value: '2023'
+                }, {
+                    label: '2024',
+                    value: '2024'
+                }, {
+                    label: '2025',
+                    value: '2025'
+                }], [{
+                    label: '1月',
+                    value: '01'
+                }, {
+                    label: '2月',
+                    value: '02'
+                }, {
+                    label: '3月',
+                    value: '03'
+                }, {
+                    label: '4月',
+                    value: '04'
+                }, {
+                    label: '5月',
+                    value: '05'
+                }, {
+                    label: '6月',
+                    value: '06'
+                }, {
+                    label: '7月',
+                    value: '07'
+                }, {
+                    label: '8月',
+                    value: '08'
+                }, {
+                    label: '9月',
+                    value: '09'
+                }, {
+                    label: '10月',
+                    value: '10'
+                }, {
+                    label: '11月',
+                    value: '11'
+                }, {
+                    label: '12月',
+                    value: '12'
+                }], {
+                    onConfirm: function (result) {
+                        that.choosen = result[0] + "-" + result[1];
+                        begin = result[0] + "-" + result[1] + "-01 00:00:00";
+                        end = result[0] + "-" + result[1] + "-31 23:59:59";
+                        /////
+                        $.post("../php/getorder.php", {
+                            job_number: job_number,
+                            date: begin,
+                            date2:end,
+                            dataType: 'json',
+                        }).done((result) => {
+                            that.service_list = []
+                            var data = JSON.parse(result);
+                            that.total_clock = data.total_clock;
+                            that.bonus = data.bonus;
+                            that.total_income = data.total_income;
+                            that.service_list = [];
+                            for (var i in data.key_info) {
+                                that.service_list.push({
+                                    service_name: data.key_info[i].service_name,
+                                    room_number: data.key_info[i].room_number,
+                                    bonus: data.key_info[i].bonus,
+                                    time: data.key_info[i].time,
+                                    order_id: data.key_info[i].order_id,
+                                    income: data.key_info[i].income,
+                                    clock_type: data.key_info[i].clock_type,
+                                    show: false
+                                })
+                            }
+                            swal.close();
+                        })
+                    }
+                });
+            },
             init() {
                 var that = this;
                 swal({
-                    width:120,
-                    onOpen(){swal.showLoading()}
+                    width: 120,
+                    onOpen() {
+                        swal.showLoading()
+                    }
                 });
                 $.post("../php/getorder.php", {
                     job_number: job_number,
@@ -232,8 +345,10 @@
             certaindate(mode) {
                 var that = this;
                 swal({
-                    width:120,
-                    onOpen(){swal.showLoading()}
+                    width: 120,
+                    onOpen() {
+                        swal.showLoading()
+                    }
                 });
                 var date = new Date();
                 var str = "";
@@ -298,9 +413,11 @@
         created() {
             var that = this
             swal({
-                    width:120,
-                    onOpen(){swal.showLoading()}
-                });
+                width: 120,
+                onOpen() {
+                    swal.showLoading()
+                }
+            });
             $.post("../php/getorder.php", {
                 job_number: job_number,
                 date: "",
