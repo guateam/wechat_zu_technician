@@ -74,7 +74,7 @@
             <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="justify-content: space-between;">
                     <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">售卡业绩</span>
-                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num"></span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num">元</span>
                 </div>
             </div>
             <div class="weui-flex" style="height: 70%;align-items: center;">
@@ -266,8 +266,9 @@
                 });
                 var that = this;
                 that.figure = [];
-                income = bonus = total_bonus = clock = point_clock = charge = charge_count = 0;
-                invite_count = invite_num = 0;
+                that.income = that.bonus = that.total_bonus = that.clock = that.point_clock =0;
+                that.charge = that.charge_num = that.charge_count = 0;
+                that.invite_count = that.invite_num = 0;
 
                 if (begin == "" && end == "") {
                     var mth = this.get_now_month();
@@ -285,10 +286,14 @@
                     that.bonus = data.bonus;
                     that.income = data.total_income;
                     for (var i = 0; i < data.length; i++) {
-                        if (data[i]['clock_type'] == 1) point_clock++;
+                        if (data[i]['clock_type'] == 1) that.point_clock++;
                     }
-                    if (point_clock == 0 || clock == 0) point_ratio = 0;
-                    else point_ratio = point_clock / clock * 100;
+                    if (that.point_clock == 0 || that.clock == 0) 
+                    {
+                        that.point_ratio = 0;
+                        that.point_ratio+="%";
+                    }
+                    else that.point_ratio = that.point_clock / that.clock * 100;
                 });
                 $.post("../php/getcharge.php", {
                     job_number: job_number,
@@ -298,6 +303,7 @@
                     data = JSON.parse(result);
                     that.charge_count = data.count;
                     that.charge_num = data.charge;
+                    that.charge_num+="元";
                 });
                 $.post("../php/getinvite.php", {
                     job_number: job_number,
