@@ -57,8 +57,9 @@
                     <!-- <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%"> -->
 
                     <upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
-                        :max-size="2048" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="../php/upload_photo.php">
-                        <img :src="personalInfo.picture" alt="" style="width: 100%; height: 100%">
+                        :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="../php/upload_photo.php">
+                        <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%">
+                        <img v-if="!personalInfo.picture" src="../src/head.png" alt="" style="left:40% ;width: 100%; height: 100%">
                     </upload>
                 </card>
             </i-col>
