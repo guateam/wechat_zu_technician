@@ -7,26 +7,32 @@
     <title>业绩明细</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
+    <style>
+        a :focus{
+            background-color:#cc99cc;
+            outline: none ;
+        }
+    </style>
 </head>
 
-<body style="background-color: #f2f2f2">
+<body style="background-color: #f2f2f2;font-size: 15px;">
     <div id="detail" style="height:100%">
 
 
         <div class="weui-flex" style="height: 6%;">
-            <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="show" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">全部</a>
+            <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
+                <a href="javascript:;" class="weui-flex__item" id="show" style="color: black" onfocus="this.blur();">全部</a>
             </div>
-            <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">日期</a>
+            <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
+                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black">日期</a>
             </div>
-            <div @click="choose_month" class="weui-flex weui-flex__item" style="flex: 0 0 22%;">
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%">月份</a>
+            <div @click="choose_month" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
+                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black">月份</a>
             </div>
-            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
-                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" style="color: black">今天</a>
-                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" style="color: black">昨天</a>
-                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" style="color: black">本月</a>
+            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
+                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}" onfocus="this.blur();">今天</a>
+                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}" onfocus="this.blur();">昨天</a>
+                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}" onfocus="this.blur();">本月</a>
             </div>
         </div>
 
@@ -48,18 +54,18 @@
         </div>
 
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
-            <div class="box weui-flex" style="flex: 0 0 80%;height:60%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
-                <div class="item weui-flex__item">
+            <div class="box weui-flex" style="flex: 0 0 91%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
+                <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">业绩（元）</h3>
-                    <span style="color: #404040;font-size: 15px" v-text="total_income"></span>
+                    <span style="color: white;font-size: 15px" v-text="total_income"></span>
                 </div>
-                <div class="item weui-flex__item">
+                <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">提成（元）</h3>
-                    <span style="color: #404040;font-size: 15px" v-text="bonus"></span>
+                    <span style="color: white;font-size: 15px" v-text="bonus"></span>
                 </div>
-                <div class="item weui-flex__item">
+                <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总种数（次）</h3>
-                    <span style="color: #404040;font-size: 15px" v-text="total_clock"></span>
+                    <span style="color: white;font-size: 15px" v-text="total_clock"></span>
                 </div>
             </div>
         </div>
@@ -71,14 +77,14 @@
             <div class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
                 @click="showDetail(index)">
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
-                    <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99">
+                    <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
                         <span>排钟</span>
                     </div>
-                    <div v-if="service.clock_type==2" class="weui-media-box__hd" style="border-radius: 50%;background-color: #9fc5e8">
+                    <div v-if="service.clock_type==2" class="weui-media-box__hd" style="border-radius: 50%;background-color: #9fc5e8;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
                         <span>点钟</span>
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{ service.service_name }}</h4>
+                        <h4 class="weui-media-box__title" style="font-size: 14px">{{ service.service_name }}</h4>
                         <p class="weui-media-box__desc">房号：{{ service.room_number }}</p>
                     </div>
                     <div class="weui-media-box__bd" style="float: right;text-align: right">
@@ -86,18 +92,18 @@
                         <p class="weui-media-box__desc">{{ service.time }}</p>
                     </div>
                 </a>
-                <div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2" v-show="service.show">
-                    <div class="weui-media-box weui-media-box_text">
+                <div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2;" v-show="service.show">
+                    <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
                         <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
                         <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
                             <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
-                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc ">{{
+                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">{{
                                 service.order_id }}</p>
                         </div>
                         <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;margin-top: -10px">
+                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">
                             业绩金额（元）</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc">{{ service.income }}</p>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{ service.income }}</p>
                     </div>
                 </div>
             </div>
@@ -133,6 +139,11 @@
                 total_clock: 0,
                 bonus: 0,
                 total_income: 0,
+                choosen:[
+                    "#FFFFFF",
+                    "#FFFFFF",
+                    "#FFFFFF",
+                ],
                 service_list: [{
                     service_name: '',
                     room_number: '',
@@ -357,15 +368,24 @@
                 if (date.getMonth() < 10) str += "0";
                 str += date.getMonth() + 1 + "-";
                 if (mode == 1) {
+                    that.choosen[0]="#6699CC"
+                    that.choosen[1]="#FFFFFF"
+                    that.choosen[2]="#FFFFFF"
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
                 } else if (mode == 2) {
+                    that.choosen[1]="#6699CC"
+                    that.choosen[2]="#FFFFFF"
+                    that.choosen[0]="#FFFFFF"
                     date.setTime(date.getTime() - 24 * 60 * 60 * 1000)
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
                 } else if (mode == 3) {
+                    that.choosen[2]="#6699CC"
+                    that.choosen[1]="#FFFFFF"
+                    that.choosen[0]="#FFFFFF"
                     str2 = str;
                     str += "01";
                     month = date.getMonth()
