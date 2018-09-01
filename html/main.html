@@ -79,12 +79,10 @@
             swal.showLoading()
         }
     });
-    phone = getQueryString("phone");
-    $.post('../php/get_tech_byphone.php', {
-        phone: phone
-    }).done((result) => {
-        result = JSON.parse(result);
-        id = result['job_number'];
+    id = getQueryString("id");
+    //我也不知道为什么，反正这里一定要post才能正常
+    $.post('../php/empty.php').done((result) => {
+        id = id;
         var back = {}
         $.ajax({
             type: 'POST',
