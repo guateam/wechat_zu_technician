@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>服务列表</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <style>
+        .demo-upload-list{
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            /* line-height: 60px; */
+            border: 1px solid transparent;
+            /* border-radius: 4px; */
+            overflow: hidden;
+            background: #fff;
+            position: relative;
+            /* box-shadow: 0 1px 1px rgba(0,0,0,.2); */
+            /* margin-right: 4px; */
+        }
+        .demo-upload-list img{
+            width: 100%;
+            height: 100%;
+        }
+        .demo-upload-list-cover{
+            display: none;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,.6);
+        }
+        .demo-upload-list:hover .demo-upload-list-cover{
+            display: block;
+        }
+        .demo-upload-list-cover i{
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            /* margin: 0 2px; */
+            margin-top: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="space">
+        <!--头像-->
+        <row type="flex" justify="center" style="margin-top: 20px">
+            <i-col span="22">
+                <card :bordered="false" dis-hover>
+                    <!-- <img :src="personalInfo.pictureList[0].url" alt="" style="width: 100%; height: 100%"> -->
+                    <!--<i-button style="width: 100%; margin-top: 3px">上传照片</i-button>-->
+                    <div class="demo-upload-list" v-for="item in uploadList">
+                        <template v-if="item.status === 'finished'">
+                            <img :src="item.url">
+                            <div class="demo-upload-list-cover">
+                                <icon type="ios-eye-outline" @click.native="handleView(item.name)"></icon>
+                                <icon type="ios-trash-outline" @click.native="handleRemove(item)"></icon>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <i-progress v-if="item.showProgress" :percent="item.percentage" hide-info></i-progress>
+                        </template>
+                    </div>
+                    <upload ref="upload" :show-upload-list="false" :default-file-list="personalInfo.pictureList" v-show="uploadList.length < 1"
+                        :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize" :before-upload="handleBeforeUpload" multiple type="drag"
+                        action="../photo" style="display: inline-block;width:100%;;">
+                        <div style="width: 100%;height:100%;line-height: 100%;">
+                            <icon type="ios-camera" size="150"></icon>
+                        </div>
+                    </upload>
+                    <modal title="查看照片" v-model="visible">
+                        <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+                    </modal>
+                    <form id="upload" enctype="multipart/form-data" method="post">
+                        <input type="file" name="file" id="pic" />
+                        <input type="button" value="提交" onclick="uploadPic();" />
+                        <span class="showUrl"></span>
+                        <img src="" class="showPic" alt="">
+                    </form>
+                </card>
+            </i-col>
+        </row>
+        <!--姓名工号-->
+        <row type="flex" justify="center" style="margin-top: 8px">
+            <i-col span="22">
+                <card :bordered="false" dis-hover>
+                    <h1>{{ personalInfo.name }}</h1>
+                    <divider orientation="right" style="transform: translateY(-120%)">No.{{ personalInfo.id }}</divider>
+                </card>
+            </i-col>
+        </row>
+        <!--信息-->
+        <row type="flex" justify="center" style="margin-top: -50px">
+            <i-col span="22">
+                <card :bordered="false" dis-hover>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>性别:</i-col>
+                        <i-col> {{ personalInfo.sex }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>手机:</i-col>
+                        <i-col> {{ personalInfo.phone_number }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>生日:</i-col>
+                        <i-col> {{ personalInfo.birth }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>在职状态:</i-col>
+                        <i-col> {{ personalInfo.is_on_the_job ? '在职' : '离职' }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>入职日期:</i-col>
+                        <i-col> {{ personalInfo.join_date }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>综合评分:</i-col>
+                        <i-col>
+                            <rate disabled allow-half :value="personalInfo.rate" />
+                        </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>介绍人:</i-col>
+                        <i-col> {{ personalInfo.inviter }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>简介:</i-col>
+                        <i-col> {{ personalInfo.intro }} </i-col>
+                    </row>
+                </card>
+            </i-col>
+        </row>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+    var id = getQueryString('id');
+    id = "AKB48"
+    let Main = {
+        data() {
+            return {
+                personalInfo: {
+                    id: '',
+                    name: '',
+                    pictureList: [],
+                    phone_number: '',
+                    sex: '',
+                    birth: '',
+                    join_date: '',
+                    is_on_the_job: true,
+                    inviter: '',
+                    rate: 0,
+                    intro: '',
+                },
+                imgName: '',
+                visible: false,
+                uploadList: []
+            }
+        },
+        methods: {
+            handleView(name) {
+                this.imgName = name;
+                this.visible = true;
+            },
+            handleRemove(file) {
+                const fileList = this.$refs.upload.fileList;
+                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+            },
+            handleSuccess(res, file) {
+                console.log("成功" + file.name);
+            },
+            handleFormatError(file) {
+                this.$Notice.warning({
+                    title: '文件格式不正确',
+                    desc: '不支持 ' + file.name + ' 文件的格式, 请选择jpg或png图片.'
+                });
+            },
+            handleMaxSize(file) {
+                this.$Notice.warning({
+                    title: '文件大小超出限制',
+                    desc: '图片  ' + file.name + ' 太大了, 不能超过 2MB.'
+                });
+            },
+            handleBeforeUpload(file) {
+                console.log(file)
+                const check = this.uploadList.length < 1;
+                if (!check) {
+                    this.$Notice.warning({
+                        title: '最多只能上传1张图片.'
+                    });
+                }
+                return check;
+            }
+        },
+        mounted() {
+            this.uploadList = this.$refs.upload.fileList;
+            console.log(this.$refs.upload)
+        },
+        created() {
+            var that = this;
+            $.post("../php/gettechdetail.php", {
+                job_number: id
+            }).done((result) => {
+                result = JSON.parse(result);
+                if (result.status == 1) {
+                    info = result.data[0];
+                    that.personalInfo.id = info['job_number'];
+                    that.personalInfo.name = info['name'];
+                    that.personalInfo.phone_number = info['phone_number'];
+
+                    if (info['gender'] == 1) that.personalInfo.sex = "男";
+                    else that.personalInfo.sex = "女";
+
+                    that.personalInfo.birth = info['birthday'];
+                    that.personalInfo.join_date = info['entry_date'];
+                    that.personalInfo.is_on_the_job = info['in_job'];
+                    that.personalInfo.inviter = info['inviter'];
+                    that.personalInfo.rate = info['rate'];
+                    that.personalInfo.intro = info['description'];
+                    that.personalInfo.pictureList.push({
+                        url: info['photo']
+                    })
+                }
+            })
+        }
+    };
+    let Component = Vue.extend(Main);
+    let app = new Component().$mount('#space');
+
+    function uploadPic() {
+        var form = document.getElementById('upload'),
+            formData = new FormData(form);
+        $.ajax({
+            url: "http://localhost/wechat_zu_technician/photo",
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if (res) {
+                    alert("上传成功！");
+                }
+                console.log(res);
+                $("#pic").val("");
+                $(".showUrl").html(res);
+                $(".showPic").attr("src", res);
+            },
+            error: function (err) {
+                alert("网络连接失败,稍后重试", err);
+            }
+
+        })
+
+    }
+</script>
+
+</html>
