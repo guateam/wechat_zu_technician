@@ -60,7 +60,7 @@ foreach($service_order as $so){
 echo json_encode((object)[
     'total_clock'=>count($key_info),
     'bonus'=>$ticheng,
-    'total_income'=>$ticheng+$yeji,
+    'total_income'=>$yeji,
     'key_info'=>$key_info
 ]);
 

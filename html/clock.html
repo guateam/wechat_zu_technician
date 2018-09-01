@@ -24,15 +24,20 @@
                 <a href="javascript:;" class="weui-flex__item" id="show" style="color: black" onfocus="this.blur();">全部</a>
             </div>
             <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
-                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black">日期</a>
+                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black"
+                    v-text="choosen_date">日期</a>
             </div>
             <div @click="choose_month" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
-                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black">月份</a>
+                <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black"
+                    v-text="choosen_month">月份</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
-                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}" onfocus="this.blur();">今天</a>
-                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}" onfocus="this.blur();">昨天</a>
-                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}" onfocus="this.blur();">本月</a>
+                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                    onfocus="this.blur();">今天</a>
+                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
+                    onfocus="this.blur();">昨天</a>
+                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
+                    onfocus="this.blur();">本月</a>
             </div>
         </div>
 
@@ -103,7 +108,8 @@
                         <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
                         <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">
                             业绩金额（元）</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{ service.income }}</p>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{
+                            service.income }}</p>
                     </div>
                 </div>
             </div>
@@ -139,7 +145,11 @@
                 total_clock: 0,
                 bonus: 0,
                 total_income: 0,
-                choosen:[
+
+                choosen_month: "月份",
+                choosen_date: "日期",
+
+                choosen: [
                     "#FFFFFF",
                     "#FFFFFF",
                     "#FFFFFF",
@@ -178,6 +188,15 @@
                             d = "0" + d;
                         }
                         var date = y + m + d;
+
+                        that.choosen = [
+                            "#FFFFFF",
+                            "#FFFFFF",
+                            "#FFFFFF",
+                        ]
+
+                        that.choosen_date = date;
+                        that.choosen_month = "月份";
                         swal({
                             width: 120,
                             onOpen() {
@@ -287,13 +306,27 @@
                 }], {
                     onConfirm: function (result) {
                         that.choosen = result[0] + "-" + result[1];
+
                         begin = result[0] + "-" + result[1] + "-01 00:00:00";
                         end = result[0] + "-" + result[1] + "-31 23:59:59";
-                        /////
+
+                        that.choosen_month = begin.substr(0, 7);
+                        that.choosen_date = "日期";
+                        that.choosen = [
+                            "#FFFFFF",
+                            "#FFFFFF",
+                            "#FFFFFF",
+                        ]
+                        swal({
+                            width: 120,
+                            onOpen() {
+                                swal.showLoading()
+                            }
+                        });
                         $.post("../php/getorder.php", {
                             job_number: job_number,
                             date: begin,
-                            date2:end,
+                            date2: end,
                             dataType: 'json',
                         }).done((result) => {
                             that.service_list = []
@@ -327,6 +360,13 @@
                         swal.showLoading()
                     }
                 });
+                choosen: [
+                    "#FFFFFF",
+                    "#FFFFFF",
+                    "#FFFFFF",
+                ],
+                that.choosen_month= "月份",
+                that.choosen_date="日期",
                 $.post("../php/getorder.php", {
                     job_number: job_number,
                     date: "",
@@ -367,25 +407,29 @@
                 str += date.getFullYear() + "-";
                 if (date.getMonth() < 10) str += "0";
                 str += date.getMonth() + 1 + "-";
+
+                that.choosen_date = "日期";
+                that.choosen_month = "月份";
+
                 if (mode == 1) {
-                    that.choosen[0]="#6699CC"
-                    that.choosen[1]="#FFFFFF"
-                    that.choosen[2]="#FFFFFF"
+                    that.choosen[0] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[2] = "#FFFFFF"
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
                 } else if (mode == 2) {
-                    that.choosen[1]="#6699CC"
-                    that.choosen[2]="#FFFFFF"
-                    that.choosen[0]="#FFFFFF"
+                    that.choosen[1] = "#6699CC"
+                    that.choosen[2] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
                     date.setTime(date.getTime() - 24 * 60 * 60 * 1000)
                     if (date.getDate() < 10) str += "0";
                     str += date.getDate();
                     str2 = str;
                 } else if (mode == 3) {
-                    that.choosen[2]="#6699CC"
-                    that.choosen[1]="#FFFFFF"
-                    that.choosen[0]="#FFFFFF"
+                    that.choosen[2] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
                     str2 = str;
                     str += "01";
                     month = date.getMonth()
