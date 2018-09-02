@@ -12,8 +12,7 @@
             background-color:#cc99cc;
             outline: none ;
         }
-         /* 定义模态对话框外面的覆盖层样式 */
-#modal-overlay {
+        #modal-overlay {
              visibility: hidden;    
              position: absolute;   /* 使用绝对定位或固定定位  */
              left: 0px;    
@@ -22,17 +21,14 @@
              height:100%;
              text-align:center;
              z-index: 1000;
-             background-color: #333; 
              opacity: 0.5;   /* 背景半透明 */
         }
         /* 模态框样式 */
         .modal-data{
-            width:300px;
-             margin: 100px auto;
-             background-color: #fff;
-             border:1px solid #000;
+             margin: 80% auto;
              padding:15px;
              text-align:center;
+             opacity: 0.5;
         }
     </style>
 </head>
@@ -143,7 +139,7 @@
     </div>
     <div id="modal-overlay">
         <div class="modal-data">
-            <b>加载中</b>
+                <img src="../src/loading.gif" />
         </div>
     </div>
 </body>

@@ -1,6 +1,10 @@
 <?php
 require("database.php");
+
+
 $dir = "../photo/";
+
+
 $job_number =implode("",$_POST);
 $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
@@ -28,15 +32,19 @@ if ((
         if (file_exists( $dir . $_FILES["file"]["name"]))
         {
             echo $_FILES["file"]["name"] . " 文件已经存在。 ";
+            echo json_encode(["state"=>0]);
         }
         else
         {
+            $tech = get("technician","job_number",$job_number);
+            unlink($tech[0]['photo']);
             $tm = date("y-m-d-h-i-s",time());
             $tm=$dir.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
             $change = ["photo",$tm];
             set("technician","job_number",$job_number,[$change]);
+            echo json_encode(["state"=>1,'url'=>$tm]);
         }
     }
 

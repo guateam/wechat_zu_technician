@@ -45,7 +45,7 @@
         margin: 0 2px;
     }
     /* 定义模态对话框外面的覆盖层样式 */
-#modal-overlay {
+        #modal-overlay {
              visibility: hidden;    
              position: absolute;   /* 使用绝对定位或固定定位  */
              left: 0px;    
@@ -54,17 +54,14 @@
              height:100%;
              text-align:center;
              z-index: 1000;
-             background-color: #333; 
              opacity: 0.5;   /* 背景半透明 */
         }
         /* 模态框样式 */
         .modal-data{
-            width:300px;
-             margin: 100px auto;
-             background-color: #fff;
-             border:1px solid #000;
+             margin: 80% auto;
              padding:15px;
              text-align:center;
+             opacity: 0.5;
         }
     </style>
 </head>
@@ -104,8 +101,8 @@
         <row type="flex" justify="center" style="margin-top: 8px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <h1>{{ personalInfo.name }}</h1>
-                    <divider orientation="right" style="transform: translateY(-120%)">No.{{ personalInfo.id }}</divider>
+                    <h1 v-text="personalInfo.name"></h1>
+                    <divider orientation="right" style="transform: translateY(-120%)" v-text="'No.'+ personalInfo.id"></divider>
                 </card>
             </i-col>
         </row>
@@ -115,17 +112,17 @@
                 <card :bordered="false" dis-hover>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>性别:</i-col>
-                        <i-col> {{ personalInfo.sex }} </i-col>
+                        <i-col v-text="personalInfo.sex"></i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>手机:</i-col>
-                        <i-col> {{ personalInfo.phone_number }} </i-col>
+                        <i-col v-text="personalInfo.phone_number">  </i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>头像:
                             <img style="width: 58px; height: 58px;" :src="personalInfo.picture">
                         </i-col>
-                        <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
+                        <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :format="['jpg','jpeg','png']"
                             :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
                             type="drag" action="../php/upload_head.php" style="display: inline-block;width:58px;">
                             <div style="width: 58px;height:58px;line-height: 58px;">
@@ -135,15 +132,15 @@
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>生日:</i-col>
-                        <i-col> {{ personalInfo.birth }} </i-col>
+                        <i-col v-text="personalInfo.birth"></i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>在职状态:</i-col>
-                        <i-col> {{ personalInfo.is_on_the_job ? '在职' : '离职' }} </i-col>
+                        <i-col v-text="personalInfo.is_on_the_job ? '在职' : '离职'"> </i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>入职日期:</i-col>
-                        <i-col> {{ personalInfo.join_date }} </i-col>
+                        <i-col v-text="personalInfo.join_date"></i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>综合评分:</i-col>
@@ -153,11 +150,11 @@
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>介绍人:</i-col>
-                        <i-col> {{ personalInfo.inviter }} </i-col>
+                        <i-col v-text="personalInfo.inviter"></i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>简介:</i-col>
-                        <i-col> {{ personalInfo.intro }} </i-col>
+                        <i-col v-text="personalInfo.intro"></i-col>
                     </row>
                 </card>
             </i-col>
@@ -165,7 +162,7 @@
     </div>
     <div id="modal-overlay">
         <div class="modal-data">
-           <b>加载中 </b>
+           <img src="../src/loading.gif" />
         </div>
     </div>
 </body>
@@ -219,12 +216,24 @@
                 }).done(() => {})
             },
             handleSuccess(res, file) {
-                console.log("成功" + file);
-                overlay();
-                location.reload();
+                var that = this;
+                var reg = /\{(.+?)\}/g;
+                res = res.match(reg);
+                res = JSON.parse(res);
+                if(res.state==1){
+                    that.personalInfo.pictureList.push(res.url);
+                }
             },
             onHead(res, file) {
                 this.personalInfo.picture = file.name;
+                var that = this;
+                var reg = /\{(.+?)\}/g;
+                res = res.match(reg);
+                res = JSON.parse(res);
+                console.log(res);
+                if(res.state==1){
+                   that.personalInfo.picture = res.url;
+                }
             },
             handleFormatError(file) {
                 this.$Notice.warning({
