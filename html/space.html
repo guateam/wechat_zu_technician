@@ -44,6 +44,28 @@
         cursor: pointer;
         margin: 0 2px;
     }
+    /* 定义模态对话框外面的覆盖层样式 */
+#modal-overlay {
+             visibility: hidden;    
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #333; 
+             opacity: 0.5;   /* 背景半透明 */
+        }
+        /* 模态框样式 */
+        .modal-data{
+            width:300px;
+             margin: 100px auto;
+             background-color: #fff;
+             border:1px solid #000;
+             padding:15px;
+             text-align:center;
+        }
     </style>
 </head>
 
@@ -101,7 +123,7 @@
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>头像:
-                                <img style="width: 58px; height: 58px;" :src="personalInfo.picture">
+                            <img style="width: 58px; height: 58px;" :src="personalInfo.picture">
                         </i-col>
                         <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
                             :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
@@ -140,6 +162,11 @@
                 </card>
             </i-col>
         </row>
+    </div>
+    <div id="modal-overlay">
+        <div class="modal-data">
+           <b>加载中 </b>
+        </div>
     </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
@@ -193,15 +220,10 @@
             },
             handleSuccess(res, file) {
                 console.log("成功" + file);
-                swal({
-                    width: 120,
-                    onOpen() {
-                        swal.showLoading()
-                    }
-                });
+                overlay();
                 location.reload();
             },
-            onHead(res,file){
+            onHead(res, file) {
                 this.personalInfo.picture = file.name;
             },
             handleFormatError(file) {
@@ -218,12 +240,7 @@
             },
         },
         created() {
-            swal({
-                width: 120,
-                onOpen() {
-                    swal.showLoading()
-                }
-            });
+            overlay();
             var that = this;
             $.post("../php/gettechdetail.php", {
                 job_number: id
@@ -256,12 +273,19 @@
                         that.personalInfo.pictureList.push(result[i]['url']);
                     }
                 }
-                swal.close();
+                overlay(false);
             })
         }
     };
     let Component = Vue.extend(Main);
     let app = new Component().$mount('#space');
+
+
+    function overlay(state = true) {
+        var e1 = document.getElementById('modal-overlay');
+        if(state)e1.style.visibility="visible"
+        else e1.style.visibility="hidden"
+    }
 </script>
 
 </html>

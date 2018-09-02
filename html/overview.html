@@ -8,6 +8,30 @@
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+    <style>
+     /* 定义模态对话框外面的覆盖层样式 */
+#modal-overlay {
+             visibility: hidden;    
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #333; 
+             opacity: 0.5;   /* 背景半透明 */
+        }
+        /* 模态框样式 */
+        .modal-data{
+            width:300px;
+             margin: 100px auto;
+             background-color: #fff;
+             border:1px solid #000;
+             padding:15px;
+             text-align:center;
+        }
+    </style>
 </head>
 
 <body style="background-color: #f2f2f2">
@@ -15,7 +39,7 @@
         <div class="weui-flex" style="font-size: 15px">
             <div class="weui-flex__item" style="flex: 0 0 50%;">
                 <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                        src="../src/日历.png" style="float: left;margin: 10px auto" >{{choosen}}</a>
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
                 <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black;">本月</a>
@@ -90,6 +114,12 @@
         </div>
         <div class="weui-footer" style="margin-top: 20px">
             <p class="weui-footer__text">查帐方式以结账时间为准</p>
+        </div>
+
+    </div>
+    <div id="modal-overlay">
+        <div class="modal-data">
+           <b>加载中 </b>
         </div>
     </div>
 </body>
@@ -249,7 +279,7 @@
                     label: '12月',
                     value: '12'
                 }], {
-                    defaultValue: [new Date().getFullYear(), new Date().getMonth()+1],
+                    defaultValue: [new Date().getFullYear(), new Date().getMonth() + 1],
                     onConfirm: function (result) {
                         that.choosen = result[0] + "-" + result[1];
                         begin = result[0] + "-" + result[1] + "-01 00:00:00";
@@ -259,10 +289,10 @@
                 });
             },
             get_data(begin = "", end = "") {
-                
+                overlay();
                 var that = this;
                 that.figure = [];
-                that.income = that.bonus = that.total_bonus = that.clock = that.point_clock =0;
+                that.income = that.bonus = that.total_bonus = that.clock = that.point_clock = 0;
                 that.charge = that.charge_count = 0;
                 //that.invite_count = that.invite_num = 0;
 
@@ -284,12 +314,10 @@
                     for (var i = 0; i < data.length; i++) {
                         if (data[i]['clock_type'] == 1) that.point_clock++;
                     }
-                    if (that.point_clock == 0 || that.clock == 0) 
-                    {
+                    if (that.point_clock == 0 || that.clock == 0) {
                         that.point_ratio = 0;
-                        that.point_ratio+="%";
-                    }
-                    else that.point_ratio = that.point_clock / that.clock * 100;
+                        that.point_ratio += "%";
+                    } else that.point_ratio = that.point_clock / that.clock * 100;
                 });
                 $.post("../php/getcharge.php", {
                     job_number: job_number,
@@ -299,7 +327,7 @@
                     data = JSON.parse(result);
                     that.charge_count = data.count;
                     that.charge_num = data.charge;
-                    that.charge_num+="元";
+                    that.charge_num += "元";
                 });
                 $.post("../php/getinvite.php", {
                     job_number: job_number,
@@ -309,7 +337,7 @@
                     data = JSON.parse(result);
                     that.invite_count = data.count;
                     that.invite_num = data.bonus;
-
+                    overlay(false);
                 });
             }
         },
@@ -321,16 +349,12 @@
             this.get_data();
         }
     })
-    $('#showPicker').on('click', function () {
-        // if (threehide === 1) {
-        //     $('#showPicker').css({'color':'#cc99cc','background-image':'url(上箭头.png)'});
-        //     threehide = 0;
-        // } else {
-        //     $('#showPicker').css({'color':'black','background-image':'url(下箭头.png)'});
-        //     threehide = 1;
-        // }
 
-    });
+    function overlay(state = true) {
+        var e1 = document.getElementById('modal-overlay');
+        if (state) e1.style.visibility = "visible"
+        else e1.style.visibility = "hidden"
+    }
 </script>
 
 </html>
