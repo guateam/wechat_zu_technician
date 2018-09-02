@@ -8,15 +8,25 @@
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
     <style>
-        /*.weui-cell:before{*/
-        /*border: none;*/
-        /*}*/
-        /*.weui-cells:before{*/
-        /*border: none;*/
-        /*}*/
-        /*.weui-cells:after{*/
-        /*border: none;*/
-        /*}*/
+    #modal-overlay {
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #fff;
+             opacity: 0.5;
+        }
+
+        /* 模态框样式 */
+        .modal-data{
+             margin: 80% auto;
+             padding:15px;
+             text-align:center;
+             opacity: 0.5;
+        }
     </style>
 </head>
 
@@ -61,6 +71,11 @@
             <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" style="background-color: #8c8ef9;border-radius: 20px">登录</a>
         </div>
     </form>
+    <div id="modal-overlay" hidden>
+            <div class="modal-data">
+                    <img src="../src/loading.gif" />
+            </div>
+    </div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script type="text/javascript" src="../js/example.js"></script>
@@ -69,26 +84,28 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
+
+    function overlay(state = true){
+        $('#modal-overlay').attr("hidden",!state)
+    }
+
+
     $("#showTooltips").on("click", () => {
         reg = /^[1][3,4,5,7,8][0-9]{9}$/;
         if ($("#tel").val() != "" && reg.test($("#tel").val())) {
-            swal({
-                title:"登录中",
-                width: 220,
-                onOpen() {
-                    swal.showLoading()
-                }
-            });
+            overlay();
             $.post('../php/get_tech_byphone.php', {
                 phone: $("#tel").val()
             }).done((result) => {
                 result = JSON.parse(result);
                 if (result.status == 1) {
+                    overlay(false);
                     window.location.href = "main.html?id=" + result.job_number;
                 } else {
                     swal({
                         title: "技师不存在",
-                        type: "error"
+                        type: "error",
+                        width:"100"
                     })
                 }
             });

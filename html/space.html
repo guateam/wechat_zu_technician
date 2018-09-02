@@ -10,10 +10,10 @@
     <style>
         .demo-upload-list{
         display: inline-block;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         text-align: center;
-        line-height: 60px;
+        line-height: 40px;
         border: 1px solid transparent;
         border-radius: 4px;
         overflow: hidden;
@@ -62,98 +62,115 @@
              text-align:center;
              opacity: 0.5;
         }
+        .info {
+            color: #8f384f;
+        }
     </style>
 </head>
 
 <body>
     <div id="space">
-        <!--头像-->
+        <!--图片-->
         <row type="flex" justify="center" style="margin-top: 20px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
                     <template>
-                        <carousel v-if="personalInfo.pictureList.length > 0" autoplay arrow="always" dots="none">
+                        <carousel v-if="personalInfo.pictureList.length > 0" arrow="always" dots="none">
                             <carousel-item v-for="item in personalInfo.pictureList">
-                                <img style="width: 100%; height: 150px;" :src="item">
+                                <img style="width: 100%; height: 150px;" :src="item.url">
                             </carousel-item>
                         </carousel>
                     </template>
-                    <div class="demo-upload-list" v-for="item in personalInfo.pictureList">
-                        <template>
-                            <img :src="item">
-                            <div class="demo-upload-list-cover">
-                                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                            </div>
-                        </template>
+                    <div class="demo-upload-list" v-for="item in personalInfo.pictureList" @click="handleRemove(item.url)">
+                        <img :src="item.url">
                     </div>
+                    <br>
                     <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
                         :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
-                        type="drag" action="../php/upload_photo.php" style="display: inline-block;width:58px;">
-                        <div style="width: 58px;height:58px;line-height: 58px;">
-                            <Icon type="ios-camera" size="20"></Icon>
+                        type="drag" action="../php/upload_photo.php" style="display: inline-block;width:50px;">
+                        <div style="width: 50px; height:50px; line-height: 50px">
+                            <!-- <icon type="ios-camera" size="20"></icon> -->
+                            <p style="font-size: 20px">+</p>
                         </div>
                     </upload>
                 </card>
             </i-col>
         </row>
-        <!--姓名工号-->
+        <!--姓名工号头像-->
         <row type="flex" justify="center" style="margin-top: 8px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <h1 v-text="personalInfo.name"></h1>
-                    <divider orientation="right" style="transform: translateY(-120%)">No.{{ personalInfo.id }}</divider>
+                    <row type="flex" justify="space-between" align="bottom">
+                        <i-col>
+                            <row type="flex" justity="start" align="bottom">
+                                <i-col>
+                                    <span style="font-size: 30px">{{personalInfo.name}}</span> <span>(工号:{{
+                                        personalInfo.id }})</span>
+                                </i-col>
+                            </row>
+                        </i-col>
+                        <i-col>
+                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :format="['jpg','jpeg','png']"
+                                :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                                type="drag" action="../php/upload_head.php" style="display: inline-block;width:58px;">
+                                <div style="width: 58px;height:58px;line-height: 58px;">
+                                    <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0 style=" width: 100%; height: 100%;"
+                                        :src="personalInfo.picture">
+                                    <icon v-else type="ios-camera" size="20"></icon>
+                                </div>
+                            </upload>
+                        </i-col>
+                    </row>
+                    <!-- <divider orientation="right" style="transform: translateY(-120%)">工号:{{ personalInfo.id }}</divider> -->
                 </card>
             </i-col>
         </row>
         <!--信息-->
-        <row type="flex" justify="center" style="margin-top: -50px">
+        <row type="flex" justify="center" style="margin-top: -20px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>性别:</i-col>
-                        <i-col v-text="personalInfo.sex"></i-col>
-                    </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>手机:</i-col>
-                        <i-col v-text="personalInfo.phone_number"> </i-col>
-                    </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>头像:
-                            <img border=0 style=" width: 58px; height: 58px;" :src="personalInfo.picture">
+                    <row type="flex" justify="space-between" :gutter="30">
+                        <i-col span="12">
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>性别:</i-col>
+                                <i-col class="info" v-text="personalInfo.sex"></i-col>
+                            </row>
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>生日:</i-col>
+                                <i-col class="info" v-text="personalInfo.birth"></i-col>
+                            </row>
+
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>在职状态:</i-col>
+                                <i-col class="info" v-text="personalInfo.is_on_the_job ? '在职' : '离职'"> </i-col>
+                            </row>
                         </i-col>
-                        <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :format="['jpg','jpeg','png']"
-                            :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
-                            type="drag" action="../php/upload_head.php" style="display: inline-block;width:58px;">
-                            <div style="width: 58px;height:58px;line-height: 58px;">
-                                <Icon type="ios-camera" size="20"></Icon>
-                            </div>
-                        </upload>
+
+                        <i-col span="12">
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>手机:</i-col>
+                                <i-col class="info" v-text="personalInfo.phone_number"> </i-col>
+                            </row>
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>介绍人:</i-col>
+                                <i-col class="info" v-text="personalInfo.inviter"></i-col>
+                            </row>
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                                <i-col>入职日期:</i-col>
+                                <i-col class="info" v-text="personalInfo.join_date"></i-col>
+                            </row>
+                        </i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>生日:</i-col>
-                        <i-col v-text="personalInfo.birth"></i-col>
-                    </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>在职状态:</i-col>
-                        <i-col v-text="personalInfo.is_on_the_job ? '在职' : '离职'"> </i-col>
-                    </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>入职日期:</i-col>
-                        <i-col v-text="personalInfo.join_date"></i-col>
-                    </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>综合评分:</i-col>
+                        <i-col>客户评价:</i-col>
                         <i-col>
                             <rate disabled allow-half :value="personalInfo.rate" />
                         </i-col>
                     </row>
-                    <row type="flex" justify="space-between" style="margin-top: 8px">
-                        <i-col>介绍人:</i-col>
-                        <i-col v-text="personalInfo.inviter"></i-col>
-                    </row>
+
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>简介:</i-col>
-                        <i-col v-text="personalInfo.intro"></i-col>
+                        <i-col v-html="'&nbsp;&nbsp;&nbsp;&nbsp;' + personalInfo.intro"></i-col>
                     </row>
                 </card>
             </i-col>
@@ -200,6 +217,7 @@
                 value1: 0,
                 modal_id: "modal-overlay",
                 overlay: true,
+                uploadList: [],
             }
         },
         methods: {
@@ -207,15 +225,27 @@
                 this.personalInfo.picture = name;
             },
             handleRemove(name) {
-                for (var i = 0; i < this.personalInfo.pictureList.length; i++) {
-                    if (this.personalInfo.pictureList[i] == name) {
-                        this.personalInfo.pictureList.splice(i, 1);
+                swal({
+                    text: "确认删除该图片吗？",
+                    allowOutsideClick: false,
+                    showConfirmButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "删除",
+                    cancelButtonText: "取消",
+                    width:280,
+                }).then((res) => {
+                    if (res.value) {
+                        for (var i = 0; i < this.personalInfo.pictureList.length; i++) {
+                            if (this.personalInfo.pictureList[i].url == name) {
+                                this.personalInfo.pictureList.splice(i, 1);
+                            }
+                        }
+                        $.post("../php/del_photo.php", {
+                            job_number: id,
+                            url: name
+                        }).done(() => {})
                     }
-                }
-                $.post("../php/del_photo.php", {
-                    job_number: id,
-                    url: name
-                }).done(() => {})
+                })
             },
             handleSuccess(res, file) {
                 var that = this;
@@ -223,7 +253,10 @@
                 res = res.match(reg);
                 res = JSON.parse(res);
                 if (res.state == 1) {
-                    that.personalInfo.pictureList.push(res.url);
+                    console.log(res.url);
+                    that.personalInfo.pictureList.push({
+                        url: res.url
+                    });
                 }
             },
             onHead(res, file) {
@@ -243,12 +276,24 @@
                     desc: '不支持 ' + file.name + ' 文件的格式, 请选择jpg或png图片.'
                 });
             },
+            // handleBeforeUpload () {
+            //     const check = this.uploadList.length < 5;
+            //     if (!check) {
+            //         this.$Notice.warning({
+            //             title: 'Up to five pictures can be uploaded.'
+            //         });
+            //     }
+            //     return check;
+            // },
             handleMaxSize(file) {
                 this.$Notice.warning({
                     title: '文件大小超出限制',
                     desc: '图片  ' + file.name + ' 太大了, 不能超过 2MB.'
                 });
             },
+        },
+        mounted() {
+            this.uploadList = this.$refs.upload.fileList;
         },
         created() {
             // overlay();
@@ -281,7 +326,9 @@
                 if (result) {
                     result = JSON.parse(result);
                     for (var i = 0; i < result.length; i++) {
-                        that.personalInfo.pictureList.push(result[i]['url']);
+                        that.personalInfo.pictureList.push({
+                            url: result[i]['url'],
+                        });
                     }
                 }
                 // overlay(false);
