@@ -9,42 +9,41 @@
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <style>
         .demo-upload-list{
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            /* line-height: 60px; */
-            border: 1px solid transparent;
-            /* border-radius: 4px; */
-            overflow: hidden;
-            background: #fff;
-            position: relative;
-            /* box-shadow: 0 1px 1px rgba(0,0,0,.2); */
-            /* margin-right: 4px; */
-        }
-        .demo-upload-list img{
-            width: 100%;
-            height: 100%;
-        }
-        .demo-upload-list-cover{
-            display: none;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,.6);
-        }
-        .demo-upload-list:hover .demo-upload-list-cover{
-            display: block;
-        }
-        .demo-upload-list-cover i{
-            color: #fff;
-            font-size: 40px;
-            cursor: pointer;
-            /* margin: 0 2px; */
-            margin-top: 20%;
-        }
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .demo-upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .demo-upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .demo-upload-list:hover .demo-upload-list-cover{
+        display: block;
+    }
+    .demo-upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
+    }
     </style>
 </head>
 
@@ -54,12 +53,28 @@
         <row type="flex" justify="center" style="margin-top: 20px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
-                        :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="../php/upload_photo.php">
-                        <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%">
-                        <img v-if="!personalInfo.picture" src="../src/head.png" alt="" style="left:40% ;width: 100%; height: 100%">
+                    <template>
+                        <carousel v-if="personalInfo.pictureList.length > 0" autoplay arrow="always" dots="none">
+                            <carousel-item v-for="item in personalInfo.pictureList">
+                                <img style="width: 100%; height: 150px;" :src="item">
+                            </carousel-item>
+                        </carousel>
+                    </template>
+                    <div class="demo-upload-list" v-for="item in personalInfo.pictureList">
+                        <template>
+                            <img :src="item">
+                            <div class="demo-upload-list-cover">
+                                <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                            </div>
+                        </template>
+                    </div>
+                    <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
+                        :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                        type="drag" action="../php/upload_photo.php" style="display: inline-block;width:58px;">
+                        <div style="width: 58px;height:58px;line-height: 58px;">
+                            <Icon type="ios-camera" size="20"></Icon>
+                        </div>
                     </upload>
-                    
                 </card>
             </i-col>
         </row>
@@ -83,6 +98,18 @@
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>手机:</i-col>
                         <i-col> {{ personalInfo.phone_number }} </i-col>
+                    </row>
+                    <row type="flex" justify="space-between" style="margin-top: 8px">
+                        <i-col>头像:
+                                <img style="width: 58px; height: 58px;" :src="personalInfo.picture">
+                        </i-col>
+                        <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
+                            :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                            type="drag" action="../php/upload_head.php" style="display: inline-block;width:58px;">
+                            <div style="width: 58px;height:58px;line-height: 58px;">
+                                <Icon type="ios-camera" size="20"></Icon>
+                            </div>
+                        </upload>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>生日:</i-col>
@@ -143,18 +170,26 @@
                     inviter: '',
                     rate: 0,
                     intro: '',
-                    picture:'',
+                    picture: '',
                 },
+                tech: id,
+                value1: 0,
             }
         },
         methods: {
-            handleView (name) {
-                this.imgName = name;
-                this.visible = true;
+            handleView(name) {
+                this.personalInfo.picture = name;
             },
-            handleRemove (file) {
-                const fileList = this.$refs.upload.fileList;
-                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+            handleRemove(name) {
+                for (var i = 0; i < this.personalInfo.pictureList.length; i++) {
+                    if (this.personalInfo.pictureList[i] == name) {
+                        this.personalInfo.pictureList.splice(i, 1);
+                    }
+                }
+                $.post("../php/del_photo.php", {
+                    job_number: id,
+                    url: name
+                }).done(() => {})
             },
             handleSuccess(res, file) {
                 console.log("成功" + file);
@@ -164,12 +199,10 @@
                         swal.showLoading()
                     }
                 });
-                $.post("../php/set_photo.php", {
-                    job_number: id,
-                    url: "../photo/" + file.name
-                }).done(() => {
-                    location.reload()
-                })
+                location.reload();
+            },
+            onHead(res,file){
+                this.personalInfo.picture = file.name;
             },
             handleFormatError(file) {
                 this.$Notice.warning({
@@ -214,12 +247,13 @@
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
                 }
             })
-            $.post("../php/get_all_photo.php",{
-                job_number:id
-            }).done((result)=>{
-                if(result){
-                    for(var i=0;i<result.length;i++){
-                        that.personalInfo.pictureList.push(result[i]['dir']);
+            $.post("../php/get_all_photo.php", {
+                job_number: id
+            }).done((result) => {
+                if (result) {
+                    result = JSON.parse(result);
+                    for (var i = 0; i < result.length; i++) {
+                        that.personalInfo.pictureList.push(result[i]['url']);
                     }
                 }
                 swal.close();

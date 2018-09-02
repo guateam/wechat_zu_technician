@@ -35,9 +35,8 @@ if ((
             $tm=$dir.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-
-            if(count(get("technician_photo","job_number",$job_number))<4)
-                add("technician_photo",[['job_number',$job_number],['img',$tm]]);
+            $change = ["photo",$tm];
+            set("technician","job_number",$job_number,[$change]);
         }
     }
 
