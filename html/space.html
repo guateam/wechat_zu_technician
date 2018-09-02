@@ -101,7 +101,7 @@
             <i-col span="22">
                 <card :bordered="false" dis-hover>
                     <h1 v-text="personalInfo.name"></h1>
-                    <divider orientation="right" style="transform: translateY(-120%)" v-text="'No.'+ personalInfo.id"></divider>
+                    <divider orientation="right" style="transform: translateY(-120%)">No.{{ personalInfo.id }}</divider>
                 </card>
             </i-col>
         </row>
@@ -115,7 +115,7 @@
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>手机:</i-col>
-                        <i-col v-text="personalInfo.phone_number">  </i-col>
+                        <i-col v-text="personalInfo.phone_number"> </i-col>
                     </row>
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>头像:
@@ -158,12 +158,13 @@
                 </card>
             </i-col>
         </row>
-    </div>
-    <div id="modal-overlay">
-        <div class="modal-data">
-           <img src="../src/loading.gif" />
+        <div id="modal-overlay" v-show="overlay">
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
+            </div>
         </div>
     </div>
+
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
@@ -197,6 +198,8 @@
                 },
                 tech: id,
                 value1: 0,
+                modal_id: "modal-overlay",
+                overlay: true,
             }
         },
         methods: {
@@ -219,7 +222,7 @@
                 var reg = /\{(.+?)\}/g;
                 res = res.match(reg);
                 res = JSON.parse(res);
-                if(res.state==1){
+                if (res.state == 1) {
                     that.personalInfo.pictureList.push(res.url);
                 }
             },
@@ -230,8 +233,8 @@
                 res = res.match(reg);
                 res = JSON.parse(res);
                 console.log(res);
-                if(res.state==1){
-                   that.personalInfo.picture = res.url;
+                if (res.state == 1) {
+                    that.personalInfo.picture = res.url;
                 }
             },
             handleFormatError(file) {
@@ -248,7 +251,7 @@
             },
         },
         created() {
-            overlay();
+            // overlay();
             var that = this;
             $.post("../php/gettechdetail.php", {
                 job_number: id
@@ -281,7 +284,9 @@
                         that.personalInfo.pictureList.push(result[i]['url']);
                     }
                 }
-                overlay(false);
+                // overlay(false);
+                that.overlay = false;
+                that.modal_id = "modal-overlay-opa";
             })
         }
     };
@@ -289,11 +294,11 @@
     let app = new Component().$mount('#space');
 
 
-    function overlay(state = true) {
-        var e1 = document.getElementById('modal-overlay');
-        if(state)e1.style.visibility="visible"
-        else e1.style.visibility="hidden"
-    }
+    // function overlay(state = true) {
+    //     var e1 = document.getElementById('modal-overlay');
+    //     if(state)e1.style.visibility="visible"
+    //     else e1.style.visibility="hidden"
+    // }
 </script>
 
 </html>

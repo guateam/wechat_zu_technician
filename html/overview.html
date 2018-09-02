@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/example.css" />
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
     <style>
-     /* 定义模态对话框外面的覆盖层样式 */
+        /* 定义模态对话框外面的覆盖层样式 */
      #modal-overlay {
              position: absolute;   /* 使用绝对定位或固定定位  */
              left: 0px;    
@@ -20,6 +20,19 @@
              z-index: 1000;
              background-color: #fff;
         }
+
+        #modal-overlay-opa {
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #fff;
+             opacity: 0.5;
+        }
+
         /* 模态框样式 */
         .modal-data{
              margin: 80% auto;
@@ -111,11 +124,10 @@
         <div class="weui-footer" style="margin-top: 20px">
             <p class="weui-footer__text">查帐方式以结账时间为准</p>
         </div>
-
-    </div>
-    <div id="modal-overlay">
-        <div class="modal-data">
+        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+            <div class="modal-data">
                 <img src="../src/loading.gif" />
+            </div>
         </div>
     </div>
 </body>
@@ -150,6 +162,8 @@
                 invite_count: 0,
                 invite_num: 0,
                 choosen: "本月",
+                opa: false,
+                show:true,
             }
         },
         methods: {
@@ -285,8 +299,10 @@
                 });
             },
             get_data(begin = "", end = "") {
-                overlay();
+                
                 var that = this;
+                that.show = true;
+
                 that.figure = [];
                 that.income = that.bonus = that.total_bonus = that.clock = that.point_clock = 0;
                 that.charge = that.charge_count = 0;
@@ -333,7 +349,8 @@
                     data = JSON.parse(result);
                     that.invite_count = data.count;
                     that.invite_num = data.bonus;
-                    overlay(false);
+                    that.opa = true;
+                    that.show = false;
                 });
             }
         },
@@ -346,11 +363,11 @@
         }
     })
 
-    function overlay(state = true) {
-        var e1 = document.getElementById('modal-overlay');
-        if (state) e1.style.visibility = "visible"
-        else e1.style.visibility = "hidden"
-    }
+    // function overlay(state = true) {
+    //     var e1 = document.getElementById('modal-overlay');
+    //     if (state) e1.style.visibility = "visible"
+    //     else e1.style.visibility = "hidden"
+    // }
 </script>
 
 </html>

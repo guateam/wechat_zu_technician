@@ -22,6 +22,17 @@
              z-index: 1000;
              background-color: #fff;
         }
+        #modal-overlay-opa {
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #fff;
+             opacity: 0.5;
+        }
         /* 模态框样式 */
         .modal-data{
              margin: 80% auto;
@@ -135,12 +146,13 @@
         <div class="weui-footer" style="margin-top: 20px">
             <p class="weui-footer__text">查帐方式以结账时间为准</p>
         </div>
+        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+                <div class="modal-data">
+                        <img src="../src/loading.gif" />
+                </div>
+            </div>
     </div>
-    <div id="modal-overlay">
-        <div class="modal-data">
-                <img src="../src/loading.gif" />
-        </div>
-    </div>
+
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
@@ -166,9 +178,12 @@
                 total_clock: 0,
                 bonus: 0,
                 total_income: 0,
-
+                
                 choosen_month: "月份",
                 choosen_date: "日期",
+
+                opa: false,
+                show:true,
 
                 choosen: [
                     "#FFFFFF",
@@ -218,7 +233,7 @@
 
                         that.choosen_date = date;
                         that.choosen_month = "月份";
-                        overlay();
+                        that.show = true;
                         $.post("../php/getorder.php", {
                             job_number: job_number,
                             date: date,
@@ -242,7 +257,7 @@
                                     show: false
                                 })
                             }
-                            overlay(false);
+                            that.show = false;
                         })
                     }
                 });
@@ -334,7 +349,7 @@
                             "#FFFFFF",
                             "#FFFFFF",
                         ]
-                        overlay();
+                        that.show = true;
                         $.post("../php/getorder.php", {
                             job_number: job_number,
                             date: begin,
@@ -359,14 +374,14 @@
                                     show: false
                                 })
                             }
-                            overlay(false);
+                            that.show = false;
                         })
                     }
                 });
             },
             init() {
                 var that = this;
-               overlay();
+               that.show = true;
                 choosen: [
                         "#FFFFFF",
                         "#FFFFFF",
@@ -397,12 +412,12 @@
                                 show: false
                             })
                         }
-                        overlay(false);
+                        that.show = false;
                     })
             },
             certaindate(mode) {
                 var that = this;
-                overlay();
+                that.show = true;
                 var date = new Date();
                 var str = "";
                 var str2 = "";
@@ -472,13 +487,13 @@
                             show: false
                         })
                     }
-                    overlay(false);
+                    that.show = false;
                 })
             }
         },
         created() {
             var that = this
-            overlay();
+            that.show = true;
             $.post("../php/getorder.php", {
                 job_number: job_number,
                 date: "",
@@ -501,16 +516,11 @@
                         show: false
                     })
                 }
-                overlay(false);
+                that.show = false;
+                that.opa = true;
             })
         }
     })
-
-    function overlay(state = true) {
-        var e1 = document.getElementById('modal-overlay');
-        if (state) e1.style.visibility = "visible"
-        else e1.style.visibility = "hidden"
-    }
 </script>
 
 
