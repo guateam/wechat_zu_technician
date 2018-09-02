@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>服务列表</title>
+    <title>个人详情</title>
     <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <style>
@@ -54,13 +54,12 @@
         <row type="flex" justify="center" style="margin-top: 20px">
             <i-col span="22">
                 <card :bordered="false" dis-hover>
-                    <!-- <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%"> -->
-
                     <upload ref="upload" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
                         :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" action="../php/upload_photo.php">
                         <img v-if="personalInfo.picture" :src="personalInfo.picture" alt="" style="width: 100%; height: 100%">
                         <img v-if="!personalInfo.picture" src="../src/head.png" alt="" style="left:40% ;width: 100%; height: 100%">
                     </upload>
+                    
                 </card>
             </i-col>
         </row>
@@ -144,10 +143,19 @@
                     inviter: '',
                     rate: 0,
                     intro: '',
+                    picture:'',
                 },
             }
         },
         methods: {
+            handleView (name) {
+                this.imgName = name;
+                this.visible = true;
+            },
+            handleRemove (file) {
+                const fileList = this.$refs.upload.fileList;
+                this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+            },
             handleSuccess(res, file) {
                 console.log("成功" + file);
                 swal({
@@ -204,6 +212,15 @@
                     that.personalInfo.rate = info['rate'];
                     that.personalInfo.intro = info['description'];
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
+                }
+            })
+            $.post("../php/get_all_photo.php",{
+                job_number:id
+            }).done((result)=>{
+                if(result){
+                    for(var i=0;i<result.length;i++){
+                        that.personalInfo.pictureList.push(result[i]['dir']);
+                    }
                 }
                 swal.close();
             })
