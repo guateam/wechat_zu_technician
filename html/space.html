@@ -72,7 +72,7 @@
              width:100%;
              height:100%;
              text-align:center;
-             z-index: 1000;
+             z-index: 500;
              background-color: #000;
         }
     </style>
@@ -190,8 +190,8 @@
                 <img src="../src/loading.gif" />
             </div>
         </div>
-        <div id="big-img" v-show="big_img" @click="closeBig">
-                <img style="width:380px;height:350px;margin-top:35%" :src="click_img" />
+        <div id="big-img"  v-show="big_img" @click="closeBig">
+                <img id="big_img_self" style="width:100%;height:60%;margin-top:35%" :src="click_img" />
         </div>
     </div>
 
