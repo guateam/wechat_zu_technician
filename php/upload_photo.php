@@ -6,6 +6,15 @@ $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
 
+$dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',
+        'v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+        'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
+$rnd_str = "";
+for($i = 0;$i<7;$i++){
+    $idx = rand(0,count($dict));
+    $rnd_str.=$dict[$idx];    
+}
+
 if ((
     ($_FILES["file"]["type"] == "image/jpeg") 
     ||  ($_FILES["file"]["type"] == "image/jpg")
@@ -31,8 +40,8 @@ if ((
         }
         else
         {
-            $tm = date("y-m-d-h-i-s",time());
-            $tm=$dir.$tm.$_FILES["file"]["name"];
+            $tm = date("ymdhis",time());
+            $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             if(count(get("technician_photo","job_number",$job_number))<5){
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
