@@ -34,9 +34,8 @@ if ((
             $tm = date("y-m-d-h-i-s",time());
             $tm=$dir.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-            move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-
-            if(count(get("technician_photo","job_number",$job_number))<4){
+            if(count(get("technician_photo","job_number",$job_number))<5){
+                move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
                 add("technician_photo",[['job_number',$job_number],['img',$tm]]);
                 echo json_encode(["state"=>1,'url'=>$tm]);
             }
