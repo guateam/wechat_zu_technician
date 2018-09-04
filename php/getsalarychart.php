@@ -96,5 +96,14 @@ function getsalarychart($id)
                 'data' => $time,
             ],
         ]];
+    }else{
+        return ['status' => 1, 'data' => [
+            'series' => [[
+                'data' => [],
+            ]],
+            'xAxis' => [
+                'data' => [],
+            ],
+        ]];
     }
 }
