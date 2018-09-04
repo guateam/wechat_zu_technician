@@ -45,7 +45,8 @@ if ((
         else
         {
             $tech = get("technician","job_number",$job_number);
-            unlink($tech[0]['photo']);
+            if($tech[0]['photo']!='' || isset($tech[0]['photo']) || !is_null(isset($tech[0]['photo'])))
+                unlink($tech[0]['photo']);
             $tm = date("ymdhis",time());
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
