@@ -2,7 +2,8 @@
 require("database.php");
 
 
-$dir = "../photo/";
+$dir = $_SERVER['DOCUMENT_ROOT']."/wechat_zu_admin/public/photo/";
+$save_dir = "/wechat_zu_admin/public/photo/";
 
 
 $job_number =implode("",$_POST);
@@ -48,12 +49,13 @@ if ((
             if($tech[0]['photo']!='' || isset($tech[0]['photo']) || !is_null(isset($tech[0]['photo'])))
                 unlink($tech[0]['photo']);
             $tm = date("ymdhis",time());
+            $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-            $change = ["photo",$tm];
+            $change = ["photo",$sv];
             set("technician","job_number",$job_number,[$change]);
-            echo json_encode(["state"=>1,'url'=>$tm]);
+            echo json_encode(["state"=>1,'url'=>$sv]);
         }
     }
 

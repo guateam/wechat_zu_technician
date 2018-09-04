@@ -1,6 +1,7 @@
 <?php
 require("database.php");
-$dir = "../photo/";
+$dir = $_SERVER['DOCUMENT_ROOT']."/wechat_zu_admin/public/photo/";
+$save_dir = "/wechat_zu_admin/public/photo/";
 $job_number =implode("",$_POST);
 $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
@@ -11,7 +12,7 @@ $dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','
         'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
 $rnd_str = "";
 for($i = 0;$i<7;$i++){
-    $idx = rand(0,count($dict));
+    $idx = rand(0,count($dict)-1);
     $rnd_str.=$dict[$idx];    
 }
 
@@ -41,12 +42,13 @@ if ((
         else
         {
             $tm = date("ymdhis",time());
+            $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             if(count(get("technician_photo","job_number",$job_number))<5){
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-                add("technician_photo",[['job_number',$job_number],['img',$tm]]);
-                echo json_encode(["state"=>1,'url'=>$tm]);
+                add("technician_photo",[['job_number',$job_number],['img',$sv]]);
+                echo json_encode(["state"=>1,'url'=>$sv]);
             }
             else{
                 echo json_encode(["state"=>0]);
