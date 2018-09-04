@@ -5,75 +5,85 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>个人详情</title>
-    <link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <style>
-        .demo-upload-list{
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        line-height: 40px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #fff;
-        position: relative;
-        box-shadow: 0 1px 1px rgba(0,0,0,.2);
-        margin-right: 4px;
-    }
-    .demo-upload-list img{
-        width: 100%;
-        height: 100%;
-    }
-    .demo-upload-list-cover{
-        display: none;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0,0,0,.6);
-    }
-    .demo-upload-list:hover .demo-upload-list-cover{
-        display: block;
-    }
-    .demo-upload-list-cover i{
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        margin: 0 2px;
-    }
-    /* 定义模态对话框外面的覆盖层样式 */
+        .demo-upload-list {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 40px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+            position: relative;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+            margin-right: 4px;
+        }
+        
+        .demo-upload-list img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .demo-upload-list-cover {
+            display: none;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, .6);
+        }
+        
+        .demo-upload-list:hover .demo-upload-list-cover {
+            display: block;
+        }
+        
+        .demo-upload-list-cover i {
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+        /* 定义模态对话框外面的覆盖层样式 */
+        
         #modal-overlay {
-             position: absolute;   /* 使用绝对定位或固定定位  */
-             left: 0px;    
-             top: 0px;
-             width:100%;
-             height:100%;
-             text-align:center;
-             z-index: 1000;
-             background-color: #fff;
+            position: absolute;
+            /* 使用绝对定位或固定定位  */
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            z-index: 1000;
+            background-color: #fff;
         }
         /* 模态框样式 */
-        .modal-data{
-             margin: 80% auto;
-             padding:15px;
-             text-align:center;
-             opacity: 0.5;
+        
+        .modal-data {
+            margin: 80% auto;
+            padding: 15px;
+            text-align: center;
+            opacity: 0.5;
         }
+        
         .info {
             color: #8f384f;
         }
+        
         #big-img {
-             position: absolute;   /* 使用绝对定位或固定定位  */
-             left: 0px;    
-             top: 0px;
-             width:100%;
-             height:100%;
-             text-align:center;
-             z-index: 500;
-             background-color: #000;
+            position: absolute;
+            /* 使用绝对定位或固定定位  */
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            z-index: 500;
+            background-color: #000;
         }
     </style>
 </head>
@@ -95,10 +105,8 @@
                         <img :src="item.url">
                     </div>
                     <br>
-                    <upload ref="upload" :data="tech" :show-upload-list="false" :before-upload="beforeUpload"
-                        :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" multiple
-                        :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag" action="../php/upload_photo.php"
-                        style="display: inline-block;width:50px;">
+                    <upload ref="upload" :data="tech" :show-upload-list="false" :before-upload="beforeUpload" :on-success="handleSuccess" :format="['jpg','jpeg','png']" :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"
+                        action="../php/upload_photo.php" style="display: inline-block;width:50px;">
                         <div style="width: 50px; height:50px; line-height: 50px">
                             <!-- <icon type="ios-camera" size="20"></icon> -->
                             <p style="font-size: 20px">+</p>
@@ -121,12 +129,10 @@
                             </row>
                         </i-col>
                         <i-col>
-                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :format="['jpg','jpeg','png']"
-                                :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
-                                type="drag" action="../php/upload_head.php" style="display: inline-block;width:58px;">
+                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :format="['jpg','jpeg','png']" :max-size="2048" multiple :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag" action="../php/upload_head.php"
+                                style="display: inline-block;width:58px;">
                                 <div style="width: 58px;height:58px;line-height: 58px;">
-                                    <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0 style=" width: 100%; height: 100%;"
-                                        :src="personalInfo.picture">
+                                    <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0 style=" width: 100%; height: 100%;" :src="personalInfo.picture">
                                     <icon v-else type="ios-camera" size="20"></icon>
                                 </div>
                             </upload>
@@ -199,7 +205,7 @@
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
-<script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+<script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script src="../js/tinyImgUpload.js"></script>
 <script>
@@ -253,10 +259,10 @@
                 var check = this.personalInfo.pictureList.length;
                 this.uploadList.push([]);
 
-                for(var i=0;i<2000;i++){};
+                for (var i = 0; i < 2000; i++) {};
                 var lth = this.uploadList.length;
                 console.log(lth);
-                var input = (check + this.uploadList.length )> max_count;
+                var input = (check + this.uploadList.length) > max_count;
 
                 if (input) {
                     this.$Notice.warning({
