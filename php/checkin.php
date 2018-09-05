@@ -1,0 +1,32 @@
+<?php
+require "database.php";
+
+$id=$_POST['id'];
+$ip=$_POST['ip'];
+$technician=get('technician','job_number',$id);
+if($technician){
+    $technician=$technician[0];
+    $shop=get('shop');
+    if($shop){
+        if($shop[0]['ip_address']==$ip){
+            $attendance=get('attendance','job_number',$id);
+            if($attendance){
+                if(time()-strtotime($attendance[count($attendance)-1]['check_time'])<24*60*60&&$attendance[count($attendance)-1]['sign_type']==0){
+                    echo(json_encode(['status'=>-1]));
+                }else{
+                    add('attendance',[['job_number',$id],['sign_type',0]]);
+                    echo(json_encode(['status'=>1]));
+                }
+            }else{
+                add('attendance',[['job_number',$id],['sign_type',0]]);
+                echo(json_encode(['status'=>1]));
+            }
+        }else{
+            echo(json_encode(['status'=>0]));
+        }
+    }else{
+        echo(json_encode(['status'=>0]));
+    }
+}else{
+    echo(json_encode(['status'=>0]));
+}
