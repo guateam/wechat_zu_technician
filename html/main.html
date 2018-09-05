@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
     <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
-    <link rel="stylesheet" href="../css/spin.css" />
+
     <style>
         #modal-overlay {
              position: absolute;   /* 使用绝对定位或固定定位  */
@@ -88,7 +88,7 @@
     </div>
     <div id="modal-overlay">
         <div class="modal-data">
-                <img src="../src/loading.gif" />
+            <img src="../src/loading.gif" />
         </div>
     </div>
 </body>
@@ -100,6 +100,11 @@
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
     var id = 'r6s1'
+
+    //获取ip地址
+    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) {
+        console.log(JSON.stringify(data, null, 2));
+    });
 
     overlay();
     id = getQueryString("id");
@@ -180,14 +185,9 @@
                     that.clock = data.clock
                     that.todayclock = data.todayclock
                 }
-
-
             }
         })
     })
-
-
-
 
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
