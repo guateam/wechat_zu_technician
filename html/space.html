@@ -136,7 +136,7 @@
                                     <icon v-else type="ios-camera" size="20"></icon>
                                 </div>
                             </upload>
-                            <upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr" :format="['mp4','jpg']"
+                            <upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr" :format="['mp4']"
                                 :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"
                                 type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">
                                 <div style="width: 58px;height:58px;line-height: 58px;">
