@@ -136,8 +136,8 @@
                                     <icon v-else type="ios-camera" size="20"></icon>
                                 </div>
                             </upload>
-                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['mp4']"
-                                :max-size="6000" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                            <upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr" :format="['mp4','jpg']"
+                                 :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
                                 type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">
                                 <div style="width: 58px;height:58px;line-height: 58px;">
                                     <video v-if="personalInfo.vcr !='' " :src="personalInfo.vcr">
@@ -245,6 +245,7 @@
                     vcr:'',
                 },
                 tech: id,
+                vcr_url:'',
                 value1: 0,
                 modal_id: "modal-overlay",
                 overlay: true,
@@ -327,6 +328,13 @@
                 console.log(res);
                 if (res.state == 1) {
                     that.personalInfo.picture = res.url;
+                }
+            },
+            after_vcr(res, file){
+                var that = this;
+                console.log(res);
+                if (res.state == 1) {
+                    that.vcr_url = res.url;
                 }
             },
             handleFormatError(file) {
