@@ -137,7 +137,7 @@
                                 </div>
                             </upload>
                             <upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr" :format="['mp4','jpg']"
-                                 :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                                :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"
                                 type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">
                                 <div style="width: 58px;height:58px;line-height: 58px;">
                                     <video v-if="personalInfo.vcr !='' " :src="personalInfo.vcr">
@@ -358,6 +358,12 @@
                     desc: '图片  ' + file.name + ' 太大了, 不能超过 2MB.'
                 });
             },
+            vcr_toobig(){
+                this.$Notice.warning({
+                    title:"视频大小超出限制",
+                    desc:"最大只能为50MB"
+                })
+            }
         },
         mounted() {
 
