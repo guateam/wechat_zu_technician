@@ -35,7 +35,7 @@ if ($_FILES["file"]["type"] == "video/mp4" ){
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
                 $tech = get("technician",'job_number',$job_number);
-                if( !is_null($tech[0]['vcr']))
+                if($tech[0]['vcr']!='' || isset($tech[0]['vcr']) || !is_null($tech[0]['vcr']))
                         unlink($_SERVER['DOCUMENT_ROOT'].$tech[0]['vcr']);
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
                 set("technician",'job_number',$job_number,[['vcr',$sv]]);
