@@ -130,6 +130,16 @@
                                     <icon v-else type="ios-camera" size="20"></icon>
                                 </div>
                             </upload>
+                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="handleSuccess" :format="['mp4']"
+                                :max-size="6000" :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize"
+                                type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">
+                                <div style="width: 58px;height:58px;line-height: 58px;">
+                                    <video v-if="personalInfo.vcr !='' " :src="personalInfo.vcr">
+
+                                    </video>
+                                    <p v-else style="font-size: 17px">vcr</p>
+                                </div>
+                            </upload>
                         </i-col>
                     </row>
                     <!-- <divider orientation="right" style="transform: translateY(-120%)">工号:{{ personalInfo.id }}</divider> -->
@@ -226,6 +236,7 @@
                     rate: 0,
                     intro: '',
                     picture: '',
+                    vcr:'',
                 },
                 tech: id,
                 value1: 0,
@@ -315,7 +326,7 @@
             handleFormatError(file) {
                 this.$Notice.warning({
                     title: '文件格式不正确',
-                    desc: '不支持 ' + file.name + ' 文件的格式, 请选择jpg或png图片.'
+                    desc: '不支持 ' + file.name + ' 文件的格式'
                 });
             },
             // handleBeforeUpload () {
@@ -360,6 +371,7 @@
                     that.personalInfo.rate = info['rate'];
                     that.personalInfo.intro = info['description'];
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
+                    that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'] ;
                 }
             })
             $.post("../php/get_all_photo.php", {

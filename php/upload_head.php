@@ -2,8 +2,8 @@
 require("database.php");
 
 
-$dir = $_SERVER['DOCUMENT_ROOT']."/wechat_zu_admin/public/photo/";
-$save_dir = "/wechat_zu_admin/public/photo/";
+$dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
+$save_dir = "/photo/";
 
 
 $job_number =implode("",$_POST);
@@ -46,7 +46,7 @@ if ((
         else
         {
             $tech = get("technician","job_number",$job_number);
-            if($tech[0]['photo']!='')
+            if($tech[0]['photo']!='' || isset($tech[0]['photo']) || !is_null($tech[0]['photo']))
                 unlink($_SERVER['DOCUMENT_ROOT'].$tech[0]['photo']);
             $tm = date("ymdhis",time());
             $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];

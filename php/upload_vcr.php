@@ -1,9 +1,8 @@
 <?php
 require("database.php");
-$dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
-$save_dir = "/photo/";
+$dir = $_SERVER['DOCUMENT_ROOT']."/wechat_zu_admin/public/vcr/";
+$save_dir = "/wechat_zu_admin/public/vcr/";
 $job_number =implode("",$_POST);
-$allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
 
@@ -16,12 +15,7 @@ for($i = 0;$i<7;$i++){
     $rnd_str.=$dict[$idx];    
 }
 
-if ((
-    ($_FILES["file"]["type"] == "image/jpeg") 
-    ||  ($_FILES["file"]["type"] == "image/jpg")
-    || ($_FILES["file"]["type"] == "image/x-png")
-|| ($_FILES["file"]["type"] == "image/png"))   
-){
+if ($_FILES["file"]["type"] == "video/mp4" ){
     if ($_FILES["file"]["error"] > 0)
     {
         echo "错误：" . $_FILES["file"]["error"] . "<br>";
@@ -47,7 +41,7 @@ if ((
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             if(count(get("technician_photo","job_number",$job_number))<5){
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-                add("technician_photo",[['job_number',$job_number],['img',$sv]]);
+                set("technician",'job_number',$job_number,['vcr',$sv]);
                 echo json_encode(["state"=>1,'url'=>$sv]);
             }
             else{
