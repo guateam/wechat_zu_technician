@@ -41,10 +41,8 @@ if ($_FILES["file"]["type"] == "video/mp4" ){
                 set("technician",'job_number',$job_number,[['vcr',$sv]]);
 
                 echo json_encode(["state"=>1,'url'=>$sv]);
-
         }
     }
-
 }
 
 ?>
