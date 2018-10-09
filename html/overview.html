@@ -7,7 +7,6 @@
     <title>业绩汇总</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
-    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
     <style>
         /* 定义模态对话框外面的覆盖层样式 */
      #modal-overlay {
@@ -136,6 +135,7 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+<script src="../js/vue.js"></script>
 <script type="text/javascript">
     //月份选择器，以多列选择器代替
     // var threehide = 1;
@@ -146,7 +146,7 @@
         return null;
     }
     var job_number = getQueryString("id");
-    new Vue({
+    let app = new Vue({
         el: "#pg",
         data() {
             return {
@@ -172,8 +172,8 @@
                 var begin = "";
                 var end = "";
                 begin += date.getFullYear() + "-";
-                if (date.getMonth() < 10) begin += "0";
-                begin += date.getMonth() + 1 + "-";
+                if (date.getMonth()+1 < 10) begin += "0";
+                begin += date.getMonth()+1+"-";
                 end = begin;
                 begin += "01";
                 month = date.getMonth()
@@ -188,7 +188,6 @@
                 new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
                 if (new_date.getDate() < 10) end += "0";
                 end += new_date.getDate() //获取当月最后一天日期  
-
                 return [begin, end];
             },
             return_month(m = 1) {

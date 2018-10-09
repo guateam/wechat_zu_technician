@@ -147,16 +147,16 @@
             <p class="weui-footer__text">查帐方式以结账时间为准</p>
         </div>
         <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
-                <div class="modal-data">
-                        <img src="../src/loading.gif" />
-                </div>
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
             </div>
+        </div>
     </div>
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <!-- <script src="https://vuejs.org/js/vue.js"></script> -->
-<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script src="../js/vue.js"></script>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <!-- <script type="text/javascript" src="example.js"></script> -->
 <script type="text/javascript" src="../js/weui-min.js"></script>
@@ -178,12 +178,12 @@
                 total_clock: 0,
                 bonus: 0,
                 total_income: 0,
-                
+
                 choosen_month: "月份",
                 choosen_date: "日期",
 
                 opa: false,
-                show:true,
+                show: true,
 
                 choosen: [
                     "#FFFFFF",
@@ -215,10 +215,10 @@
                     defaultValue: [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()],
                     onConfirm: function (result) {
                         y = result[0] + "-";
-                        m = result[1];
+                        m = result[1] + "-";
                         d = result[2];
                         if (result[1] < 10) {
-                            m = "0" + m + "-";
+                            m = "0" + m;
                         }
                         if (result[2] < 10) {
                             d = "0" + d;
@@ -381,8 +381,8 @@
             },
             init() {
                 var that = this;
-               that.show = true;
-                choosen: [
+                that.show = true;
+                that.choosen = [
                         "#FFFFFF",
                         "#FFFFFF",
                         "#FFFFFF",
