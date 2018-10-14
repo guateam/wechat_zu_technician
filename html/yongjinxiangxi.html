@@ -67,7 +67,7 @@
         </div>
     </div>
     <!--推荐的第一个人-->
-    <div v-for="it in list[0]['technicians']"class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
+    <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
         <div class="weui-panel__hd">BBK882</div>
         <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
             <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
@@ -85,64 +85,16 @@
                     <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
                     <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
                         <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">{{
-                            service.order_id }}</p>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">2323232323232</p>
                     </div>
                     <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
                     <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">
                         业绩金额（元）</h4>
-                    <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{
-                        service.income }}</p>
+                    <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">￥2333</p>
                 </div>
             </div>
         </div>
-
     </div>
-
-
-    <!--推荐的第二个人，懒得改data,我这里显示不完全样式，用v-if遍历一下应该就好了-->
-
-    <!--<div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">-->
-    <!--<div class="weui-panel__hd">BBK882</div>-->
-    <!--<div class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"-->
-    <!--@click="showDetail(index)">-->
-    <!--<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">-->
-    <!--<div class="weui-media-box__hd"-->
-    <!--style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">-->
-    <!--<span>排钟</span>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;<div v-if="service.clock_type==2" class="weui-media-box__hd"&ndash;&gt;-->
-    <!--&lt;!&ndash;style="border-radius: 50%;background-color: #9fc5e8;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">&ndash;&gt;-->
-    <!--&lt;!&ndash;<span>点钟</span>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<div class="weui-media-box__bd">-->
-    <!--<h4 class="weui-media-box__title" style="font-size: 14px">拔火罐</h4>-->
-    <!--<p class="weui-media-box__desc">房号：2</p>-->
-    <!--</div>-->
-    <!--<div class="weui-media-box__bd" style="float: right;text-align: right">-->
-    <!--<h4 class="weui-media-box__title" style="color: #cc99cc">￥98</h4>-->
-    <!--<p class="weui-media-box__desc">2018/08/12&npsb;&npsb;&npsb;20:25</p>-->
-    <!--</div>-->
-    <!--</a>-->
-    <!--<div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2;"-->
-    <!--v-show="service.show">-->
-    <!--<div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">-->
-    <!--<div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>-->
-    <!--<div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">-->
-    <!--<h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>-->
-    <!--<p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">{{-->
-    <!--service.order_id }}</p>-->
-    <!--</div>-->
-    <!--<div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>-->
-    <!--<h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">-->
-    <!--业绩金额（元）</h4>-->
-    <!--<p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{-->
-    <!--service.income }}</p>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
     <div class="weui-footer" style="margin-top: 20px">
         <p class="weui-footer__text">查帐方式以结账时间为准</p>
     </div>
@@ -169,12 +121,13 @@
         if (r != null) return unescape(r[2]);
         return null;
     }
+
     let app = new Vue({
         el: '#detail',
-        data:{
-            list:[],
-            show:true,
-            opa:false,
+        data: {
+            list: [],
+            show: true,
+            opa: false,
         },
         methods: {
             showDetail(index) {
@@ -183,14 +136,14 @@
             },
 
         },
-        created(){
+        created() {
             var that = this;
-            $.post('../php/getyeji.php',{
-                job_number:[getQueryString('id')]
-            }).done((res)=>{
+            $.post('../php/getyeji.php', {
+                job_number: [getQueryString('id')]
+            }).done((res) => {
                 res = JSON.parse(res);
-                if(res.status == 1){
-                    for(var i in res.data){
+                if (res.status == 1) {
+                    for (var i in res.data) {
                         that.list.push(res.data[i])
                     }
                 }
