@@ -6,6 +6,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <link href="../css/pyquan.css" rel="stylesheet">
+    <style>
+            #modal-overlay {
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #fff;
+        }
+        #modal-overlay-opa {
+             position: absolute;   /* 使用绝对定位或固定定位  */
+             left: 0px;    
+             top: 0px;
+             width:100%;
+             height:100%;
+             text-align:center;
+             z-index: 1000;
+             background-color: #fff;
+             opacity: 0.5;
+        }
+        /* 模态框样式 */
+        .modal-data{
+             margin: 80% auto;
+             padding:15px;
+             text-align:center;
+             opacity: 0.5;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,7 +44,7 @@
             <!--更换背景，点击查看大图这个你直接从以前那儿copy一下代码吧我就不再写一遍了，滑稽-->
             <img id="bg" :src="background" v-if="background !=''">
             <img src="../src/background.png" v-else>
-            <p id="user-name" class="data-name">AKB48</p>
+            <p id="user-name" class="data-name" v-text="job_number"></p>
             <img id="avt" class="data-avt" :src="head">
         </header>
         <div id="main">
@@ -40,6 +70,11 @@
                 </ul>
             </div>
         </div>
+        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+                <div class="modal-data">
+                    <img src="../src/loading.gif" />
+                </div>
+            </div>
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/vue.js"></script>
@@ -60,6 +95,7 @@
                 job_number: getQueryString('id'),
                 head:"",
                 background:"",
+                show:true,
             },
             created() {
                 var that = this;
@@ -72,6 +108,7 @@
                     }
                     that.head = res.head;
                     that.background = res.background;
+                    that.show = false;
                 })
             },
         })

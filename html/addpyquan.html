@@ -124,7 +124,8 @@
                     <img :src="item.url" @click="handleRemove(item.url)">
                 </div>
                 <upload type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
-                    :data="{job_number:job_number}" :max-size="2048" :before-upload="handleBeforeUpload" :show-upload-list="false" multiple style="display: inline-block;width:50px;">
+                    :data="{job_number:job_number}" :max-size="2048" :before-upload="handleBeforeUpload"
+                    :show-upload-list="false" multiple style="display: inline-block;width:50px;">
                     <div style="width: 50px; height:50px; line-height: 50px">
                         <p style="font-size: 20px">+</p>
                     </div>
@@ -132,11 +133,11 @@
             </row>
         </row>
 
-        <!--<div id="modal-overlay" v-show="overlay">-->
-        <!--<div class="modal-data">-->
-        <!--<img src="../src/loading.gif"/>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div id="modal-overlay" v-show="overlay">
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
+            </div>
+        </div>
     </div>
 
 </body>
@@ -159,7 +160,8 @@
             return {
                 uploadimg: [],
                 content: "",
-                job_number: getQueryString('id')
+                job_number: getQueryString('id'),
+                overlay:false,
             }
         },
         methods: {
@@ -172,8 +174,8 @@
                 }
                 swal({
                     text: "正在发布...",
-                    showConfirmButton:false,
-                    onOpen: ()=>{
+                    showConfirmButton: false,
+                    onOpen: () => {
                         swal.showLoading()
                     }
                 })
@@ -193,15 +195,16 @@
                             type: "success",
                             text: "发布成功!",
                             timer: 1000,
-                            allowOutsideClick:false,
-                            allowEscapeKey:false,
-                            showConfirmButton:false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
                         }).then((result) => {
                             if (result.dismiss === swal.DismissReason.timer || result.value) {
                                 window.location.href = "space.html?id=" + that.job_number
                             }
                         })
                     }
+
                 })
             },
             handleSuccess(res, file) {
