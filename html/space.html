@@ -266,7 +266,7 @@
         },
         methods: {
             navi(url) {
-                window.location.href = url;
+                window.location.href = url+"?id="+id;
             },
             handleView(name) {
                 this.personalInfo.picture = name;
@@ -359,15 +359,15 @@
                     desc: '不支持 ' + file.name + ' 文件的格式'
                 });
             },
-            // handleBeforeUpload () {
-            //     const check = this.uploadList.length < 5;
-            //     if (!check) {
-            //         this.$Notice.warning({
-            //             title: 'Up to five pictures can be uploaded.'
-            //         });
-            //     }
-            //     return check;
-            // },
+            handleBeforeUpload () {
+                const check = this.uploadList.length < 5;
+                if (!check) {
+                    this.$Notice.warning({
+                        title: 'Up to five pictures can be uploaded.'
+                    });
+                }
+                return check;
+            },
             handleMaxSize(file) {
                 this.$Notice.warning({
                     title: '文件大小超出限制',

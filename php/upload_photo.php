@@ -2,7 +2,7 @@
 require("database.php");
 $dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
 $save_dir = "/photo/";
-$job_number =implode("",$_POST);
+$job_number=$_POST['job_number'];
 $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
@@ -48,7 +48,8 @@ if ((
             if(count(get("technician_photo","job_number",$job_number))<5){
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
                 add("technician_photo",[['job_number',$job_number],['img',$sv]]);
-                echo json_encode(["state"=>1,'url'=>$sv]);
+                $tp_img_id = (get("technician_photo",'img',$sv))[0]['ID'];
+                echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
             }
             else{
                 echo json_encode(["state"=>0]);
