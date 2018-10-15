@@ -17,7 +17,7 @@
              text-align:center;
              z-index: 1000;
              background-color: #fff;
-             opacity: 0.5;
+             opacity: 1;
         }
 
         /* 模态框样式 */
@@ -73,7 +73,7 @@
                 <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" style="background-color: #8c8ef9;border-radius: 20px">登录</a>
             </div>
         </form>
-        <div id="modal-overlay" hidden>
+        <div id="modal-overlay" v-show="show">
             <div class="modal-data">
                 <img src="../src/loading.gif" />
             </div>
@@ -99,6 +99,7 @@
             shop:[],
             phone:"",
             select:"",
+            show:true,
         },
         methods:{
             default_select(name){
@@ -115,6 +116,7 @@
                 for(var i = 0;i<res.all_shop.length;i++){
                     that.shop.push(res.all_shop[i])
                 }
+                that.show = false;
             })
         }
     })
