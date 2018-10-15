@@ -67,34 +67,35 @@
         </div>
     </div>
     <!--推荐的第一个人-->
-    <!-- <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
-        <div class="weui-panel__hd">BBK882</div>
+    <div v-for="(item,idx) in list[0]['technicians']" class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
         <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
-            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
+            <a href="javascript:void(0);" @click="change_state(idx)" class="weui-media-box weui-media-box_appmsg ">
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title" style="font-size: 14px">拔火罐</h4>
-                    <p class="weui-media-box__desc">房号：2</p>
+                    <h4 class="weui-media-box__title" style="font-size: 14px"  v-text="item['job_number']"></h4>
                 </div>
                 <div class="weui-media-box__bd" style="float: right;text-align: right">
-                    <h4 class="weui-media-box__title" style="color: #cc99cc">￥98</h4>
-                    <p class="weui-media-box__desc">2018/08/12&npsb;&npsb;&npsb;20:25</p>
+                    <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+item['lost']"></h4>
                 </div>
             </a>
-            <div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2;">
+            <div v-if="display[idx]" class="weui-panel__bd " style="display: block;background-color: #f2f2f2;">
                 <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
-                    <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
+
                     <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">{{service.order_id }}</p>
+                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">赚得</h4>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="'  ￥'+item['final_salary']"></p>
                     </div>
-                    <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                    <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">
-                        业绩金额（元）</h4>
-                    <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{service.income }}</p>
+                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">您获得</h4>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0" v-text="'  ￥'+item['lost']"></p>
+                    </div>
+                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">接单数量</h4>
+                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="item['clock_num']"></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <div class="weui-footer" style="margin-top: 20px">
         <p class="weui-footer__text">查帐方式以结账时间为准</p>
     </div>
@@ -125,19 +126,20 @@
     let app = new Vue({
         el: '#detail',
         data: {
-            list: [],
+            list: [{'technicians':0}],
+            display:[],
             show: true,
             opa: false,
         },
         methods: {
-            showDetail(index) {
-                this.service_list[index].show = !this.service_list[index].show;
-                // this.service_list[index].bonus += 1;
-            },
+         change_state(idx){
+             Vue.set(this.display,idx,!this.display[idx]);
+         }
 
         },
         created() {
             var that = this;
+            that.list = [];
             $.post('../php/getyeji.php', {
                 job_number: [getQueryString('id')]
             }).done((res) => {
@@ -145,6 +147,7 @@
                 if (res.status == 1) {
                     for (var i in res.data) {
                         that.list.push(res.data[i])
+                        that.display.push(false);
                     }
                 }
                 that.show = false;
