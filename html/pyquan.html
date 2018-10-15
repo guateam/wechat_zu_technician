@@ -7,6 +7,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <link href="../css/pyquan.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/iview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
     <style>
         #modal-overlay {
              position: absolute;   /* 使用绝对定位或固定定位  */
@@ -47,7 +48,27 @@
             height: 100%;
             text-align: center;
             z-index: 500;
-            background-color: #000;
+            /* background-color: #000; */
+        }
+        #origin-img {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        #origin-img .swiper-slide img {
+            width: 100%;
+            vertical-align: middle;
+        }
+
+        .swiper-pagination {
+            top: 1em;
+            bottom: auto;
+            color: #fff;
         }
     </style>
 </head>
@@ -71,7 +92,7 @@
                 </div>-->
             <div id="list">
                 <ul>
-                    <li v-for="item in list">
+                    <li v-for="(item,idx) in list">
                         <div class="po-avt-wrap">
                             <img class="po-avt" :src="head">
                         </div>
@@ -79,7 +100,7 @@
                             <div class="po-hd">
                                 <p class="post" v-text="item['content']"></p>
                                 <div>
-                                    <img @click="showBig(img)" style="width:100px;height:100px" v-for="img in item['img']"
+                                    <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px" v-for="(img,imgidx) in item['img']"
                                         :src="img" v-if="img != ''">
                                 </div>
                                 <p class="time" v-text="item['date']"></p>
@@ -89,19 +110,80 @@
                 </ul>
             </div>
         </div>
+        <!-- <template>
+                <carousel loop arrow="always" >
+                    <carousel-item v-for="img in swiper_target" >
+                        <img style="width: 100%; height: 150px;" :src="img"></img>
+                    </carousel-item>
+                </carousel>
+        </template> -->
         <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
             <div class="modal-data">
                 <img src="../src/loading.gif" />
             </div>
         </div>
-        <div id="big-img" v-show="big_img" @click="closeBig">
+        <div id="big-img" v-show="big_img" @click="closeBig()">
             <img id="big_img_self" style="width:100%;height:60%;margin-top:35%" :src="click_img" />
         </div>
+        <!-- <div class="swiper-container" id="origin-img">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+        </div> -->
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/vue.js"></script>
     <script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
     <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+    <script>
+        var tgt = [];
+
+        var swiper = new Swiper('.swiper-container', {
+            zoom: true,
+            width: window.innerWidth,
+            virtual: true,
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'fraction',
+            },
+            on: {
+                click: function () {
+                    $('#origin-img').fadeOut('fast');
+                    this.virtual.slides.length = 0;
+                    this.virtual.cache = [];
+                    swiperStatus = false;
+
+                },
+            },
+        });
+        //切换图状态禁止页面缩放	
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1 && swiperStatus) {
+                event.preventDefault();
+            }
+        }, {
+            passive: false
+        })
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, {
+            passive: false
+        })
+
+        document.addEventListener('touchmove', function (e) {
+            if (swiperStatus) {
+                e.preventDefault();
+            }
+        }, {
+            passive: false
+        })
+    </script>
     <script>
         function getQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -109,10 +191,12 @@
             if (r != null) return unescape(r[2]);
             return null;
         }
+
         let app = new Vue({
             el: "#app",
             data: {
                 list: [],
+                swiper_target: [],
                 background: "",
                 job_number: getQueryString('id'),
                 head: "",
@@ -123,12 +207,13 @@
                 opa: false,
             },
             methods: {
-                showBig(url) {
-                    this.big_img = true;
-                    this.click_img = url;
-                },
                 closeBig() {
                     this.big_img = false;
+                },
+                show_pic(index, imgs) {
+                    //this.swiper_target = imgs;
+                    this.click_img = imgs[index];
+                    this.big_img = true;
                 },
                 handleBeforeUpload() {
                     swal({
@@ -221,6 +306,7 @@
                     that.head = res.head;
                     that.background = res.background;
                     that.show = false;
+
                 })
             },
         })

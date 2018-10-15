@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>佣金详细</title>
-    <link rel="stylesheet" href="../css/weui-min.css"/>
-    <link rel="stylesheet" href="../css/example.css"/>
+    <link rel="stylesheet" href="../css/weui-min.css" />
+    <link rel="stylesheet" href="../css/example.css" />
+
     <style>
         a :focus {
             background-color: #cc99cc;
@@ -47,64 +48,64 @@
 </head>
 
 <body style="background-color: #f2f2f2;font-size: 15px;">
-<div id="detail" style="height:100%">
+    <div id="detail" style="height:100%">
 
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
-        <div class="box weui-flex"
-             style="flex: 0 0 100%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
-            <div class="item weui-flex__item" style="margin-left: 10px">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总计推荐人数</h3>
-                <span style="color: white;font-size: 15px" v-text="list[0]['technicians'].length"></span>
-            </div>
-            <div class="item weui-flex__item" style="margin-left: 10px">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">所获提成（元）</h3>
-                <span style="color: white;font-size: 15px" v-text="'￥'+list[0]['come_from_other']"></span>
-            </div>
-            <div class="item weui-flex__item" style="margin-left: 10px">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总钟数（次）</h3>
-                <span style="color: white;font-size: 15px" v-text="list[0]['clock_num']"></span>
+        <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
+            <div class="box weui-flex" style="flex: 0 0 100%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
+                <div class="item weui-flex__item" style="margin-left: 10px">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总计推荐人数</h3>
+                    <span style="color: white;font-size: 15px" v-text="list[0]['technicians'].length"></span>
+                </div>
+                <div class="item weui-flex__item" style="margin-left: 10px">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">所获提成（元）</h3>
+                    <span style="color: white;font-size: 15px" v-text="'￥'+list[0]['come_from_other']"></span>
+                </div>
+                <div class="item weui-flex__item" style="margin-left: 10px">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总钟数（次）</h3>
+                    <span style="color: white;font-size: 15px" v-text="list[0]['clock_num']"></span>
+                </div>
             </div>
         </div>
-    </div>
-    <!--推荐的第一个人-->
-    <div v-for="(item,idx) in list[0]['technicians']" class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
-        <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
-            <a href="javascript:void(0);" @click="change_state(idx)" class="weui-media-box weui-media-box_appmsg ">
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title" style="font-size: 14px"  v-text="item['job_number']"></h4>
-                </div>
-                <div class="weui-media-box__bd" style="float: right;text-align: right">
-                    <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+item['lost']"></h4>
-                </div>
-            </a>
-            <div v-if="display[idx]" class="weui-panel__bd " style="display: block;background-color: #f2f2f2;">
-                <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
+        <!--推荐的第一个人-->
+        <div v-for="(item,idx) in list[0]['technicians']" class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
+            <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+                <a href="javascript:void(0);" @click="change_state(idx)" class="weui-media-box weui-media-box_appmsg ">
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title" style="font-size: 14px" v-text="item['job_number']"></h4>
+                    </div>
+                    <div class="weui-media-box__bd" style="float: right;text-align: right">
+                        <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+item['lost']"></h4>
+                    </div>
+                </a>
+                <div v-if="display[idx]" class="weui-panel__bd " style="display: block;background-color: #f2f2f2;">
+                    <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
 
-                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">赚得</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="'  ￥'+item['final_salary']"></p>
-                    </div>
-                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">您获得</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0" v-text="'  ￥'+item['lost']"></p>
-                    </div>
-                    <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">接单数量</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="item['clock_num']"></p>
+                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">赚得</h4>
+                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="'  ￥'+item['final_salary']"></p>
+                        </div>
+                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">您获得</h4>
+                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0"
+                                v-text="'  ￥'+item['lost']"></p>
+                        </div>
+                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
+                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">接单数量</h4>
+                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="item['clock_num']"></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="weui-footer" style="margin-top: 20px">
-        <p class="weui-footer__text">查帐方式以结账时间为准</p>
-    </div>
-    <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
-        <div class="modal-data">
-            <img src="../src/loading.gif"/>
+        <div class="weui-footer" style="margin-top: 20px">
+            <p class="weui-footer__text">查帐方式以结账时间为准</p>
+        </div>
+        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
+            </div>
         </div>
     </div>
-</div>
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
@@ -115,6 +116,7 @@
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+
 <script>
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -126,15 +128,19 @@
     let app = new Vue({
         el: '#detail',
         data: {
-            list: [{'technicians':0}],
-            display:[],
+            list: [{
+                'technicians': 0
+            }],
+            display: [],
+
             show: true,
             opa: false,
         },
         methods: {
-         change_state(idx){
-             Vue.set(this.display,idx,!this.display[idx]);
-         }
+            change_state(idx) {
+                Vue.set(this.display, idx, !this.display[idx]);
+            },
+
 
         },
         created() {
