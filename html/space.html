@@ -103,7 +103,7 @@
                         </carousel-item>
                     </carousel>
                 </template>
-                <div class="demo-upload-list" v-for="item in personalInfo.pictureList" @click="navi('pyquan.html')">
+                <div class="demo-upload-list" v-for="(item,index) in personalInfo.pictureList" v-if="index<5" @click="navi('pyquan.html')">
                     <img :src="item.url">
                 </div>
                 <br>
@@ -222,7 +222,7 @@
 </div>
 
 </body>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="../js/jquery.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
 <script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>

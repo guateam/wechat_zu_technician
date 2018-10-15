@@ -3,6 +3,8 @@ require("database.php");
 $dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
 $save_dir = "/photo/";
 $job_number=$_POST['job_number'];
+$bg = false;
+if(isset($_POST['bg']))$bg = $_POST['bg'];
 $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
@@ -44,11 +46,22 @@ if ((
             $tm = date("ymdhis",time());
             $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
+            $tc = (get("technician",'job_number',$job_number))[0];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-            if(count(get("technician_photo","job_number",$job_number))<5){
+            if($tc){
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
                 add("technician_photo",[['job_number',$job_number],['img',$sv]]);
-                $tp_img_id = (get("technician_photo",'img',$sv))[0]['ID'];
+
+                if($bg){
+                    if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
+                        $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
+                        unlink($del_dir);
+                        del("technician_photo",'img',$tc['friend_circle_background']);
+                    }
+                    set("technician",'job_number',$job_number,[['friend_circle_background',$sv]]);
+                }
+                $tp_img_id = (get("technician_photo",'img',$sv))[0];
+                $tp_img_id = $tp_img_id['ID'];
                 echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
             }
             else{
