@@ -123,8 +123,13 @@
                 <div class="demo-upload-list" v-for="item in uploadimg">
                     <img :src="item.url" @click="handleRemove(item.url)">
                 </div>
-                <upload type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
-                    :data="{job_number:job_number}" :max-size="2048" :before-upload="handleBeforeUpload"
+                <upload type="drag" action="../php/upload_photo.php" 
+                    :on-success="handleSuccess" 
+                    :on-error="handleFail"
+                    :data="{job_number:job_number}" 
+                    :max-size="4096" 
+                    :on-exceeded-size="handleMax"
+                    :before-upload="handleBeforeUpload"
                     :show-upload-list="false" multiple style="display: inline-block;width:50px;">
                     <div style="width: 50px; height:50px; line-height: 50px">
                         <p style="font-size: 20px">+</p>
@@ -209,21 +214,39 @@
             },
             handleSuccess(res, file) {
                 var that = this;
-                var reg = /\{(.+?)\}/g;
-                res = res.match(reg);
-                res = JSON.parse(res);
+                // var reg = /\{(.+?)\}/g;
+                // res = res.match(reg);
+                // res = JSON.parse(res);
                 if (res.state == 1) {
                     console.log(res.url);
                     that.uploadimg.push({
                         'url': res.url,
                         'id': res.ID
                     });
+                    swal.close();
+                }else{
+                    swal({
+                            text:res.state,
+                            type:"error",
+                            width:230,
+                        })
                 }
-                swal.close();
+
             },
-            handleBeforeUpload() {
+            handleFail(res, file){
+                alert("fail");
+            },
+            handleMax(file){
                 swal({
-                    text: "正在上传，请稍候",
+                            text:"文件过大，不得超过5M",
+                            type:"error",
+                            width:230,
+                        })
+            },
+            handleBeforeUpload(file) {
+                swal({
+                    text: "正在上传，请稍候"+file.name,
+                    width:200,
                     onOpen: () => {
                         swal.showLoading();
                     }

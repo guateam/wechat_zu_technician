@@ -22,24 +22,24 @@ if ((
     ($_FILES["file"]["type"] == "image/jpeg") 
     ||  ($_FILES["file"]["type"] == "image/jpg")
     || ($_FILES["file"]["type"] == "image/x-png")
-|| ($_FILES["file"]["type"] == "image/png"))   
+    || ($_FILES["file"]["type"] == "image/png"))   
 ){
     if ($_FILES["file"]["error"] > 0)
     {
-        echo "错误：" . $_FILES["file"]["error"] . "<br>";
+        echo json_encode(["state"=>$_FILES["file"]["error"]]);
     }
     else
     {
-        echo "上传文件名: " . $_FILES["file"]["name"] . "<br>";
-        echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
-        echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-        echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"];
+        // echo "上传文件名: " . $_FILES["file"]["name"] . "<br>";
+        // echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
+        // echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
+        // echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"];
 
         // 判断当期目录下的 upload 目录是否存在该文件
         // 如果没有 upload 目录，你需要创建它，upload 目录权限为 777
         if (file_exists( $dir . $_FILES["file"]["name"]))
         {
-            echo $_FILES["file"]["name"] . " 文件已经存在。 ";
+            echo json_encode(["state"=>'文件已经存在']);
         }
         else
         {
@@ -71,6 +71,8 @@ if ((
         }
     }
 
+}else{
+    echo json_encode(["state"=>"格式错误:".$_FILES["file"]["type"]]);
 }
 
 ?>

@@ -16,27 +16,27 @@ foreach($datas as $data){
     $tm1 = strtotime($datas[$i]['date']);
     $tm2 = time();
     $gap = $tm2-$tm1;
-    if($gap<60)$gap=$gap."秒前";
-    else{
-        $gap/=60;
-        if($gap<60)$gap=round($gap,0)."分钟前";
-        else{
-            $gap/=60;
-            if($gap<24)$gap=round($gap,0)."小时前";
-            else{
-                $gap/=24;
-                if($gap<=30)$gap=round($gap,0)."天前";
-                else{
-                    $gap/=30;
-                    if($gap<=12)$gap=round($gap,0)."月前";
-                    else{
-                        $gap/=12;
-                        if($gap>=1)$gap=round($gap,0)."年前";
-                    }
-                }
-            }
-        }
-    }
+    // if($gap<60)$gap=$gap."秒前";
+    // else{
+    //     $gap/=60;
+    //     if($gap<60)$gap=round($gap,0)."分钟前";
+    //     else{
+    //         $gap/=60;
+    //         if($gap<24)$gap=round($gap,0)."小时前";
+    //         else{
+    //             $gap/=24;
+    //             if($gap<=30)$gap=round($gap,0)."天前";
+    //             else{
+    //                 $gap/=30;
+    //                 if($gap<=12)$gap=round($gap,0)."月前";
+    //                 else{
+    //                     $gap/=12;
+    //                     if($gap>=1)$gap=round($gap,0)."年前";
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     $datas[$i]['date']=$gap;
     $i++;
 

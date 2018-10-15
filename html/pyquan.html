@@ -36,6 +36,19 @@
              text-align:center;
              opacity: 0.5;
         }
+
+
+        #big-img {
+            position: fixed;
+            /* 使用绝对定位或固定定位  */
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            z-index: 500;
+            background-color: #000;
+        }
     </style>
 </head>
 
@@ -43,9 +56,8 @@
     <div id="app" style="width:100%;height:100%">
         <header>
             <!--更换背景，点击查看大图这个你直接从以前那儿copy一下代码吧我就不再写一遍了，滑稽-->
-            <upload style="width:100%" type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :format="['jpg','jpeg','png']"
-                :data="{job_number:job_number,bg:true}" :max-size="2048" :before-upload="handleBeforeUpload" :show-upload-list="false"
-                multiple style="display: inline-block;width:50px;">
+            <upload style="width:100%" type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
+                :max-size="204800" :before-upload="handleBeforeUpload" :show-upload-list="false" multiple style="display: inline-block;width:50px;">
                 <img id="bg" :src="background" v-if="background !=''">
                 <img src="../src/background.png" v-else>
             </upload>
@@ -66,7 +78,7 @@
                             <div class="po-hd">
                                 <p class="post" v-text="item['content']"></p>
                                 <div>
-                                    <img style="width:100px;height:100px" v-for="img in item['img']" :src="img" v-if="img != ''">
+                                    <img @click="showBig(img)" style="width:100px;height:100px" v-for="img in item['img']" :src="img" v-if="img != ''">
                                 </div>
                                 <p class="time" v-text="item['date']"></p>
                             </div>
@@ -79,6 +91,9 @@
             <div class="modal-data">
                 <img src="../src/loading.gif" />
             </div>
+        </div>
+        <div id="big-img"  v-show="big_img" @click="closeBig">
+            <img id="big_img_self" style="width:100%;height:60%;margin-top:35%" :src="click_img"/>
         </div>
     </div>
     <script src="../js/jquery.js"></script>
@@ -101,8 +116,18 @@
                 head: "",
                 background: "",
                 show: true,
+                big_img: false,
+                click_img: '',
+                opa:false,
             },
             methods: {
+                showBig(url) {
+                    this.big_img = true;
+                    this.click_img = url;
+                },
+                closeBig() {
+                    this.big_img = false;
+                },
                 handleBeforeUpload() {
                     swal({
                         text: "正在更改封面背景，请稍候",
@@ -111,16 +136,30 @@
                         }
                     })
                 },
+                handleMax(file) {
+                    swal({
+                        text: "文件过大，不得超过5M",
+                        type: "error",
+                        width: 230,
+                    })
+                },
                 handleSuccess(res, file) {
                     var that = this;
-                    var reg = /\{(.+?)\}/g;
-                    res = res.match(reg);
-                    res = JSON.parse(res);
+                    // var reg = /\{(.+?)\}/g;
+                    // res = res.match(reg);
+                    // res = JSON.parse(res);
                     if (res.state == 1) {
                         console.log(res.url);
                         that.background = res.url;
+                        swal.close();
+                    } else {
+                        swal({
+                            text: res.state,
+                            type: "error",
+                            width: 230,
+                        })
                     }
-                    swal.close();
+
                 },
             },
             created() {
@@ -131,6 +170,48 @@
                     res = JSON.parse(res);
                     for (var i in res.data) {
                         that.list.push(res.data[i])
+                    }
+                    for (var i = 0; i < that.list.length - 1; i++) {
+                        nearest = i;
+                        for (var j = i + 1; j < that.list.length; j++) {
+                            if (that.list[i]['date'] > that.list[j]['date']) {
+                                nearest = j;
+                            }
+                        }
+                        if (nearest != i) {
+                            tp = that.list[i];
+                            that.list[i] = that.list[nearest];
+                            that.list[nearest] = tp;
+                        }
+                    }
+                    for (var i in that.list) {
+                        if (that.list[i]['date'] < 60) that.list[i]['date'] = that.list[i]['date'] +
+                            "秒前";
+                        else {
+                            that.list[i]['date'] /= 60;
+                            if (that.list[i]['date'] < 60) that.list[i]['date'] = parseInt(that.list[i]
+                                ['date'], 0) + "分钟前";
+                            else {
+                                that.list[i]['date'] /= 60;
+                                if (that.list[i]['date'] < 24) that.list[i]['date'] = parseInt(that.list[
+                                    i]['date'], 0) + "小时前";
+                                else {
+                                    that.list[i]['date'] /= 24;
+                                    if (that.list[i]['date'] <= 30) that.list[i]['date'] = parseInt(
+                                        that.list[i]['date'], 0) + "天前";
+                                    else {
+                                        that.list[i]['date'] /= 30;
+                                        if (that.list[i]['date'] <= 12) that.list[i]['date'] = parseInt(
+                                            that.list[i]['date'], 0) + "月前";
+                                        else {
+                                            that.list[i]['date'] /= 12;
+                                            if (that.list[i]['date'] >= 1) that.list[i]['date'] =
+                                                parseInt(that.list[i]['date'], 0) + "年前";
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     that.head = res.head;
                     that.background = res.background;
