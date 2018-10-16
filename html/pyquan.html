@@ -80,8 +80,8 @@
             <upload style="width:100%" type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
                 :max-size="4096" :before-upload="handleBeforeUpload" :show-upload-list="false" :on-error="handleFail"
                 :on-exceeded-size="handleMax" multiple style="display: inline-block;width:50px;">
-                <img id="bg" :src="background" v-if="background !=''">
-                <img src="../src/background.png" v-else>
+                <img id="bg" :src="background" style="width:100%;height:200px" v-if="background !=''">
+                <img style="width:100%;height:100px" src="../src/background.png" v-else>
             </upload>
             <p id="user-name" class="data-name" v-text="job_number"></p>
             <img id="avt" class="data-avt" :src="head">
@@ -136,53 +136,53 @@
     <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
     <script>
-        var tgt = [];
+        // var tgt = [];
 
-        var swiper = new Swiper('.swiper-container', {
-            zoom: true,
-            width: window.innerWidth,
-            virtual: true,
-            spaceBetween: 20,
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'fraction',
-            },
-            on: {
-                click: function () {
-                    $('#origin-img').fadeOut('fast');
-                    this.virtual.slides.length = 0;
-                    this.virtual.cache = [];
-                    swiperStatus = false;
+        // var swiper = new Swiper('.swiper-container', {
+        //     zoom: true,
+        //     width: window.innerWidth,
+        //     virtual: true,
+        //     spaceBetween: 20,
+        //     pagination: {
+        //         el: '.swiper-pagination',
+        //         type: 'fraction',
+        //     },
+        //     on: {
+        //         click: function () {
+        //             $('#origin-img').fadeOut('fast');
+        //             this.virtual.slides.length = 0;
+        //             this.virtual.cache = [];
+        //             swiperStatus = false;
 
-                },
-            },
-        });
-        //切换图状态禁止页面缩放	
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1 && swiperStatus) {
-                event.preventDefault();
-            }
-        }, {
-            passive: false
-        })
-        var lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            var now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, {
-            passive: false
-        })
+        //         },
+        //     },
+        // });
+        // //切换图状态禁止页面缩放	
+        // document.addEventListener('touchstart', function (event) {
+        //     if (event.touches.length > 1 && swiperStatus) {
+        //         event.preventDefault();
+        //     }
+        // }, {
+        //     passive: false
+        // })
+        // var lastTouchEnd = 0;
+        // document.addEventListener('touchend', function (event) {
+        //     var now = (new Date()).getTime();
+        //     if (now - lastTouchEnd <= 300) {
+        //         event.preventDefault();
+        //     }
+        //     lastTouchEnd = now;
+        // }, {
+        //     passive: false
+        // })
 
-        document.addEventListener('touchmove', function (e) {
-            if (swiperStatus) {
-                e.preventDefault();
-            }
-        }, {
-            passive: false
-        })
+        // document.addEventListener('touchmove', function (e) {
+        //     if (swiperStatus) {
+        //         e.preventDefault();
+        //     }
+        // }, {
+        //     passive: false
+        // })
     </script>
     <script>
         function getQueryString(name) {
@@ -264,7 +264,7 @@
                     for (var i = 0; i < that.list.length - 1; i++) {
                         nearest = i;
                         for (var j = i + 1; j < that.list.length; j++) {
-                            if (that.list[i]['date'] > that.list[j]['date']) {
+                            if (that.list[nearest]['date'] > that.list[j]['date']) {
                                 nearest = j;
                             }
                         }
@@ -275,6 +275,7 @@
                         }
                     }
                     for (var i in that.list) {
+                        console.log(that.list[i]['date'])
                         if (that.list[i]['date'] < 60) that.list[i]['date'] = that.list[i]['date'] +
                             "秒前";
                         else {

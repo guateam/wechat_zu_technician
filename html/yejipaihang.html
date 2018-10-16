@@ -148,7 +148,7 @@
                     for (var i = 0; i < that.yejilist.length - 1; i++) {
                         highest = i;
                         for (var j = i + 1; j < that.yejilist.length; j++) {
-                            if (that.yejilist[i]['final_salary'] < that.yejilist[j]['final_salary']) {
+                            if (that.yejilist[highest]['final_salary'] < that.yejilist[j]['final_salary']) {
                                 highest = j;
                             }
                         }

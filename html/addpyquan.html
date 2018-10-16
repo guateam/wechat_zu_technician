@@ -123,6 +123,7 @@
                 <div class="demo-upload-list" v-for="item in uploadimg">
                     <img :src="item.url" @click="handleRemove(item.url)">
                 </div>
+                <br>
                 <upload type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :on-error="handleFail"
                     :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax" :before-upload="handleBeforeUpload"
                     :show-upload-list="false" multiple style="display: inline-block;width:50px;">
