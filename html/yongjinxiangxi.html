@@ -50,9 +50,17 @@
 <body style="background-color: #f2f2f2;font-size: 15px;">
     <div id="detail" style="height:100%">
         <div class="weui-flex" style="font-size: 15px">
-            <div class="weui-flex__item" style="flex: 0 0 100%;">
+            <div class="weui-flex__item" style="flex: 0 0 50%;">
                 <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{show_month}}</a>
+            </div>
+            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
+                    <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                        onfocus="this.blur();">本月</a>
+                    <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
+                        onfocus="this.blur();">本周</a>
+                    <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
+                        onfocus="this.blur();">上周</a>
             </div>
         </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
@@ -121,6 +129,23 @@
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 
 <script>
+    Date.prototype.Format = function (fmt) { //author: meizz   
+        var o = {
+            "M+": this.getMonth() + 1, //月份   
+            "d+": this.getDate(), //日   
+            "h+": this.getHours(), //小时   
+            "m+": this.getMinutes(), //分   
+            "s+": this.getSeconds(), //秒   
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+            "S": this.getMilliseconds() //毫秒   
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -133,9 +158,14 @@
         data: {
             list: [],
             display: [],
-            choosen: new Date().getMonth() + 1 + '月',
+            show_month: new Date().getMonth() + 1 + '月',
             show: true,
             opa: false,
+            choosen: [
+                "#FFFFFF",
+                "#FFFFFF",
+                "#FFFFFF",
+            ],
         },
         methods: {
             change_state(idx) {
@@ -202,7 +232,7 @@
                 }], {
                     defaultValue: [new Date().getMonth() + 1],
                     onConfirm: function (result) {
-                        that.choosen = result[0] + '月'
+                        that.show_month = result[0] + '月'
                         begin = new Date().getFullYear() + "-" + result[0] + "-01 00:00:00";
                         end = new Date().getFullYear() + "-" + result[0] + "-31 23:59:59";
                         that.get_data(begin, end);
@@ -210,10 +240,12 @@
                 });
             },
             get_data(begin, end) {
+                begin = Date.parse(begin);
+                end = Date.parse(end);
                 for (var i in this.list) {
                     for (var j in this.list[i]['order']) {
-                        this.list[i]['order'][j]
-                        if (begin < this.list[i]['order'][j]['time'] && this.list[i]['order'][j]['time'] < end) {
+                        ntime = Date.parse(this.list[i]['order'][j]['time']);
+                        if (begin < ntime && ntime < end) {
                             Vue.set(this.list[i]['order'][j], 'show', true);
                         } else {
                             Vue.set(this.list[i]['order'][j], 'show', false);

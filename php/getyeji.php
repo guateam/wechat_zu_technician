@@ -9,11 +9,13 @@ function get_yeji($job_number){
     $other_data = [];
     $lost = 0;
     if($so){
-        foreach($so as $svod){
+        foreach($so as $idx => $svod){
             $item=get("service_type","ID",$svod['item_id']);
+            $co = get('consumed_order','order_id',$svod['order_id']);
             $per = 0;
             if($self)$per =  $self[0]['persentage']/100;
             $lost+= ($item[0]['commission']/100)*$per;
+            $so[$idx] = array_merge($so[$idx],['earn'=>$item[0]['commission']/100,'show'=>true,'time'=>$co[0]['generated_time']]);
             $price+=$item[0]['commission']/100;
         }
     }
@@ -25,6 +27,7 @@ function get_yeji($job_number){
         }
     }
     return [
+        'order'=>$so,
         'job_number'=>$job_number,
         'clock_num'=>count($so),
         'status'=>1,

@@ -50,10 +50,18 @@
 
     <div id="detail" style="height:100%">
         <div class="weui-flex" style="font-size: 15px">
-            <div class="weui-flex__item" style="flex: 0 0 100%;">
+            <div class="weui-flex__item" style="flex: 0 0 50%;">
                 <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{show_month}}</a>
             </div>
+            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
+                    <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                        onfocus="this.blur();">本月</a>
+                    <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
+                        onfocus="this.blur();">本周</a>
+                    <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
+                        onfocus="this.blur();">上周</a>
+                </div>
         </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 100%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
@@ -103,6 +111,23 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script>
+    Date.prototype.Format = function (fmt) { //author: meizz   
+        var o = {
+            "M+": this.getMonth() + 1, //月份   
+            "d+": this.getDate(), //日   
+            "h+": this.getHours(), //小时   
+            "m+": this.getMinutes(), //分   
+            "s+": this.getSeconds(), //秒   
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+            "S": this.getMilliseconds() //毫秒   
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -115,19 +140,28 @@
             show: true,
             opa: false,
             list: [],
-            choosen: new Date().getMonth() + 1 + '月'
+            choosen: [
+                "#FFFFFF",
+                "#FFFFFF",
+                "#FFFFFF",
+            ],
+            show_month: new Date().getMonth() + 1 + '月'
         },
         methods: {
             sum: function () {
                 var total = 0;
                 for (i in this.list) {
-                    if(this.list[i]['show'])
+                    if (this.list[i]['show'])
                         total += this.list[i]['salary']
                 }
                 return total / 100;
             },
             choose_month() {
                 var that = this;
+                that.choosen[0] = "#FFFFFF"
+                that.choosen[1] = "#FFFFFF"
+                that.choosen[2] = "#FFFFFF"
+                Vue.set(that.choosen, 0, that.choosen[0])
                 weui.picker([{
                     label: '1月',
                     value: '01'
@@ -167,30 +201,66 @@
                 }], {
                     defaultValue: [new Date().getMonth() + 1],
                     onConfirm: function (result) {
-                        that.choosen = result[0]+'月'
+                        that.show_month = result[0] + '月'
                         begin = new Date().getFullYear() + "-" + result[0] + "-01 00:00:00";
                         end = new Date().getFullYear() + "-" + result[0] + "-31 23:59:59";
                         that.get_data(begin, end);
                     }
                 });
             },
-            get_data(begin,end){
-                for(var i in this.list){
-                    if(begin<this.list[i]['date'] && this.list[i]['date'] < end){
-                        Vue.set(this.list[i],'show',true);
-                    }else{
-                        Vue.set(this.list[i],'show',false);
+            get_data(begin, end) {
+                begin = Date.parse(begin);
+                end = Date.parse(end);
+                for (var i in this.list) {
+                    ntime = Date.parse(this.list[i]['date'])
+                    if (begin < ntime && ntime < end) {
+                        Vue.set(this.list[i], 'show', true);
+                    } else {
+                        Vue.set(this.list[i], 'show', false);
                         //this.list[i]['show'] = false;
                     }
                 }
             },
-            get_times(){
+            get_times() {
                 var count = 0;
-                for(var i in this.list){
-                    if(this.list[i]['show'])count++;
+                for (var i in this.list) {
+                    if (this.list[i]['show']) count++;
                 }
                 return count;
-            }
+            },
+            certaindate(mode) {
+                var that = this;
+                var date = (new Date()).Format("yyyy-MM-dd");
+                if (mode == 1) {
+                    that.choosen[0] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[2] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00";
+                    end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
+                } else if (mode == 2) {
+                    that.choosen[1] = "#6699CC"
+                    that.choosen[2] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    begin = (new Date(new Date().setDate(new Date().getDate() - 7))).Format("yyyy-MM-dd") +
+                        " 00:00:00";
+                    end = (new Date()).Format("yyyy-MM-dd") + " 23:59:59";
+
+                } else if (mode == 3) {
+                    that.choosen[2] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    var day = new Date().getDay || 7;
+                    begin = (new Date(new Date().setDate(new Date().getDate() - (day - 1)))).Format(
+                        "yyyy-MM-dd") + " 00:00:00"
+                    end = (new Date()).Format("yyyy-MM-dd") + " 23:59:59";
+
+                }
+                that.show_month = "";
+                that.get_data(begin, end);
+            },
         },
         created() {
             var that = this;
@@ -204,9 +274,9 @@
                         that.list.push(data);
                     }
                 }
-                begin = new Date().getFullYear() + "-" +(new Date().getMonth()+1 )+ "-01 00:00:00";
-                end = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-31 23:59:59";
-                that.get_data(begin,end);
+                begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00";
+                end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
+                that.get_data(begin, end);
                 that.show = false;
                 that.opa = true;
             })
