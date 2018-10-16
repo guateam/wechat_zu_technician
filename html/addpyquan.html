@@ -176,6 +176,7 @@
                 swal({
                     text: "正在发布...",
                     showConfirmButton: false,
+                    width:200,
                     onOpen: () => {
                         swal.showLoading()
                     }
@@ -241,7 +242,7 @@
             },
             handleBeforeUpload(file) {
                 swal({
-                    text: "正在上传，请稍候" + file.name,
+                    text: "正在上传，请稍候",
                     width: 200,
                     onOpen: () => {
                         swal.showLoading();

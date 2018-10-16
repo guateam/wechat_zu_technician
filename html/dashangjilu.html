@@ -47,12 +47,19 @@
 </head>
 
 <body style="background-color: #f2f2f2;font-size: 15px;">
+
     <div id="detail" style="height:100%">
+        <div class="weui-flex" style="font-size: 15px">
+            <div class="weui-flex__item" style="flex: 0 0 100%;">
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+            </div>
+        </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 100%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">本月被打赏次数</h3>
-                    <span v-text="list.length" style="color: white;font-size: 15px"></span>
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">被打赏次数</h3>
+                    <span v-text="get_times()" style="color: white;font-size: 15px"></span>
                 </div>
                 <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总金额（元）</h3>
@@ -62,12 +69,11 @@
         </div>
 
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
-            <div class="weui-panel__hd">详情记录</div>
 
-
-            <div v-for="it in list" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+            <div v-for="it in list" v-show="it['show']" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                     <div class="weui-media-box__bd" style="">
+                        <p v-text="'打赏人 '+it['user_id']"></p>
                         <h4 v-text="it['date']" class="weui-media-box__title" style="color: #cc99cc"></h4>
                     </div>
                     <div class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;float: right;">
@@ -108,30 +114,99 @@
         data: {
             show: true,
             opa: false,
-            list:[],
-
+            list: [],
+            choosen: new Date().getMonth() + 1 + '月'
         },
-        methods:{
-            sum:function(){
+        methods: {
+            sum: function () {
                 var total = 0;
-                for(i in this.list){
-                    total+=this.list[i]['salary']
+                for (i in this.list) {
+                    if(this.list[i]['show'])
+                        total += this.list[i]['salary']
                 }
-                return total/100;
+                return total / 100;
+            },
+            choose_month() {
+                var that = this;
+                weui.picker([{
+                    label: '1月',
+                    value: '01'
+                }, {
+                    label: '2月',
+                    value: '02'
+                }, {
+                    label: '3月',
+                    value: '03'
+                }, {
+                    label: '4月',
+                    value: '04'
+                }, {
+                    label: '5月',
+                    value: '05'
+                }, {
+                    label: '6月',
+                    value: '06'
+                }, {
+                    label: '7月',
+                    value: '07'
+                }, {
+                    label: '8月',
+                    value: '08'
+                }, {
+                    label: '9月',
+                    value: '09'
+                }, {
+                    label: '10月',
+                    value: '10'
+                }, {
+                    label: '11月',
+                    value: '11'
+                }, {
+                    label: '12月',
+                    value: '12'
+                }], {
+                    defaultValue: [new Date().getMonth() + 1],
+                    onConfirm: function (result) {
+                        that.choosen = result[0]+'月'
+                        begin = new Date().getFullYear() + "-" + result[0] + "-01 00:00:00";
+                        end = new Date().getFullYear() + "-" + result[0] + "-31 23:59:59";
+                        that.get_data(begin, end);
+                    }
+                });
+            },
+            get_data(begin,end){
+                for(var i in this.list){
+                    if(begin<this.list[i]['date'] && this.list[i]['date'] < end){
+                        Vue.set(this.list[i],'show',true);
+                    }else{
+                        Vue.set(this.list[i],'show',false);
+                        //this.list[i]['show'] = false;
+                    }
+                }
+            },
+            get_times(){
+                var count = 0;
+                for(var i in this.list){
+                    if(this.list[i]['show'])count++;
+                }
+                return count;
             }
         },
         created() {
             var that = this;
             $.post("../php/gettip.php", {
-                job_number:getQueryString('id')
-            }).done((res)=>{
+                job_number: getQueryString('id')
+            }).done((res) => {
                 res = JSON.parse(res);
-                if(res.status == 1){
-                    for(var i=0;i<res.data.length;i++){
+                if (res.status == 1) {
+                    for (var i = 0; i < res.data.length; i++) {
                         var data = res.data[i];
                         that.list.push(data);
                     }
                 }
+                begin = new Date().getFullYear() + "-" +(new Date().getMonth()+1 )+ "-01 00:00:00";
+                end = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-31 23:59:59";
+                that.get_data(begin,end);
                 that.show = false;
                 that.opa = true;
             })

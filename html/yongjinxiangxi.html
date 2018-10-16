@@ -49,50 +49,53 @@
 
 <body style="background-color: #f2f2f2;font-size: 15px;">
     <div id="detail" style="height:100%">
-
+        <div class="weui-flex" style="font-size: 15px">
+            <div class="weui-flex__item" style="flex: 0 0 100%;">
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+            </div>
+        </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 100%;height:70%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总计推荐人数</h3>
-                    <span style="color: white;font-size: 15px" v-text="list[0]['technicians'].length"></span>
+                    <span style="color: white;font-size: 15px" v-text="count()"></span>
                 </div>
                 <div class="item weui-flex__item" style="margin-left: 10px">
                     <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">所获提成（元）</h3>
-                    <span style="color: white;font-size: 15px" v-text="'￥'+list[0]['come_from_other']"></span>
-                </div>
-                <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总钟数（次）</h3>
-                    <span style="color: white;font-size: 15px" v-text="list[0]['clock_num']"></span>
+                    <span style="color: white;font-size: 15px" v-text="'￥'+sum()"></span>
                 </div>
             </div>
         </div>
         <!--推荐的第一个人-->
-        <div v-for="(item,idx) in list[0]['technicians']" class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
+        <div v-for="(item,idx) in list" class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="display-block" style="border-bottom: 1px solid #f2f2f2;">
                 <a href="javascript:void(0);" @click="change_state(idx)" class="weui-media-box weui-media-box_appmsg ">
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title" style="font-size: 14px" v-text="item['job_number']"></h4>
                     </div>
                     <div class="weui-media-box__bd" style="float: right;text-align: right">
-                        <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+item['lost']"></h4>
+                        <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+lost(idx)"></h4>
                     </div>
                 </a>
                 <div v-if="display[idx]" class="weui-panel__bd " style="display: block;background-color: #f2f2f2;">
-                    <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
-
-                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">赚得</h4>
-                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="'  ￥'+item['final_salary']"></p>
-                        </div>
-                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">您获得</h4>
-                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0"
-                                v-text="'  ￥'+item['lost']"></p>
-                        </div>
-                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">接单数量</h4>
-                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;" v-text="item['clock_num']"></p>
-                        </div>
+                    <div v-for="od in item['order']" v-if="od['show']">
+                        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
+                            <div v-if="od.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
+                                <span>排钟</span>
+                            </div>
+                            <div v-if="od.clock_type==2" class="weui-media-box__hd" style="border-radius: 50%;background-color: #9fc5e8;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
+                                <span>点钟</span>
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h4 class="weui-media-box__title" style="font-size: 14px" v-text="od.item_id"></h4>
+                                <p class="weui-media-box__desc" v-text="'房号：'+od.private_room_number"></p>
+                            </div>
+                            <div class="weui-media-box__bd" style="float: right;text-align: right">
+                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['earn']*item['per']/100"></h4>
+                                <p class="weui-media-box__desc" v-text="od.time "></p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -128,11 +131,9 @@
     let app = new Vue({
         el: '#detail',
         data: {
-            list: [{
-                'technicians': 0
-            }],
+            list: [],
             display: [],
-
+            choosen: new Date().getMonth() + 1 + '月',
             show: true,
             opa: false,
         },
@@ -140,14 +141,94 @@
             change_state(idx) {
                 Vue.set(this.display, idx, !this.display[idx]);
             },
+            sum() {
+                count = 0;
+                for (var i in this.list) {
+                    for(var j in this.list[i]['order'])
+                    if(this.list[i]['order'][j]['show'])
+                        count += (this.list[i]['order'][j]['earn']*this.list[i]['per']/100);
+                }
+                return count;
+            },
+            lost(idx){
+                count = 0;
+                for (var i in this.list[idx]['order']) {
+                    if(this.list[idx]['order'][i]['show'])
+                        count += (this.list[idx]['order'][i]['earn']*this.list[idx]['per']/100);
+                }
+                return count;
+            },
+            count() {
+                return this.list.length;
+            },
+            choose_month() {
+                var that = this;
+                weui.picker([{
+                    label: '1月',
+                    value: '01'
+                }, {
+                    label: '2月',
+                    value: '02'
+                }, {
+                    label: '3月',
+                    value: '03'
+                }, {
+                    label: '4月',
+                    value: '04'
+                }, {
+                    label: '5月',
+                    value: '05'
+                }, {
+                    label: '6月',
+                    value: '06'
+                }, {
+                    label: '7月',
+                    value: '07'
+                }, {
+                    label: '8月',
+                    value: '08'
+                }, {
+                    label: '9月',
+                    value: '09'
+                }, {
+                    label: '10月',
+                    value: '10'
+                }, {
+                    label: '11月',
+                    value: '11'
+                }, {
+                    label: '12月',
+                    value: '12'
+                }], {
+                    defaultValue: [new Date().getMonth() + 1],
+                    onConfirm: function (result) {
+                        that.choosen = result[0] + '月'
+                        begin = new Date().getFullYear() + "-" + result[0] + "-01 00:00:00";
+                        end = new Date().getFullYear() + "-" + result[0] + "-31 23:59:59";
+                        that.get_data(begin, end);
+                    }
+                });
+            },
+            get_data(begin, end) {
+                for (var i in this.list) {
+                    for (var j in this.list[i]['order']) {
+                        this.list[i]['order'][j]
+                        if (begin < this.list[i]['order'][j]['time'] && this.list[i]['order'][j]['time'] < end) {
+                            Vue.set(this.list[i]['order'][j], 'show', true);
+                        } else {
+                            Vue.set(this.list[i]['order'][j], 'show', false);
+                            //this.list[i]['show'] = false;
+                        }
+                    }
 
+                }
+            },
 
         },
         created() {
             var that = this;
-            that.list = [];
-            $.post('../php/getyeji.php', {
-                job_number: [getQueryString('id')]
+            $.post('../php/getyongjing.php', {
+                job_number: getQueryString('id')
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
@@ -156,6 +237,10 @@
                         that.display.push(false);
                     }
                 }
+                begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00";
+                end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
+                that.get_data(begin, end);
+
                 that.show = false;
                 that.opa = true;
             })

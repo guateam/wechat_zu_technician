@@ -11,7 +11,7 @@
 
     <style>
         #modal-overlay {
-            position: absolute;
+            position: fixed;
             /* 使用绝对定位或固定定位  */
             left: 0px;
             top: 0px;
@@ -148,6 +148,7 @@
     $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) {
         ip = JSON.stringify(data, null, 2);
         ip = JSON.parse(ip)
+        console.log(ip)
     });
     overlay();
 
