@@ -10,12 +10,12 @@
     <style>
         .demo-upload-list{
             display: inline-block;
-            width: 60px;
-            height: 60px;
+            width: 120px;
+            height: 120px;
             text-align: center;
-            line-height: 60px;
+            line-height: 120px;
             border: 1px solid transparent;
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             background: #fff;
             position: relative;
@@ -96,16 +96,13 @@
 
 <body>
     <div id="app">
-        <!--顶部按钮-->
         <row style="width: 100%;padding-top: 7px;font-size: 16px">
-            <!--这里返回上一页貌似没用emm-->
             <span style="margin-left: 15px"><a href="javascript:history.go(-1)">取消</a></span>
             <span @click="create_pyq()" style="float: right;margin-right: 15px;color: #409eff">发表</span>
         </row>
-        <!--输入框-->
         <row>
             <div style="margin-top: 10px">
-                <textarea v-model="content" placeholder="Enter something..." :rows="11" style="width: 100%;font-size: 1.2em;border-left: none;border-right: none;padding-top: 10px"></textarea>
+                <textarea v-model="content" placeholder="这一刻的想法..." :rows="6" style="width: 100%;font-size: 1.2em;border: none;padding-top: 10px;padding-left: 2em;"></textarea>
             </div>
             <row>
                 <!-- <div class="demo-upload-list" v-for="item in uploadList">
@@ -126,9 +123,9 @@
                 <br>
                 <upload type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :on-error="handleFail"
                     :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax" :before-upload="handleBeforeUpload"
-                    :show-upload-list="false" multiple style="display: inline-block;width:50px;">
-                    <div style="width: 50px; height:50px; line-height: 50px">
-                        <p style="font-size: 20px">+</p>
+                    :show-upload-list="false" multiple style="display: inline-block;width:100px;margin-left: 20px">
+                    <div style="width: 100px; height:100px; line-height: 50px;">
+                        <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
                 </upload>
             </row>

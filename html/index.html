@@ -7,6 +7,7 @@
     <title>登录</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
     <style>
         #modal-overlay {
              position: fixed;   /* 使用绝对定位或固定定位  */
@@ -42,9 +43,12 @@
                 <div class="weui-cell" style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:15%;border: none">
                     <div class="weui-cell__hd"><label class="weui-label"></label></div>
                     <div class="weui-cell__bd">
-                        <select id="shop" placeholder="店名" >
-                            <option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>
-                        </select>
+                        <!--<select id="shop" placeholder="店名" >-->
+                            <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
+                        <!--</select>-->
+                        <i-select v-model="model1" id="shop" placeholder="请选择店铺">
+                            <i-option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></i-option>
+                        </i-select>
                     </div>
                 </div>
                 <div class="weui-cell weui-cell_vcode" style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:15%;border: none">
@@ -81,7 +85,8 @@
     </div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
-<script type="text/javascript" src="../js/vue.js"></script>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
 <script type="text/javascript" src="../js/example.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
