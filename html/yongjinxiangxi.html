@@ -55,12 +55,12 @@
                         src="../src/日历.png" style="float: left;margin: 10px auto">{{show_month}}</a>
             </div>
             <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
-                    <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
-                        onfocus="this.blur();">本月</a>
-                    <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
-                        onfocus="this.blur();">本周</a>
-                    <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
-                        onfocus="this.blur();">上周</a>
+                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                    onfocus="this.blur();">本月</a>
+                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
+                    onfocus="this.blur();">本周</a>
+                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
+                    onfocus="this.blur();">上周</a>
             </div>
         </div>
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
@@ -100,7 +100,7 @@
                                 <p class="weui-media-box__desc" v-text="'房号：'+od.private_room_number"></p>
                             </div>
                             <div class="weui-media-box__bd" style="float: right;text-align: right">
-                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['earn']*item['per']/100"></h4>
+                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['earn']"></h4>
                                 <p class="weui-media-box__desc" v-text="od.time "></p>
                             </div>
                         </a>
@@ -146,6 +146,7 @@
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
     }
+
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -158,6 +159,7 @@
         data: {
             list: [],
             display: [],
+            total_earn: 0,
             show_month: new Date().getMonth() + 1 + '月',
             show: true,
             opa: false,
@@ -172,27 +174,58 @@
                 Vue.set(this.display, idx, !this.display[idx]);
             },
             sum() {
-                count = 0;
-                for (var i in this.list) {
-                    for(var j in this.list[i]['order'])
-                    if(this.list[i]['order'][j]['show'])
-                        count += (this.list[i]['order'][j]['earn']*this.list[i]['per']/100);
-                }
-                return count;
+                return this.total_earn;
             },
-            lost(idx){
-                count = 0;
-                for (var i in this.list[idx]['order']) {
-                    if(this.list[idx]['order'][i]['show'])
-                        count += (this.list[idx]['order'][i]['earn']*this.list[idx]['per']/100);
-                }
-                return count;
+            lost(idx) {
+                // count = 0;
+                // for (var i in this.list[idx]['order']) {
+                //     if(this.list[idx]['order'][i]['show'])
+                //         count += (this.list[idx]['order'][i]['earn']*this.list[idx]['per']/100);
+                // }
+                return this.list[idx]['earn'];
             },
             count() {
                 return this.list.length;
             },
+            certaindate(mode) {
+                var that = this;
+                var date = (new Date()).Format("yyyy-MM-dd");
+                if (mode == 1) {
+                    that.choosen[0] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[2] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00";
+                    end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
+                } else if (mode == 2) {
+                    that.choosen[1] = "#6699CC"
+                    that.choosen[2] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    begin = (new Date(new Date().setDate(new Date().getDate() - 7))).Format("yyyy-MM-dd") +
+                        " 00:00:00";
+                    end = (new Date()).Format("yyyy-MM-dd") + " 23:59:59";
+
+                } else if (mode == 3) {
+                    that.choosen[2] = "#6699CC"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
+                    Vue.set(that.choosen, 0, that.choosen[0])
+                    var day = new Date().getDay || 7;
+                    begin = (new Date(new Date().setDate(new Date().getDate() - (day - 1)))).Format(
+                        "yyyy-MM-dd") + " 00:00:00"
+                    end = (new Date()).Format("yyyy-MM-dd") + " 23:59:59";
+
+                }
+                //that.show_month = "";
+                that.get_data(begin, end);
+            },
             choose_month() {
                 var that = this;
+                that.choosen[0] = "#FFFFFF"
+                that.choosen[1] = "#FFFFFF"
+                that.choosen[2] = "#FFFFFF"
+                Vue.set(that.choosen, 0, that.choosen[0])
                 weui.picker([{
                     label: '1月',
                     value: '01'
@@ -240,27 +273,33 @@
                 });
             },
             get_data(begin, end) {
-                begin = Date.parse(begin);
-                end = Date.parse(end);
-                for (var i in this.list) {
-                    for (var j in this.list[i]['order']) {
-                        ntime = Date.parse(this.list[i]['order'][j]['time']);
-                        if (begin < ntime && ntime < end) {
-                            Vue.set(this.list[i]['order'][j], 'show', true);
-                        } else {
-                            Vue.set(this.list[i]['order'][j], 'show', false);
-                            //this.list[i]['show'] = false;
+                var that = this;
+                that.show = true;
+                $.post('../php/getyongjing.php', {
+                    job_number: getQueryString('id'),
+                    begin:begin,
+                    end:end,
+                }).done((res) => {
+                    that.list = [];
+                    that.display = [];
+                    res = JSON.parse(res);
+                    if (res.status == 1) {
+                        for (var i in res.data) {
+                            that.list.push(res.data[i])
+                            that.display.push(false);
                         }
                     }
-
-                }
+                    that.show = false;
+                })
             },
 
         },
         created() {
             var that = this;
             $.post('../php/getyongjing.php', {
-                job_number: getQueryString('id')
+                job_number: getQueryString('id'),
+                begin:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
+                end:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
@@ -269,9 +308,6 @@
                         that.display.push(false);
                     }
                 }
-                begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00";
-                end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
-                that.get_data(begin, end);
 
                 that.show = false;
                 that.opa = true;

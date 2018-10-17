@@ -210,28 +210,21 @@
                     end = (new Date()).Format("yyyy-MM-dd") + " 23:59:59";
 
                 }
-                that.show_month = "";
+                //that.show_month = "";
                 that.get_data(begin, end);
             },
             sum(idx) {
-                var total = 0;
-                for (var i in this.yejilist[idx]['order']) {
-                    if (this.yejilist[idx]['order'][i]['show'])
-                        total += this.yejilist[idx]['order'][i]['earn']
-                }
-                return total;
+
+                return this.yejilist[idx]['earn'];
             },
             my_final_salary() {
                 var total = 0;
                 for (i in this.yejilist) {
                     if (this.self_job_number == this.yejilist[i]['job_number']) {
-                        for (var j in this.yejilist[i]['order']) {
-                            if (this.yejilist[i]['order'][j]['show'])
-                                total += this.yejilist[i]['order'][j]['earn']
-                        }
+                        return this.yejilist[i]['earn'];
                     }
                 }
-                return total;
+
             },
             choose_month() {
                 var that = this;
@@ -239,7 +232,7 @@
                 that.choosen[1] = "#FFFFFF"
                 that.choosen[2] = "#FFFFFF"
                 Vue.set(that.choosen, 0, that.choosen[0])
-                
+
                 weui.picker([{
                     label: '1月',
                     value: '01'
@@ -287,65 +280,57 @@
                 });
             },
             get_data(begin, end) {
-                begin = Date.parse(begin);
-                end = Date.parse(end);
-                for (var i in this.yejilist) {
-                    for (var j in this.yejilist[i]['order']) {
-                        var ntime = Date.parse(this.yejilist[i]['order'][j]['time'])
-                        if (begin < ntime && ntime < end) {
-                            Vue.set(this.yejilist[i]['order'][j], 'show', true);
-                        } else {
-                            Vue.set(this.yejilist[i]['order'][j], 'show', false);
-                            //this.list[i]['show'] = false;
+                var that = this;
+                that.show = true;
+                $.post("../php/getyeji.php", {
+                    begin: begin,
+                    end: end,
+                }).done((res) => {
+                    res = JSON.parse(res);
+                    if (res.status == 1) {
+                        that.yejilist = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            that.yejilist.push(res.data[i])
                         }
-                    }
 
-                }
-                for (var i = 0; i < this.yejilist.length - 1; i++) {
-                    highest = i;
-                    for (var j = i + 1; j < this.yejilist.length; j++) {
-                        if (this.sum(highest) < this.sum(j)) {
-                            highest = j;
-                        }
+                        that.self_job_number = getQueryString('id');
+                        that.show = false;
                     }
-                    if (highest != i) {
-                        var tp = this.yejilist[i];
-                        this.yejilist[i] = this.yejilist[highest];
-                        this.yejilist[highest] = tp;
-                        Vue.set(this.yejilist, highest, this.yejilist[highest]);
-                    }
-                }
+                })
             },
         },
         created() {
             var that = this;
-            $.post("../php/getyeji.php").done((res) => {
+            $.post("../php/getyeji.php", {
+                begin: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
+                end: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
+            }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
                     for (var i = 0; i < res.data.length; i++) {
                         that.yejilist.push(res.data[i])
                     }
-                    for (var i = 0; i < this.yejilist.length - 1; i++) {
-                        highest = i;
-                        for (var j = i + 1; j < this.yejilist.length; j++) {
-                            if (this.sum(highest) < this.sum(j)) {
-                                highest = j;
-                            }
-                        }
-                        if (highest != i) {
-                            var tp = this.yejilist[i];
-                            this.yejilist[i] = this.yejilist[highest];
-                            this.yejilist[highest] = tp;
-                            Vue.set(this.yejilist, highest, this.yejilist[highest]);
-                        }
-                    }
+                    // for (var i = 0; i < this.yejilist.length - 1; i++) {
+                    //     highest = i;
+                    //     for (var j = i + 1; j < this.yejilist.length; j++) {
+                    //         if (this.sum(highest) < this.sum(j)) {
+                    //             highest = j;
+                    //         }
+                    //     }
+                    //     if (highest != i) {
+                    //         var tp = this.yejilist[i];
+                    //         this.yejilist[i] = this.yejilist[highest];
+                    //         this.yejilist[highest] = tp;
+                    //         Vue.set(this.yejilist, highest, this.yejilist[highest]);
+                    //     }
+                    // }
                     that.self_job_number = getQueryString('id');
 
 
-                    begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) +
-                        "-01 00:00:00";
-                    end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
-                    that.get_data(begin, end);
+                    // begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) +
+                    //     "-01 00:00:00";
+                    // end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
+                    // that.get_data(begin, end);
 
 
                     that.show = false;

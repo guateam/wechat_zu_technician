@@ -1,5 +1,8 @@
 <?php
 require("database.php");
+
+
+
 function get_yeji($job_number){
     $so = get("service_order","job_number",$job_number);
     $invited = get("inviteship",'inviter_job_number',$job_number);
@@ -10,13 +13,25 @@ function get_yeji($job_number){
     $lost = 0;
     if($so){
         foreach($so as $idx => $svod){
-            $item=get("service_type","ID",$svod['item_id']);
             $co = get('consumed_order','order_id',$svod['order_id']);
-            $per = 0;
-            if($self)$per =  $self[0]['persentage']/100;
-            $lost+= ($item[0]['commission']/100)*$per;
-            $so[$idx] = array_merge($so[$idx],['earn'=>$item[0]['commission']/100,'show'=>true,'time'=>$co[0]['generated_time']]);
-            $price+=$item[0]['commission']/100;
+            $begin = null;
+            $end = null;
+            if(isset($_POST['begin']))$begin = $_POST['begin'];
+            if(isset($_POST['end']))$end = $_POST['end'];
+            if(!is_null($begin) && !is_null($end)){
+                $begin = strtotime($begin);
+                $end = strtotime($end);
+                $ntime = strtotime($co[0]['generated_time']);
+                if($begin<$ntime && $ntime < $end){
+                    $item=get("service_type","ID",$svod['item_id']);
+                    $per = 0;
+                    if($self)$per =  $self[0]['persentage']/100;
+                    $lost+= ($item[0]['commission']/100)*$per;
+                    //$so[$idx] = array_merge($so[$idx],['earn'=>$item[0]['commission']/100,'show'=>true,'time'=>$co[0]['generated_time']]);
+                    $price+=$item[0]['commission']/100;
+                }
+            }
+            
         }
     }
     if($invited){
@@ -27,7 +42,7 @@ function get_yeji($job_number){
         }
     }
     return [
-        'order'=>$so,
+        //'order'=>$so,
         'job_number'=>$job_number,
         'clock_num'=>count($so),
         'status'=>1,
@@ -35,7 +50,7 @@ function get_yeji($job_number){
         'come_from_other'=>$come_frome_other,
         'lost'=>$lost,
         'final_salary'=>$price+$come_frome_other-$lost,
-        'technicians'=>$other_data,
+        //'technicians'=>$other_data,
         ];
 }
 function get_all_yeji(){
@@ -43,6 +58,19 @@ function get_all_yeji(){
     $result = [];
     foreach($techs as $tech){
         array_push($result,get_yeji($tech['job_number']));
+    }
+    for($i = 0;$i<count($result)-1;$i++){
+        $largest = $i;
+        for($j = $i+1;$j<count($result);$j++){
+            if($result[$largest]['earn'] <$result[$j]['earn']){
+                $largest = $j;
+            }
+        }
+        if($largest != $i){
+            $tp = $result[$largest];
+            $result[$largest] = $result[$i];
+            $result[$i] = $tp;
+        }
     }
     return $result;
 }
