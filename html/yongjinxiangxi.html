@@ -286,6 +286,7 @@
                     if (res.status == 1) {
                         for (var i in res.data) {
                             that.list.push(res.data[i])
+                            that.total_earn = res.total_earn;
                             that.display.push(false);
                         }
                     }
@@ -305,6 +306,7 @@
                 if (res.status == 1) {
                     for (var i in res.data) {
                         that.list.push(res.data[i])
+                        that.total_earn = res.total_earn;
                         that.display.push(false);
                     }
                 }
