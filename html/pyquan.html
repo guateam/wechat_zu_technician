@@ -100,7 +100,7 @@
                             <div class="po-hd">
                                 <p class="post" v-text="item['content']"></p>
                                 <div>
-                                    <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px" v-for="(img,imgidx) in item['img']"
+                                    <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px;margin-right:5px" v-for="(img,imgidx) in item['img']"
                                         :src="img" v-if="img != ''">
                                 </div>
                                 <p class="time" v-text="item['date']"></p>

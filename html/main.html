@@ -260,6 +260,11 @@
         }).done((data) => {
             data = JSON.parse(data)
             if (data.status == 1) {
+                swal({
+                    type:"success",
+                    text:"成功签到！",
+                    width:200
+                });
                 console.log("开启计时器")
                 interval_id = setInterval(() => {
                     console.log("计时器检测")
@@ -269,16 +274,24 @@
                         interval: true,
                     })
                 }, 60000)
-                swal('成功', '已成功签到！', 'success');
+                
                 $('#checkin').hide()
                 $('#checkout').show()
 
             } else if (data.status == -1) {
-                swal('失败', '你已经签到过了！', 'error')
+                swal({
+                    type:"error",
+                    text:"已经签到过了！",
+                    width:200
+                })
                 $('#checkin').hide()
                 $('#checkout').show()
             } else {
-                swal('失败', '签到失败！', 'error')
+                swal({
+                    type:"error",
+                    text:"签到失败！",
+                    width:200
+                })
             }
         })
     }
@@ -291,16 +304,28 @@
         }).done((data) => {
             data = JSON.parse(data)
             if (data.status == 1) {
-                swal('成功', '已成功签退！', 'success')
+                swal({
+                    type:"success",
+                    text:"成功签退！",
+                    width:200
+                })
                 $('#checkout').hide()
                 $('#checkin').show()
                 clearInterval(interval_id);
             } else if (data.status == -1) {
-                swal('失败', '你已经签退过了！', 'error')
+                swal({
+                    type:"error",
+                    text:"已经签退过了！",
+                    width:200
+                })
                 $('#checkout').hide()
                 $('#checkin').show()
             } else {
-                swal('失败', '签退失败！', 'error')
+                swal({
+                    type:"error",
+                    text:"签退失败！",
+                    width:200
+                })
             }
         })
     }
