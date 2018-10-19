@@ -9,8 +9,10 @@ $end = $_POST['end'];
 $newcome = get("inviteship",'inviter_job_number',$inviter_job_number);
 $count = 0;
 $bonus = 0;
-if($newcome){
-    foreach($newcome as $new){
+if($newcome)
+{
+    foreach($newcome as $new)
+	{
         $count++;
         $nb = $new['freshman_job_number'];
 
@@ -25,13 +27,17 @@ if($newcome){
         $ticheng = 0;
         //业绩
         $yeji = 0;
-        foreach($service_order as $so){
+        foreach($service_order as $so)
+		{
             $one_consumed_order = get("consumed_order","order_id",$so['order_id']);
             $time = $one_consumed_order[0]['generated_time'];
             $time = substr($time,0,10);
-            if($so['service_type']==1 && ($time >= $begin && $time <= $end) ){
-                foreach($service_type as $tp){
-                    if($tp['ID']== $so['item_id']){
+            if($so['service_type']==1 && ($time >= $begin && $time <= $end) )
+			{
+                foreach($service_type as $tp)
+				{
+                    if($tp['ID']== $so['item_id'])
+					{
                         $so['price']=$tp['price']*$tp['discount']/100.0;
                         $so['price']/=100;
                         $ticheng+=$tp['commission']/100;

@@ -14,7 +14,8 @@ $dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','
         'v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
         'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
 $rnd_str = "";
-for($i = 0;$i<7;$i++){
+for($i = 0;$i<7;$i++)
+{
     $idx = rand(0,count($dict));
     $rnd_str.=$dict[$idx];    
 }
@@ -24,7 +25,8 @@ if ((
     ||  ($_FILES["file"]["type"] == "image/jpg")
     || ($_FILES["file"]["type"] == "image/x-png")
 || ($_FILES["file"]["type"] == "image/png"))   
-){
+)
+{
     if ($_FILES["file"]["error"] > 0)
     {
         echo "错误：" . $_FILES["file"]["error"] . "<br>";

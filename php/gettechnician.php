@@ -1,13 +1,16 @@
 <?php
-
-
-function gettechnician($id){
+function gettechnician($id)
+{
     $technician=get('technician','job_number',$id);
     $shop = get("shop");
-    if($technician){
+    if($technician)
+	{
         return ['status'=>1,'name'=>$technician[0]['name'],'shop'=>$shop[0]['name']];
-    }else{
+    }
+	else
+	{
         return ['status'=>0];
     }
     
 }
+?>

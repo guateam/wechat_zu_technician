@@ -1,9 +1,8 @@
 <?php
 require("database.php");
 
-
-
-function get_yeji($job_number){
+function get_yeji($job_number)
+{
     $so = get("service_order","job_number",$job_number);
     $invited = get("inviteship",'inviter_job_number',$job_number);
     $self = get("inviteship",'freshman_job_number',$job_number);
@@ -11,8 +10,10 @@ function get_yeji($job_number){
     $come_frome_other = 0;
     $other_data = [];
     $lost = 0;
-    if($so){
-        foreach($so as $idx => $svod){
+    if($so)
+	{
+        foreach($so as $idx => $svod)
+		{
             $co = get('consumed_order','order_id',$svod['order_id']);
             $begin = null;
             $end = null;
@@ -30,12 +31,13 @@ function get_yeji($job_number){
                     //$so[$idx] = array_merge($so[$idx],['earn'=>$item[0]['commission']/100,'show'=>true,'time'=>$co[0]['generated_time']]);
                     $price+=$item[0]['commission']/100;
                 }
-            }
-            
+            }            
         }
     }
-    if($invited){
-        foreach($invited as $inv){
+    if($invited)
+	{
+        foreach($invited as $inv)
+		{
             $data =get_yeji($inv['freshman_job_number']);
             $come_frome_other += $data['lost'];
             array_push($other_data,$data);
@@ -53,20 +55,27 @@ function get_yeji($job_number){
         //'technicians'=>$other_data,
         ];
 }
-function get_all_yeji(){
+
+function get_all_yeji()
+{
     $techs = get("technician");
     $result = [];
-    foreach($techs as $tech){
+    foreach($techs as $tech)
+	{
         array_push($result,get_yeji($tech['job_number']));
     }
-    for($i = 0;$i<count($result)-1;$i++){
+    for($i = 0;$i<count($result)-1;$i++)
+	{
         $largest = $i;
-        for($j = $i+1;$j<count($result);$j++){
-            if($result[$largest]['earn'] <$result[$j]['earn']){
+        for($j = $i+1;$j<count($result);$j++)
+		{
+            if($result[$largest]['earn'] <$result[$j]['earn'])
+			{
                 $largest = $j;
             }
         }
-        if($largest != $i){
+        if($largest != $i)
+		{
             $tp = $result[$largest];
             $result[$largest] = $result[$i];
             $result[$i] = $tp;
@@ -74,13 +83,20 @@ function get_all_yeji(){
     }
     return $result;
 }
-if(!isset($_POST['job_number'])){
+
+if(!isset($_POST['job_number']))
+{
     echo  json_encode(['status'=>1,'data'=>get_all_yeji()]);
-}else{
+}
+else
+{
     $job_numbers = $_POST['job_number'];
     $result = [];
-    foreach($job_numbers as $job_number){
+    foreach($job_numbers as $job_number)
+	{
         array_push($result,get_yeji($job_number));
     }
     echo json_encode(['status'=>1,'data'=>$result]);
 }
+
+?>
