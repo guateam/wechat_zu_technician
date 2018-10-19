@@ -128,6 +128,39 @@
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
                 </upload>
+
+
+
+
+
+
+
+
+
+                <!--新加的上传，Test-->
+
+
+                <upload ref="upload" :data="{'id':tech}" :on-success="after_vcr"
+                        :format="['mp4']" show-upload-list="flase"
+                        :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"
+                        type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
+                    <div style="width: 100px; height:100px; line-height: 50px;">
+                        <p style="font-size: 40px;line-height: 100px;">+</p>
+                    </div>
+                </upload>
+
+
+
+                <!--End-->
+
+
+
+
+
+
+
+
+
             </row>
         </row>
 
@@ -270,29 +303,110 @@
                     }
                 })
             },
-            // beforeUpload(file) {
-            //     // var that = this;
-            //     // var max_count = 5;
-            //     // var check = this.uploadimg.length;
-            //     // this.uploadList.push([]);
 
-            //     // for (var i = 0; i < 2000; i++) {
-            //     // }
-            //     // ;
-            //     // var lth = this.uploadList.length;
-            //     // console.log(lth);
-            //     // var input = (check + this.uploadList.length) > max_count;
 
-            //     // if (input) {
-            //     //     this.$Notice.warning({
-            //     //         title: '最多只能上传5张图片'
-            //     //     });
-            //     //     this.uploadList.pop();
-            //     // }
-            //     // return check + lth <= 5;
-            //     return true;
-            // },
+
+
+
+            // 新加的一些methods
+
+
+
+
+            beforeUpload(file) {
+                var that = this;
+                var max_count = 5;
+                var check = this.uploadimg.length;
+                this.uploadList.push([]);
+
+                for (var i = 0; i < 2000; i++) {
+                }
+                ;
+                var lth = this.uploadList.length;
+                console.log(lth);
+                var input = (check + this.uploadList.length) > max_count;
+
+                if (input) {
+                    this.$Notice.warning({
+                        title: '最多只能上传5张图片'
+                    });
+                    this.uploadList.pop();
+                }
+                return check + lth <= 5;
+                return true;
+            },
+            after_vcr(res, file) {
+                var that = this;
+                console.log(res);
+                if (res.state == 1) {
+                    that.vcr_url = res.url;
+                }
+            },
+            handleFormatError(file) {
+                this.$Notice.warning({
+                    title: '文件格式不正确',
+                    desc: '不支持 ' + file.name + ' 文件的格式'
+                });
+            },
+            vcr_toobig() {
+                this.$Notice.warning({
+                    title: "视频大小超出限制",
+                    desc: "最大只能为50MB"
+                })
+            }
         },
+
+
+
+
+
+
+
+        
+        // 这里也是copy过来的
+
+        created() {
+            // overlay();
+            var that = this;
+            $.post("../php/gettechdetail.php", {
+                job_number: id
+            }).done((result) => {
+                result = JSON.parse(result);
+                if (result.status == 1) {
+                    info = result.data[0];
+                    that.personalInfo.id = info['job_number'];
+                    that.personalInfo.name = info['name'];
+                    that.personalInfo.phone_number = info['phone_number'];
+
+                    if (info['gender'] == 1) that.personalInfo.sex = "男";
+                    else that.personalInfo.sex = "女";
+
+                    that.personalInfo.birth = info['birthday'];
+                    that.personalInfo.join_date = info['entry_date'];
+                    that.personalInfo.is_on_the_job = info['in_job'];
+                    that.personalInfo.inviter = info['inviter'];
+                    that.personalInfo.rate = info['rate'];
+                    that.personalInfo.intro = info['description'];
+                    that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
+                    that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
+                }
+            })
+            $.post("../php/get_all_photo.php", {
+                job_number: id
+            }).done((result) => {
+                if (result) {
+                    result = JSON.parse(result);
+                    for (var i = 0; i < result.length; i++) {
+                        that.personalInfo.pictureList.push({
+                            url: result[i]['url'],
+                        });
+                    }
+                }
+                // overlay(false);
+                that.overlay = false;
+                that.modal_id = "modal-overlay-opa";
+            })
+        }
 
     })
 
