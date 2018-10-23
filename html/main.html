@@ -155,7 +155,8 @@
     var interval_id = 0; //计时器id
     var ip = ''
     //获取ip地址
-    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) {
+    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) 
+	{
         ip = JSON.stringify(data, null, 2);
         ip = JSON.parse(ip)
         console.log(ip)
@@ -165,7 +166,8 @@
     id = getQueryString("id");
 
     //我也不知道为什么，反正这里一定要post才能正常
-    $.post('../php/empty.php').done((result) => {
+    $.post('../php/empty.php').done((result) => 
+	{
         id = id;
         var back = {}
         $.ajax({
@@ -252,7 +254,8 @@
         })
     })
 
-    function login() {
+    function login() 
+	{
         id = getQueryString("id");
         $.post('../php/checkin.php', {
             id: id,
@@ -296,7 +299,8 @@
         })
     }
 
-    function logout() {
+    function logout() 
+	{
         id = getQueryString("id");
         $.post('../php/checkout.php', {
             id: id,
@@ -330,14 +334,16 @@
         })
     }
 
-    function getQueryString(name) {
+    function getQueryString(name) 
+	{
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]);
         return null;
     }
 
-    function navi(url) {
+    function navi(url) 
+	{
         window.location.href = url + "?id=" + id;
     }
 
@@ -373,12 +379,15 @@
                 }
             }
         }],
-    };;
-    if (option && typeof option === "object") {
+    };
+	
+    if (option && typeof option === "object") 
+	{
         myChart.setOption(option, true);
     }
 
-    function overlay(state = true) {
+    function overlay(state = true) 
+	{
         var e1 = document.getElementById('modal-overlay');
         if (state) e1.style.visibility = "visible"
         else e1.style.visibility = "hidden"

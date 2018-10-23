@@ -14,7 +14,7 @@ if($tech)
 }
 else
 {
-    echo josn_encode([
+    echo json_encode([
         'status'=>0,
         'data'=>[]
     ]);
