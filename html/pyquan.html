@@ -49,7 +49,7 @@
             height: 100%;
             text-align: center;
             z-index: 500;
-            /* background-color: #000; */
+            background-color: #000;
         }
 
         #origin-img {
@@ -107,6 +107,7 @@
                     </div>
                     <div class="po-cmt">
                         <div class="po-hd">
+                            <p v-text="job_number"></p>
                             <p class="post" v-text="item['content']"></p>
                             <div>
                                 <img @click="show_pic(imgidx,item['img'])"
@@ -219,7 +220,7 @@
         },
         methods: {
             navi(url) {
-                window.location.href = url ;
+                window.location.href = url+"?id="+this.job_number ;
             },
             closeBig() {
                 this.big_img = false;

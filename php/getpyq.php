@@ -16,7 +16,7 @@ foreach($datas as $data)
         }
         $j++;
     }
-    $tm1 = strtotime($datas[$i]['date']);
+    $tm1 = $datas[$i]['date'];
     $tm2 = time();
     $gap = $tm2-$tm1;
     // if($gap<60)$gap=$gap."秒前";

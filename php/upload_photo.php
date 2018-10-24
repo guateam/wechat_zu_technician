@@ -32,11 +32,6 @@ if ((
     }
     else
     {
-        // echo "上传文件名: " . $_FILES["file"]["name"] . "<br>";
-        // echo "文件类型: " . $_FILES["file"]["type"] . "<br>";
-        // echo "文件大小: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-        // echo "文件临时存储的位置: " . $_FILES["file"]["tmp_name"];
-
         // 判断当期目录下的 upload 目录是否存在该文件
         // 如果没有 upload 目录，你需要创建它，upload 目录权限为 777
         if (file_exists( $dir . $_FILES["file"]["name"]))
