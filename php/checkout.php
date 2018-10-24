@@ -4,28 +4,43 @@ require "database.php";
 $id=$_POST['id'];
 $ip=$_POST['ip'];
 $technician=get('technician','job_number',$id);
-if($technician){
+if($technician)
+{
     $technician=$technician[0];
     $shop=get('shop');
-    if($shop){
-        if($shop[0]['ip_address']==$ip){
+    if($shop)
+	{
+        if($shop[0]['ip_address']==$ip)
+		{
             $attendance=get('attendance','job_number',$id);
-            if($attendance){
-                if($attendance[count($attendance)-1]['sign_type']==1){
+            if($attendance)
+			{
+                if($attendance[count($attendance)-1]['sign_type']==1)
+				{
                     echo(json_encode(['status'=>-1]));
-                }else{
+                }
+				else
+				{
                     add('attendance',[['job_number',$id],['sign_type',1]]);
                     echo(json_encode(['status'=>1]));
                 }
-            }else{
+            }
+			else
+			{
                 echo(json_encode(['status'=>-2]));
             }
-        }else{
+        }
+		else
+		{
             echo(json_encode(['status'=>0]));
         }
-    }else{
+    }
+	else
+	{
         echo(json_encode(['status'=>0]));
     }
-}else{
+}
+else
+{
     echo(json_encode(['status'=>0]));
 }

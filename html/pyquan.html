@@ -10,34 +10,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
     <style>
         #modal-overlay {
-             position: absolute;   /* 使用绝对定位或固定定位  */
-             left: 0px;    
-             top: 0px;
-             width:100%;
-             height:100%;
-             text-align:center;
-             z-index: 1000;
-             background-color: #fff;
-        }
-        #modal-overlay-opa {
-             position: absolute;   /* 使用绝对定位或固定定位  */
-             left: 0px;    
-             top: 0px;
-             width:100%;
-             height:100%;
-             text-align:center;
-             z-index: 1000;
-             background-color: #fff;
-             opacity: 0.5;
-        }
-        /* 模态框样式 */
-        .modal-data{
-             margin: 80% auto;
-             padding:15px;
-             text-align:center;
-             opacity: 0.5;
+            position: absolute; /* 使用绝对定位或固定定位  */
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            z-index: 1000;
+            background-color: #fff;
         }
 
+        #modal-overlay-opa {
+            position: absolute; /* 使用绝对定位或固定定位  */
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            z-index: 1000;
+            background-color: #fff;
+            opacity: 0.5;
+        }
+
+        /* 模态框样式 */
+        .modal-data {
+            margin: 80% auto;
+            padding: 15px;
+            text-align: center;
+            opacity: 0.5;
+        }
 
         #big-img {
             position: fixed;
@@ -50,6 +51,7 @@
             z-index: 500;
             /* background-color: #000; */
         }
+
         #origin-img {
             display: none;
             position: fixed;
@@ -74,244 +76,256 @@
 </head>
 
 <body>
-    <div id="app" style="width:100%;height:100%">
-        <header>
-            <!--更换背景，点击查看大图这个你直接从以前那儿copy一下代码吧我就不再写一遍了，滑稽-->
-            <upload style="width:100%" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
+<div id="app" style="width:100%;height:100%">
+    <header>
+        <!--更换背景，点击查看大图这个你直接从以前那儿copy一下代码吧我就不再写一遍了，滑稽-->
+        <upload style="width:100%" action="../php/upload_photo.php" :on-success="handleSuccess"
+                :data="{job_number:job_number,bg:true}"
                 :max-size="4096" :before-upload="handleBeforeUpload" :show-upload-list="false" :on-error="handleFail"
                 :on-exceeded-size="handleMax" multiple style="display: inline-block;width:50px;">
-                <img id="bg" :src="background" style="width:100%;height:200px" v-if="background !=''">
-                <img style="width:100%;height:100px" src="../src/background.png" v-else>
-            </upload>
-            <p id="user-name" class="data-name" v-text="job_number"></p>
-            <img id="avt" class="data-avt" :src="head">
-        </header>
-        <div id="main">
-            <!--<div id="share_show">
-                    <img src="images/share.png" style="width:90%;" />
-                </div>-->
-            <div id="list">
-                <ul>
-                    <li v-for="(item,idx) in list">
-                        <div class="po-avt-wrap">
-                            <img class="po-avt" :src="head">
-                        </div>
-                        <div class="po-cmt">
-                            <div class="po-hd">
-                                <p class="post" v-text="item['content']"></p>
-                                <div>
-                                    <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px;margin-right:5px" v-for="(img,imgidx) in item['img']"
-                                        :src="img" v-if="img != ''">
-                                </div>
-                                <p class="time" v-text="item['date']"></p>
+            <img id="bg" :src="background" style="width:100%;height:200px" v-if="background !=''">
+            <img style="width:100%;height:100px" src="../src/background.png" v-else>
+        </upload>
+        <p id="user-name" class="data-name" v-text="job_number"></p>
+        <img id="avt" class="data-avt" :src="head">
+    </header>
+    <div id="main">
+        <!--<div id="share_show">
+                <img src="images/share.png" style="width:90%;" />
+            </div>-->
+        <div id="list">
+            <ul>
+                <li style="display: flex;">
+                    <div style="font-weight: 400;font-size: 1.8em;width: 60px;text-align: center">今天</div>
+                    <div @click="navi('addpyquan.html')"
+                         style="width: 80px;height: 80px;display: flex;align-items: center;justify-content: center;background-color: #d9d9d9">
+                        <img src="../src/照相机.png" alt=""></div>
+                </li>
+                <li v-for="(item,idx) in list">
+                    <div class="po-avt-wrap">
+                        <img class="po-avt" :src="head">
+                    </div>
+                    <div class="po-cmt">
+                        <div class="po-hd">
+                            <p class="post" v-text="item['content']"></p>
+                            <div>
+                                <img @click="show_pic(imgidx,item['img'])"
+                                     style="width:100px;height:100px;margin-right:5px"
+                                     v-for="(img,imgidx) in item['img']"
+                                     :src="img" v-if="img != ''">
                             </div>
+                            <p class="time" v-text="item['date']"></p>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <!-- <template>
-                <carousel loop arrow="always" >
-                    <carousel-item v-for="img in swiper_target" >
-                        <img style="width: 100%; height: 150px;" :src="img"></img>
-                    </carousel-item>
-                </carousel>
-        </template> -->
-        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
-            <div class="modal-data">
-                <img src="../src/loading.gif" />
-            </div>
-        </div>
-        <div id="big-img" v-show="big_img" @click="closeBig()">
-            <img id="big_img_self" style="width:100%;height:60%;margin-top:35%" :src="click_img" />
-        </div>
-        <!-- <div class="swiper-container" id="origin-img">
-            <div class="swiper-wrapper"></div>
-            <div class="swiper-pagination"></div>
-        </div> -->
     </div>
-    <script src="../js/jquery.js"></script>
-    <script src="../js/vue.js"></script>
-    <script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
-    <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
-    <script>
-        // var tgt = [];
+    <!-- <template>
+            <carousel loop arrow="always" >
+                <carousel-item v-for="img in swiper_target" >
+                    <img style="width: 100%; height: 150px;" :src="img"></img>
+                </carousel-item>
+            </carousel>
+    </template> -->
+    <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+        <div class="modal-data">
+            <img src="../src/loading.gif"/>
+        </div>
+    </div>
+    <div id="big-img" v-show="big_img" @click="closeBig()">
+        <img id="big_img_self" style="width:100%;height:60%;margin-top:35%" :src="click_img"/>
+    </div>
+    <!-- <div class="swiper-container" id="origin-img">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-pagination"></div>
+    </div> -->
+</div>
+<script src="../js/jquery.js"></script>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
+<script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+<script>
+    // var tgt = [];
 
-        // var swiper = new Swiper('.swiper-container', {
-        //     zoom: true,
-        //     width: window.innerWidth,
-        //     virtual: true,
-        //     spaceBetween: 20,
-        //     pagination: {
-        //         el: '.swiper-pagination',
-        //         type: 'fraction',
-        //     },
-        //     on: {
-        //         click: function () {
-        //             $('#origin-img').fadeOut('fast');
-        //             this.virtual.slides.length = 0;
-        //             this.virtual.cache = [];
-        //             swiperStatus = false;
+    // var swiper = new Swiper('.swiper-container', {
+    //     zoom: true,
+    //     width: window.innerWidth,
+    //     virtual: true,
+    //     spaceBetween: 20,
+    //     pagination: {
+    //         el: '.swiper-pagination',
+    //         type: 'fraction',
+    //     },
+    //     on: {
+    //         click: function () {
+    //             $('#origin-img').fadeOut('fast');
+    //             this.virtual.slides.length = 0;
+    //             this.virtual.cache = [];
+    //             swiperStatus = false;
 
-        //         },
-        //     },
-        // });
-        // //切换图状态禁止页面缩放	
-        // document.addEventListener('touchstart', function (event) {
-        //     if (event.touches.length > 1 && swiperStatus) {
-        //         event.preventDefault();
-        //     }
-        // }, {
-        //     passive: false
-        // })
-        // var lastTouchEnd = 0;
-        // document.addEventListener('touchend', function (event) {
-        //     var now = (new Date()).getTime();
-        //     if (now - lastTouchEnd <= 300) {
-        //         event.preventDefault();
-        //     }
-        //     lastTouchEnd = now;
-        // }, {
-        //     passive: false
-        // })
+    //         },
+    //     },
+    // });
+    // //切换图状态禁止页面缩放
+    // document.addEventListener('touchstart', function (event) {
+    //     if (event.touches.length > 1 && swiperStatus) {
+    //         event.preventDefault();
+    //     }
+    // }, {
+    //     passive: false
+    // })
+    // var lastTouchEnd = 0;
+    // document.addEventListener('touchend', function (event) {
+    //     var now = (new Date()).getTime();
+    //     if (now - lastTouchEnd <= 300) {
+    //         event.preventDefault();
+    //     }
+    //     lastTouchEnd = now;
+    // }, {
+    //     passive: false
+    // })
 
-        // document.addEventListener('touchmove', function (e) {
-        //     if (swiperStatus) {
-        //         e.preventDefault();
-        //     }
-        // }, {
-        //     passive: false
-        // })
-    </script>
-    <script>
-        function getQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]);
-            return null;
-        }
+    // document.addEventListener('touchmove', function (e) {
+    //     if (swiperStatus) {
+    //         e.preventDefault();
+    //     }
+    // }, {
+    //     passive: false
+    // })
+</script>
+<script>
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
 
-        let app = new Vue({
-            el: "#app",
-            data: {
-                list: [],
-                swiper_target: [],
-                background: "",
-                job_number: getQueryString('id'),
-                head: "",
-                background: "",
-                show: true,
-                big_img: false,
-                click_img: '',
-                opa: false,
+    let app = new Vue({
+        el: "#app",
+        data: {
+            list: [],
+            swiper_target: [],
+            background: "",
+            job_number: getQueryString('id'),
+            head: "",
+            background: "",
+            show: true,
+            big_img: false,
+            click_img: '',
+            opa: false,
+        },
+        methods: {
+            navi(url) {
+                window.location.href = url ;
             },
-            methods: {
-                closeBig() {
-                    this.big_img = false;
-                },
-                show_pic(index, imgs) {
-                    //this.swiper_target = imgs;
-                    this.click_img = imgs[index];
-                    this.big_img = true;
-                },
-                handleBeforeUpload() {
+            closeBig() {
+                this.big_img = false;
+            },
+            show_pic(index, imgs) {
+                //this.swiper_target = imgs;
+                this.click_img = imgs[index];
+                this.big_img = true;
+            },
+            handleBeforeUpload() {
+                swal({
+                    text: "正在更改封面背景，请稍候",
+                    onOpen: () => {
+                        swal.showLoading();
+                    }
+                })
+            },
+            handleMax(file) {
+                swal({
+                    text: "文件过大，不得超过5M",
+                    type: "error",
+                    width: 230,
+                })
+            },
+            handleFail(res, file) {
+                alert("fail");
+            },
+            handleSuccess(res, file) {
+                var that = this;
+                // var reg = /\{(.+?)\}/g;
+                // res = res.match(reg);
+                // res = JSON.parse(res);
+                if (res.state == 1) {
+                    console.log(res.url);
+                    that.background = res.url;
+                    swal.close();
+                } else {
                     swal({
-                        text: "正在更改封面背景，请稍候",
-                        onOpen: () => {
-                            swal.showLoading();
-                        }
-                    })
-                },
-                handleMax(file) {
-                    swal({
-                        text: "文件过大，不得超过5M",
+                        text: res.state,
                         type: "error",
                         width: 230,
                     })
-                },
-                handleFail(res, file) {
-                    alert("fail");
-                },
-                handleSuccess(res, file) {
-                    var that = this;
-                    // var reg = /\{(.+?)\}/g;
-                    // res = res.match(reg);
-                    // res = JSON.parse(res);
-                    if (res.state == 1) {
-                        console.log(res.url);
-                        that.background = res.url;
-                        swal.close();
-                    } else {
-                        swal({
-                            text: res.state,
-                            type: "error",
-                            width: 230,
-                        })
-                    }
+                }
 
-                },
             },
-            created() {
-                var that = this;
-                $.post("../php/getpyq.php", {
-                    job_number: that.job_number
-                }).done((res) => {
-                    res = JSON.parse(res);
-                    for (var i in res.data) {
-                        that.list.push(res.data[i])
-                    }
-                    for (var i = 0; i < that.list.length - 1; i++) {
-                        nearest = i;
-                        for (var j = i + 1; j < that.list.length; j++) {
-                            if (that.list[nearest]['date'] > that.list[j]['date']) {
-                                nearest = j;
-                            }
-                        }
-                        if (nearest != i) {
-                            tp = that.list[i];
-                            that.list[i] = that.list[nearest];
-                            that.list[nearest] = tp;
+        },
+        created() {
+            var that = this;
+            $.post("../php/getpyq.php", {
+                job_number: that.job_number
+            }).done((res) => {
+                res = JSON.parse(res);
+                for (var i in res.data) {
+                    that.list.push(res.data[i])
+                }
+                for (var i = 0; i < that.list.length - 1; i++) {
+                    nearest = i;
+                    for (var j = i + 1; j < that.list.length; j++) {
+                        if (that.list[nearest]['date'] > that.list[j]['date']) {
+                            nearest = j;
                         }
                     }
-                    for (var i in that.list) {
-                        console.log(that.list[i]['date'])
-                        if (that.list[i]['date'] < 60) that.list[i]['date'] = that.list[i]['date'] +
-                            "秒前";
+                    if (nearest != i) {
+                        tp = that.list[i];
+                        that.list[i] = that.list[nearest];
+                        that.list[nearest] = tp;
+                    }
+                }
+                for (var i in that.list) {
+                    console.log(that.list[i]['date'])
+                    if (that.list[i]['date'] < 60) that.list[i]['date'] = that.list[i]['date'] +
+                        "秒前";
+                    else {
+                        that.list[i]['date'] /= 60;
+                        if (that.list[i]['date'] < 60) that.list[i]['date'] = parseInt(that.list[i]
+                            ['date'], 0) + "分钟前";
                         else {
                             that.list[i]['date'] /= 60;
-                            if (that.list[i]['date'] < 60) that.list[i]['date'] = parseInt(that.list[i]
-                                ['date'], 0) + "分钟前";
+                            if (that.list[i]['date'] < 24) that.list[i]['date'] = parseInt(that.list[
+                                i]['date'], 0) + "小时前";
                             else {
-                                that.list[i]['date'] /= 60;
-                                if (that.list[i]['date'] < 24) that.list[i]['date'] = parseInt(that.list[
-                                    i]['date'], 0) + "小时前";
+                                that.list[i]['date'] /= 24;
+                                if (that.list[i]['date'] <= 30) that.list[i]['date'] = parseInt(
+                                    that.list[i]['date'], 0) + "天前";
                                 else {
-                                    that.list[i]['date'] /= 24;
-                                    if (that.list[i]['date'] <= 30) that.list[i]['date'] = parseInt(
-                                        that.list[i]['date'], 0) + "天前";
+                                    that.list[i]['date'] /= 30;
+                                    if (that.list[i]['date'] <= 12) that.list[i]['date'] = parseInt(
+                                        that.list[i]['date'], 0) + "月前";
                                     else {
-                                        that.list[i]['date'] /= 30;
-                                        if (that.list[i]['date'] <= 12) that.list[i]['date'] = parseInt(
-                                            that.list[i]['date'], 0) + "月前";
-                                        else {
-                                            that.list[i]['date'] /= 12;
-                                            if (that.list[i]['date'] >= 1) that.list[i]['date'] =
-                                                parseInt(that.list[i]['date'], 0) + "年前";
-                                        }
+                                        that.list[i]['date'] /= 12;
+                                        if (that.list[i]['date'] >= 1) that.list[i]['date'] =
+                                            parseInt(that.list[i]['date'], 0) + "年前";
                                     }
                                 }
                             }
                         }
                     }
-                    that.head = res.head;
-                    that.background = res.background;
-                    that.show = false;
+                }
+                that.head = res.head;
+                that.background = res.background;
+                that.show = false;
 
-                })
-            },
-        })
-    </script>
+            })
+        },
+    })
+</script>
 </body>
 
 </html>

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>首页</title>
-    <link rel="stylesheet" href="../css/weui-min.css" />
-    <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" href="../css/weui-min.css"/>
+    <link rel="stylesheet" href="../css/example.css"/>
 
 
     <style>
@@ -21,8 +21,9 @@
             z-index: 1000;
             background-color: #fff;
         }
+
         /* 模态框样式 */
-        
+
         .modal-data {
             margin: 80% auto;
             padding: 15px;
@@ -33,92 +34,111 @@
 </head>
 
 <body style="background-color: #f2f2f2">
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;"
-        id='name'>
-        <div style="position: fixed;height: 30px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;padding-left: 5px"
-            v-text="shop"></div>
-        <div class="box weui-flex" style="flex: 0 0 100%;width: 100%; border-radius: 5px;align-items: center">
-            <img onclick="navi('space.html')" :src="head" style="width: 64px;height: 64px;margin-left: 10px;border-radius:50%">
+<div class="weui-flex"
+     style="justify-content: center;align-items: center;height: 20%;background-image: url(../src/background.png);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;"
+     id='name'>
+    <div style="position: fixed;height: 30px;right: 0;top: 0;background-color: #9999ff;text-align: center;border-bottom-left-radius: 15px;border-top-left-radius: 15px;padding-left: 5px"
+         v-text="shop"></div>
+    <div class="box weui-flex" style="width: 100%; border-radius: 5px;justify-content: space-between;flex-direction: column">
+        <div style="width: 100%;display: flex;">
+            <img onclick="navi('space.html')" :src="head"
+                 style="width: 64px;height: 64px;margin-left: 10px;border-radius:50%">
             <div class="item weui-flex__item" style="margin-left: 10px">
                 <h3 style="color: white;font-size: 17px;font-weight: 400" v-text="name"></h3>
                 <h1 style="color: white;font-size: 15px;font-weight: 400" v-text="id"></h1>
             </div>
         </div>
-    </div>
-    <div style="height: 30%;text-align: center;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <h1 style="color: gray;font-size: 15px;font-weight: 400;margin-top: 10px">最近提成趋势图(元)</h1>
-        <div id="container" style="height: 190px"></div>
-    </div>
-    <div class="" style="height: 26%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid" id='salary'>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成(元)</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="todaysalary"></h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成(元)</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="salary"></h1>
-            </div>
-        </div>
-        <div class="weui-flex" style="height: 50%;align-items: center;" id='clock'>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟(次)</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="todayclock"></h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总钟数(次)</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="clock"></h1>
-            </div>
+        <div style="display: flex;align-items: center;margin-top: 5px;color: white;font-size: 16px;font-weight: 400" onclick="navi('pyquan.html')">
+            <img src="../src/朋友圈.png" alt="" style="margin-left: 10px;">
+            <span style="margin-left: 8px">朋友圈</span>
         </div>
     </div>
-    <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer;"
-                onclick="navi('overview.html')">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">数据分析总结</h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('clock.html')">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询每条明细</h1>
-            </div>
+</div>
+<div style="height: 30%;text-align: center;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+    <h1 style="color: gray;font-size: 15px;font-weight: 400;margin-top: 10px">最近提成趋势图(元)</h1>
+    <div id="container" style="height: 190px"></div>
+</div>
+<div class=""
+     style="height: 26%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+    <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid" id='salary'>
+        <div class="weui-flex__item" style="margin-left: 20px">
+            <h3 style="color: gray;font-size: 15px;font-weight: 400">今日提成(元)</h3>
+            <h1 style="color: #404040;font-size: 15px" v-text="todaysalary"></h1>
+        </div>
+        <div class="weui-flex__item" style="margin-left: 20px">
+            <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总提成(元)</h3>
+            <h1 style="color: #404040;font-size: 15px" v-text="salary"></h1>
         </div>
     </div>
+    <div class="weui-flex" style="height: 50%;align-items: center;" id='clock'>
+        <div class="weui-flex__item" style="margin-left: 20px">
+            <h3 style="color: gray;font-size: 15px;font-weight: 400">今日点钟(次)</h3>
+            <h1 style="color: #404040;font-size: 15px" v-text="todayclock"></h1>
+        </div>
+        <div class="weui-flex__item" style="margin-left: 20px">
+            <h3 style="color: gray;font-size: 15px;font-weight: 400">本月总钟数(次)</h3>
+            <h1 style="color: #404040;font-size: 15px" v-text="clock"></h1>
+        </div>
+    </div>
+</div>
+<div class=""
+     style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+    <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
+        <div class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/业绩汇总.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer;"
+             onclick="navi('overview.html')">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">数据分析总结</h1>
+        </div>
+        <div class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="navi('clock.html')">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询每条明细</h1>
+        </div>
+    </div>
+</div>
 
-    <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/打赏记录.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('dashangjilu.html')">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">打赏记录</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询被打赏的记录</h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('yejipaihang.html')">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩排行</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询业绩排行情况</h1>
-            </div>
+<div class=""
+     style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+    <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
+        <div class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/打赏记录.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="navi('dashangjilu.html')">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">打赏记录</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询被打赏的记录</h1>
+        </div>
+        <div class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="navi('yejipaihang.html')">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩排行</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询业绩排行情况</h1>
         </div>
     </div>
-    <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/commission.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="navi('yongjinxiangxi.html')">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">佣金详情</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询佣金情况</h1>
-            </div>
-            <div id='checkin' class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签到.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="login()">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签到</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">请连接店内WiFi进行签到</h1>
-            </div>
-            <div id="checkout" class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签退.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                onclick="logout()">
-                <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签退</h3>
-                <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">请连接店内WiFi进行签退</h1>
-            </div>
+</div>
+<div class=""
+     style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+    <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
+        <div class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/commission.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="navi('yongjinxiangxi.html')">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">佣金详情</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询佣金情况</h1>
+        </div>
+        <div id='checkin' class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/签到.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="login()">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签到</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">请连接店内WiFi进行签到</h1>
+        </div>
+        <div id="checkout" class="weui-flex__item"
+             style="margin-left: 10px;background-image: url(../src/签退.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+             onclick="logout()">
+            <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签退</h3>
+            <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">请连接店内WiFi进行签退</h1>
         </div>
     </div>
+</div>
 <!-- 
     <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px"
         id='checkin'>
@@ -134,20 +154,20 @@
         </div>
     </div> -->
 
-    <div class="weui-footer" style="margin-top: 20px">
-        <p class="weui-footer__text">查帐方式以结账时间为准</p>
+<div class="weui-footer" style="margin-top: 20px">
+    <p class="weui-footer__text">查帐方式以结账时间为准</p>
+</div>
+<div id="modal-overlay">
+    <div class="modal-data">
+        <img src="../src/loading.gif"/>
     </div>
-    <div id="modal-overlay">
-        <div class="modal-data">
-            <img src="../src/loading.gif" />
-        </div>
-    </div>
+</div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
 <script type="text/javascript" src="../js/sweetalert.js"></script>
 <script type="text/javascript">
@@ -155,7 +175,8 @@
     var interval_id = 0; //计时器id
     var ip = ''
     //获取ip地址
-    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) {
+    $.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function (data) 
+	{
         ip = JSON.stringify(data, null, 2);
         ip = JSON.parse(ip)
         console.log(ip)
@@ -165,7 +186,8 @@
     id = getQueryString("id");
 
     //我也不知道为什么，反正这里一定要post才能正常
-    $.post('../php/empty.php').done((result) => {
+    $.post('../php/empty.php').done((result) => 
+	{
         id = id;
         var back = {}
         $.ajax({
@@ -177,20 +199,28 @@
             dataType: 'json',
             url: '../php/getmainpage.php',
         }).done((data) => {
-            if (data.status == 1) {
+            if (data.status == 1) 
+			{
                 back = data.data
             }
         })
-        if (back.chart.status == 1) {
+        
+		if (back.chart.status == 1) 
+		{
             myChart.setOption(back.chart.data)
         }
-        if (back.checkin == 1) {
+        
+		if (back.checkin == 1) //签到 签退只显示一个
+		{
             $('#checkin').hide()
             $('#checkout').show()
-        } else {
+        } 
+		else 
+		{
             $('#checkout').hide()
             $('#checkin').show()
         }
+		
         var app1 = new Vue({
             el: '#name',
             data: {
@@ -203,7 +233,8 @@
             created() {
                 var that = this;
                 data = back.app1
-                if (data.status == 1) {
+                if (data.status == 1) 
+				{
                     that.name = data.name
                     that.id = id
                     that.shop = data.shop
@@ -219,22 +250,25 @@
                 })
             },
         })
+		
         var app2 = new Vue({
             el: '#salary',
             data: {
                 todaysalary: '0',
                 salary: '0'
             },
-            created() {
+            created() 
+			{
                 var that = this;
                 data = back.app2
-                if (data.status == 1) {
+                if (data.status == 1) 
+				{
                     that.salary = data.salary
                     that.todaysalary = data.todaysalary
                 }
-
             }
         })
+		
         var app3 = new Vue({
             el: '#clock',
             data: {
@@ -252,7 +286,8 @@
         })
     })
 
-    function login() {
+    function login() //登入
+	{
         id = getQueryString("id");
         $.post('../php/checkin.php', {
             id: id,
@@ -261,9 +296,9 @@
             data = JSON.parse(data)
             if (data.status == 1) {
                 swal({
-                    type:"success",
-                    text:"成功签到！",
-                    width:200
+                    type: "success",
+                    text: "成功签到！",
+                    width: 200
                 });
                 console.log("开启计时器")
                 interval_id = setInterval(() => {
@@ -274,70 +309,83 @@
                         interval: true,
                     })
                 }, 60000)
-                
+
                 $('#checkin').hide()
                 $('#checkout').show()
 
-            } else if (data.status == -1) {
+            } 
+			else if (data.status == -1) 
+			{
                 swal({
-                    type:"error",
-                    text:"已经签到过了！",
-                    width:200
+                    type: "error",
+                    text: "已经签到过了！",
+                    width: 200
                 })
                 $('#checkin').hide()
                 $('#checkout').show()
-            } else {
+            } 
+			else 
+			{
                 swal({
-                    type:"error",
-                    text:"签到失败！",
-                    width:200
+                    type: "error",
+                    text: "签到失败！",
+                    width: 200
                 })
             }
         })
     }
 
-    function logout() {
+    function logout() //退出
+	{
         id = getQueryString("id");
         $.post('../php/checkout.php', {
             id: id,
             ip: ip.geoplugin_request
-        }).done((data) => {
+        }).done((data) => 
+		{
             data = JSON.parse(data)
-            if (data.status == 1) {
+            if (data.status == 1) 
+			{
                 swal({
-                    type:"success",
-                    text:"成功签退！",
-                    width:200
+                    type: "success",
+                    text: "成功签退！",
+                    width: 200
                 })
                 $('#checkout').hide()
                 $('#checkin').show()
                 clearInterval(interval_id);
-            } else if (data.status == -1) {
+            } 
+			else if (data.status == -1) 
+			{
                 swal({
-                    type:"error",
-                    text:"已经签退过了！",
-                    width:200
+                    type: "error",
+                    text: "已经签退过了！",
+                    width: 200
                 })
                 $('#checkout').hide()
                 $('#checkin').show()
-            } else {
+            } 
+			else 
+			{
                 swal({
-                    type:"error",
-                    text:"签退失败！",
-                    width:200
+                    type: "error",
+                    text: "签退失败！",
+                    width: 200
                 })
             }
         })
-    }
+   }
 
-    function getQueryString(name) {
+    function getQueryString(name) 
+	{
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return unescape(r[2]);
         return null;
     }
 
-    function navi(url) {
+    function navi(url) 
+	{
         window.location.href = url + "?id=" + id;
     }
 
@@ -373,12 +421,14 @@
                 }
             }
         }],
-    };;
+    };
+    ;
     if (option && typeof option === "object") {
         myChart.setOption(option, true);
     }
 
-    function overlay(state = true) {
+    function overlay(state = true) 
+	{
         var e1 = document.getElementById('modal-overlay');
         if (state) e1.style.visibility = "visible"
         else e1.style.visibility = "hidden"

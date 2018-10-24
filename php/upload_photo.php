@@ -13,7 +13,8 @@ $dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','
         'v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
         'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
 $rnd_str = "";
-for($i = 0;$i<7;$i++){
+for($i = 0;$i<7;$i++)
+{
     $idx = rand(0,count($dict)-1);
     $rnd_str.=$dict[$idx];    
 }
@@ -23,7 +24,8 @@ if ((
     ||  ($_FILES["file"]["type"] == "image/jpg")
     || ($_FILES["file"]["type"] == "image/x-png")
     || ($_FILES["file"]["type"] == "image/png"))   
-){
+)
+{
     if ($_FILES["file"]["error"] > 0)
     {
         echo json_encode(["state"=>$_FILES["file"]["error"]]);
@@ -48,11 +50,13 @@ if ((
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
             $tc = (get("technician",'job_number',$job_number))[0];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-            if($tc){
+            if($tc)
+			{
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
                 add("technician_photo",[['job_number',$job_number],['img',$sv]]);
 
-                if($bg){
+                if($bg)
+				{
                     if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
                         $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
                         unlink($del_dir);
@@ -64,14 +68,16 @@ if ((
                 $tp_img_id = $tp_img_id['ID'];
                 echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
             }
-            else{
+            else
+			{
                 echo json_encode(["state"=>0]);
             }
-
         }
     }
 
-}else{
+}
+else
+{
     echo json_encode(["state"=>"格式错误:".$_FILES["file"]["type"]]);
 }
 

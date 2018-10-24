@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../css/example.css" />
     <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
     <style>
+        .weui-label{
+            width: 60px;
+        }
         #modal-overlay {
              position: fixed;   /* 使用绝对定位或固定定位  */
              left: 0px;    
@@ -40,7 +43,7 @@
         </div>
         <form>
             <div class="weui-cells weui-cells_form" style="height: 135px;background-color: #f2f2f2;border: none">
-                <div class="weui-cell" style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell" style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:7%;border: none">
                     <div class="weui-cell__hd"><label class="weui-label"></label></div>
                     <div class="weui-cell__bd">
                         <!--<select id="shop" placeholder="店名" >-->
@@ -52,7 +55,7 @@
                         </i-select>
                     </div>
                 </div>
-                <div class="weui-cell weui-cell_vcode" style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell weui-cell_vcode" style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:7%;border: none">
                     <div class="weui-cell__hd">
                         <label class="weui-label"></label>
                     </div>
@@ -65,7 +68,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="weui-cell weui-cell_vcode" style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:15%;border: none">
+                <div class="weui-cell weui-cell_vcode" style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:7%;border: none">
                     <div class="weui-cell__hd">
                         <label class="weui-label"></label>
                     </div>
@@ -95,7 +98,8 @@
 <script type="text/javascript" src="../js/jquery.cookie.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript">
-    function overlay(state = true) {
+    function overlay(state = true) 
+	{
         $('#modal-overlay').attr("hidden", !state)
     }
 
