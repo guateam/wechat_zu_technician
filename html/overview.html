@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>业绩汇总</title>
     <link rel="stylesheet" href="../css/weui-min.css"/>
     <link rel="stylesheet" href="../css/example.css"/>
@@ -76,7 +76,7 @@
                 <h1 style="color: #404040;font-size: 15px" v-text="bonus"></h1>
             </div>
         </div>
-        <div class="weui-flex" style="height: 50%;align-items: center;" >
+        <div class="weui-flex" style="height: 50%;align-items: center;">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐人数（人）</h3>
                 <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
@@ -368,7 +368,7 @@
     })
 
     function navi(url) {
-        window.location.href = url+"?id="+getQueryString('id');
+        window.location.href = url + "?id=" + getQueryString('id');
     }
 
     // function overlay(state = true) {

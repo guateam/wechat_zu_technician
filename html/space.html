@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>个人详情</title>
     <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
@@ -94,30 +94,30 @@
 <div id="space">
     <!--图片,现在的技师页面不需要这个了-->
     <!--<row type="flex" justify="center" style="margin-top: 20px">-->
-        <!--<i-col span="22">-->
-            <!--<card :bordered="false" dis-hover>-->
-                <!--<template>-->
-                    <!--<carousel v-if="personalInfo.pictureList.length > 0" arrow="always" dots="none">-->
-                        <!--<carousel-item v-for="item in personalInfo.pictureList">-->
-                            <!--<img @click="showBig(item.url)" style="width: 100%; height: 150px;" :src="item.url">-->
-                        <!--</carousel-item>-->
-                    <!--</carousel>-->
-                <!--</template>-->
-                <!--<div class="demo-upload-list" v-for="(item,index) in personalInfo.pictureList" v-if="index<5" @click="navi('pyquan.html')">-->
-                    <!--<img :src="item.url">-->
-                <!--</div>-->
-                <!--<br>-->
-                <!--<div class="demo-upload-list" @click="navi('addpyquan.html')">-->
-                    <!--<img src="../src/addpy.png">-->
-                <!--</div>-->
-                <!--<upload type="drag" action="../php/upload_photo.php" style="display: inline-block;width:50px;" @click="navi('addpyquan.html')">-->
-                    <!--<div style="width: 50px; height:50px; line-height: 50px">-->
-                        <!--&lt;!&ndash; <icon type="ios-camera" size="20"></icon> &ndash;&gt;-->
-                        <!--<p style="font-size: 20px">+</p>-->
-                    <!--</div>-->
-                <!--</upload>-->
-            <!--</card>-->
-        <!--</i-col>-->
+    <!--<i-col span="22">-->
+    <!--<card :bordered="false" dis-hover>-->
+    <!--<template>-->
+    <!--<carousel v-if="personalInfo.pictureList.length > 0" arrow="always" dots="none">-->
+    <!--<carousel-item v-for="item in personalInfo.pictureList">-->
+    <!--<img @click="showBig(item.url)" style="width: 100%; height: 150px;" :src="item.url">-->
+    <!--</carousel-item>-->
+    <!--</carousel>-->
+    <!--</template>-->
+    <!--<div class="demo-upload-list" v-for="(item,index) in personalInfo.pictureList" v-if="index<5" @click="navi('pyquan.html')">-->
+    <!--<img :src="item.url">-->
+    <!--</div>-->
+    <!--<br>-->
+    <!--<div class="demo-upload-list" @click="navi('addpyquan.html')">-->
+    <!--<img src="../src/addpy.png">-->
+    <!--</div>-->
+    <!--<upload type="drag" action="../php/upload_photo.php" style="display: inline-block;width:50px;" @click="navi('addpyquan.html')">-->
+    <!--<div style="width: 50px; height:50px; line-height: 50px">-->
+    <!--&lt;!&ndash; <icon type="ios-camera" size="20"></icon> &ndash;&gt;-->
+    <!--<p style="font-size: 20px">+</p>-->
+    <!--</div>-->
+    <!--</upload>-->
+    <!--</card>-->
+    <!--</i-col>-->
     <!--</row>-->
     <!--姓名工号头像-->
     <row type="flex" justify="center" style="margin-top: 8px">
@@ -135,27 +135,27 @@
                     <i-col>
                         <!--技师头像禁止修改-->
                         <!--<upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead"-->
-                                <!--:format="['jpg','jpeg','png']" :max-size="2048" multiple-->
-                                <!--:on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"-->
-                                <!--action="../php/upload_head.php"-->
-                                <!--style="display: inline-block;width:58px;">-->
-                            <div style="width: 58px;height:58px;line-height: 58px;">
-                                <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0
-                                     style=" width: 100%; height: 100%;" :src="personalInfo.picture">
-                                <icon v-else type="ios-camera" size="20"></icon>
-                            </div>
+                        <!--:format="['jpg','jpeg','png']" :max-size="2048" multiple-->
+                        <!--:on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"-->
+                        <!--action="../php/upload_head.php"-->
+                        <!--style="display: inline-block;width:58px;">-->
+                        <div style="width: 58px;height:58px;line-height: 58px;">
+                            <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0
+                                 style=" width: 100%; height: 100%;" :src="personalInfo.picture">
+                            <icon v-else type="ios-camera" size="20"></icon>
+                        </div>
                         <!--</upload>-->
                         <!--不用展示视频了-->
                         <!--<upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr"-->
-                                <!--:format="['mp4']"-->
-                                <!--:max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"-->
-                                <!--type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">-->
-                            <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
-                                <!--<video v-if="personalInfo.vcr !='' " :src="personalInfo.vcr">-->
+                        <!--:format="['mp4']"-->
+                        <!--:max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"-->
+                        <!--type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:58px;">-->
+                        <!--<div style="width: 58px;height:58px;line-height: 58px;">-->
+                        <!--<video v-if="personalInfo.vcr !='' " :src="personalInfo.vcr">-->
 
-                                <!--</video>-->
-                                <!--<p v-else style="font-size: 17px">vcr</p>-->
-                            <!--</div>-->
+                        <!--</video>-->
+                        <!--<p v-else style="font-size: 17px">vcr</p>-->
+                        <!--</div>-->
                         <!--</upload>-->
                     </i-col>
                 </row>
@@ -268,7 +268,7 @@
         },
         methods: {
             navi(url) {
-                window.location.href = url+"?id="+id;
+                window.location.href = url + "?id=" + id;
             },
             handleView(name) {
                 this.personalInfo.picture = name;
@@ -361,7 +361,7 @@
                     desc: '不支持 ' + file.name + ' 文件的格式'
                 });
             },
-            handleBeforeUpload () {
+            handleBeforeUpload() {
                 const check = this.uploadList.length < 5;
                 if (!check) {
                     this.$Notice.warning({

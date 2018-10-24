@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>服务列表</title>
     <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
     <style>
         .header {
             margin-top: 10px;
         }
-        
+
         .footer {
             position: fixed;
             bottom: 0;
@@ -21,41 +21,43 @@
 </head>
 
 <body>
-    <div id="app">
-        <row class="header">
+<div id="app">
+    <row class="header">
+        <i-col>
+            <breadcrumb separator="|">
+                <breadcrumb-item>
+                    <icon type="ios-home-outline"></icon>
+                    {{name}}
+                </breadcrumb-item>
+                <breadcrumb-item>
+                    <icon type="logo-buffer"></icon>
+                    服务列表
+                </breadcrumb-item>
+            </breadcrumb>
+        </i-col>
+    </row>
+    <!--表格-->
+    <scroll :height="tableHeight" :on-reach-bottom="handleReachBottom" :distance-to-edge="20">
+        <row class="content">
             <i-col>
-                <breadcrumb separator="|">
-                    <breadcrumb-item>
-                        <icon type="ios-home-outline"></icon> {{name}}
-                    </breadcrumb-item>
-                    <breadcrumb-item>
-                        <icon type="logo-buffer"></icon> 服务列表
-                    </breadcrumb-item>
-                </breadcrumb>
+                <div v-for="(data, index) in data_list" style="margin-bottom: 8px;">
+                    <collapse simple>
+                        <panel>
+                            <strong>{{ data.name }}</strong> <span style="float: right; margin-right: 16px;">标准价: ¥
+                                    {{ data.price }}</span>
+                            <p slot="content">
+                                <expand-row :row="data"></expand-row>
+                            </p>
+                        </panel>
+                    </collapse>
+                </div>
             </i-col>
         </row>
-        <!--表格-->
-        <scroll :height="tableHeight" :on-reach-bottom="handleReachBottom" :distance-to-edge="20">
-            <row class="content">
-                <i-col>
-                    <div v-for="(data, index) in data_list" style="margin-bottom: 8px;">
-                        <collapse simple>
-                            <panel>
-                                <strong>{{ data.name }}</strong> <span style="float: right; margin-right: 16px;">标准价: ¥
-                                    {{ data.price }}</span>
-                                <p slot="content">
-                                    <expand-row :row="data"></expand-row>
-                                </p>
-                            </panel>
-                        </collapse>
-                    </div>
-                </i-col>
-            </row>
-        </scroll>
-        <row class="footer">
-            <i-col> <span>{{ name }} @2018</span> </i-col>
-        </row>
-    </div>
+    </scroll>
+    <row class="footer">
+        <i-col><span>{{ name }} @2018</span></i-col>
+    </row>
+</div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>

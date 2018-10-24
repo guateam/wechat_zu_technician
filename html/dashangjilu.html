@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>打赏记录</title>
-    <link rel="stylesheet" href="../css/weui-min.css" />
-    <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" href="../css/weui-min.css"/>
+    <link rel="stylesheet" href="../css/example.css"/>
     <style>
         a :focus {
             background-color: #cc99cc;
@@ -48,58 +48,65 @@
 
 <body style="background-color: #f2f2f2;font-size: 15px;">
 
-    <div id="detail" style="height:100%">
-        <div class="weui-flex" style="font-size: 15px">
-            <div class="weui-flex__item" style="flex: 0 0 50%;">
-                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                        src="../src/日历.png" style="float: left;margin: 10px auto">{{show_month}}</a>
-            </div>
-            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
-                <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
-                    onfocus="this.blur();">本月</a>
-                <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
-                    onfocus="this.blur();">本周</a>
-                <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
-                    onfocus="this.blur();">上周</a>
-            </div>
+<div id="detail" style="height:100%">
+    <div class="weui-flex" style="font-size: 15px">
+        <div class="weui-flex__item" style="flex: 0 0 50%;">
+            <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker"
+               style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                    src="../src/日历.png" style="float: left;margin: 10px auto">{{show_month}}</a>
         </div>
-        <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
-            <div class="box weui-flex" style="flex: 0 0 100%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
-                <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">被打赏次数</h3>
-                    <span v-text="get_times()" style="color: white;font-size: 15px"></span>
-                </div>
-                <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总金额（元）</h3>
-                    <span v-text="'￥'+sum(list)" style="color: white;font-size: 15px"></span>
-                </div>
+        <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;background-color: white">
+            <a href="javascript:;" @click="certaindate(1)" class="weui-flex__item"
+               v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+               onfocus="this.blur();">本月</a>
+            <a href="javascript:;" @click="certaindate(2)" class="weui-flex__item"
+               v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[1]}"
+               onfocus="this.blur();">本周</a>
+            <a href="javascript:;" @click="certaindate(3)" class="weui-flex__item"
+               v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[2]}"
+               onfocus="this.blur();">上周</a>
+        </div>
+    </div>
+    <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
+        <div class="box weui-flex"
+             style="flex: 0 0 100%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
+            <div class="item weui-flex__item" style="margin-left: 10px">
+                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">被打赏次数</h3>
+                <span v-text="get_times()" style="color: white;font-size: 15px"></span>
             </div>
-        </div>
-
-        <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px;margin-top: 0">
-
-            <div v-for="it in list" v-show="it['show']" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
-                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
-                    <div class="weui-media-box__bd" style="">
-                        <p v-text="'打赏人 '+it['user_id']"></p>
-                        <h4 v-text="it['date']" class="weui-media-box__title" style="font-family: monospace;color: #cc99cc"></h4>
-                    </div>
-                    <div class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;float: right;">
-                        <span v-text="'￥'+it['salary']/100"></span>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-        <div class="weui-footer" style="margin-top: 20px">
-            <p class="weui-footer__text">查帐方式以结账时间为准</p>
-        </div>
-        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
-            <div class="modal-data">
-                <img src="../src/loading.gif" />
+            <div class="item weui-flex__item" style="margin-left: 10px">
+                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总金额（元）</h3>
+                <span v-text="'￥'+sum(list)" style="color: white;font-size: 15px"></span>
             </div>
         </div>
     </div>
+
+    <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px;margin-top: 0">
+
+        <div v-for="it in list" v-show="it['show']" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
+                <div class="weui-media-box__bd" style="">
+                    <p v-text="'打赏人 '+it['user_id']"></p>
+                    <h4 v-text="it['date']" class="weui-media-box__title"
+                        style="font-family: monospace;color: #cc99cc"></h4>
+                </div>
+                <div class="weui-media-box__hd"
+                     style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;float: right;">
+                    <span v-text="'￥'+it['salary']/100"></span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+    <div class="weui-footer" style="margin-top: 20px">
+        <p class="weui-footer__text">查帐方式以结账时间为准</p>
+    </div>
+    <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+        <div class="modal-data">
+            <img src="../src/loading.gif"/>
+        </div>
+    </div>
+</div>
 
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
@@ -135,6 +142,7 @@
         if (r != null) return unescape(r[2]);
         return null;
     }
+
     let app = new Vue({
         el: '#detail',
         data: {
@@ -215,8 +223,8 @@
                 that.list = [];
                 $.post("../php/gettip.php", {
                     job_number: getQueryString('id'),
-                    begin:begin,
-                    end:end,
+                    begin: begin,
+                    end: end,
                 }).done((res) => {
                     res = JSON.parse(res);
                     if (res.status == 1) {
@@ -273,8 +281,8 @@
             var that = this;
             $.post("../php/gettip.php", {
                 job_number: getQueryString('id'),
-                begin:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
-                end:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
+                begin: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
+                end: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
