@@ -44,10 +44,11 @@
                     <div class="weui-cell__hd"><label class="weui-label"></label></div>
                     <div class="weui-cell__bd">
                         <!--<select id="shop" placeholder="店名" >-->
-                            <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
+                        <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
                         <!--</select>-->
-                        <i-select v-model="model1" id="shop" placeholder="请选择店铺">
-                            <i-option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></i-option>
+                        <i-select v-model="select" id="shop" placeholder="请选择店铺">
+                            <i-option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']"
+                                v-text="sp['name']"></i-option>
                         </i-select>
                     </div>
                 </div>
@@ -56,7 +57,7 @@
                         <label class="weui-label"></label>
                     </div>
                     <div class="weui-cell__bd">
-                        <input id="tel" class="weui-input" type="tel" :value="phone" placeholder="手机号" />
+                        <input id="tel" class="weui-input" type="tel" v-model="phone" placeholder="手机号" />
                     </div>
                     <div class="weui-cell__ft">
                         <button class="weui-vcode-btn" style="border: none;">
@@ -73,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="weui-btn-area" style="margin-top: 40px">
+            <div @click="login()" class="weui-btn-area" style="margin-top: 40px">
                 <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" style="background-color: #8c8ef9;border-radius: 20px">登录</a>
             </div>
         </form>
@@ -99,63 +100,83 @@
     }
 
     let app = new Vue({
-        el:"#app",
-        data:{
-            shop:[],
-            phone:"",
-            select:"",
-            show:true,
+        el: "#app",
+        data: {
+            shop: [],
+            phone: "",
+            select: "",
+            show: true,
         },
-        methods:{
-            default_select(name){
-                if(this.select == name)return true;
+        methods: {
+            default_select(name) {
+                if (this.select == name) return true;
                 else return false;
+            },
+            login() {
+                reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                if (this.phone != "" && reg.test(this.phone) && this.select != "") {
+                    overlay();
+                    $.post('../php/get_tech_byphone.php', {
+                        phone: $("#tel").val()
+                    }).done((result) => {
+                        result = JSON.parse(result);
+                        if (result.status == 1) {
+                            overlay(false);
+                            $.cookie('zys', $("#shop").val(), {
+                                expires: 7
+                            });
+                            $.cookie('zyp', $("#tel").val(), {
+                                expires: 7
+                            });
+                            window.location.href = "main.html?id=" + result.job_number;
+
+                        } else {
+                            swal({
+                                title: "技师不存在",
+                                type: "error",
+                                width: "100"
+                            })
+                        }
+                    });
+
+                } else {
+                    if (this.select == "") {
+                        swal({
+                            title: "没有选择店铺",
+                            type: "error",
+                            width: 250
+                        })
+                    } else if (this.phone == "") {
+                        swal({
+                            title: "手机号不能为空",
+                            type: "error",
+                            width: 250,
+                        })
+                    } else if (reg.test(this.phone)) {
+                        swal({
+                            title: "手机号格式不正确",
+                            type: "error",
+                            width: 250,
+                        })
+                    }
+
+                }
             }
         },
-        created(){
+        created() {
             var that = this;
-            this.phone = $.cookie('zyp')
-            this.select = $.cookie('zys')
-            $.post("../php/getshop.php").done((res)=>{
+            if ($.cookie('zyp')) {
+                this.phone = $.cookie('zyp')
+            }
+            if ($.cookie('zys')) {
+                this.select = $.cookie('zys')
+            }
+            $.post("../php/getshop.php").done((res) => {
                 res = JSON.parse(res);
-                for(var i = 0;i<res.all_shop.length;i++){
+                for (var i = 0; i < res.all_shop.length; i++) {
                     that.shop.push(res.all_shop[i])
                 }
                 that.show = false;
-            })
-        }
-    })
-    $("#showTooltips").on("click", () => {
-        reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        if ($("#tel").val() != "" && reg.test($("#tel").val())) {
-            overlay();
-            $.post('../php/get_tech_byphone.php', {
-                phone: $("#tel").val()
-            }).done((result) => {
-                result = JSON.parse(result);
-                if (result.status == 1) {
-                    overlay(false);
-                    $.cookie('zys', $("#shop").val(), {
-                        expires: 7
-                    });
-                    $.cookie('zyp', $("#tel").val(), {
-                        expires: 7
-                    });
-                    window.location.href = "main.html?id=" + result.job_number;
-
-                } else {
-                    swal({
-                        title: "技师不存在",
-                        type: "error",
-                        width: "100"
-                    })
-                }
-            });
-
-        } else {
-            swal({
-                title: "手机号格式不正确",
-                type: "error"
             })
         }
     })
