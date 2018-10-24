@@ -110,7 +110,7 @@
                             <p class="post" v-text="item['content']"></p>
                             <div>
                                 <img @click="show_pic(imgidx,item['img'])"
-                                     style="width:100px;height:100px;margin-right:5px"
+                                     style="width:100px;height:100px;margin-right:5px;object-fit: cover;"
                                      v-for="(img,imgidx) in item['img']"
                                      :src="img" v-if="img != ''">
                             </div>
