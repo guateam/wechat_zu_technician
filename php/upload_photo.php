@@ -48,7 +48,7 @@ if ((
             if($tc)
 			{
                 move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-                add("technician_photo",[['job_number',$job_number],['img',$sv]]);
+                add("technician_photo",[['job_number',$job_number],['img',$sv],['time',time()]]);
 
                 if($bg)
 				{

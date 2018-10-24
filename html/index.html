@@ -51,8 +51,8 @@
                     <!--<select id="shop" placeholder="店名" >-->
                     <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
                     <!--</select>-->
-                    <i-select v-model="select" id="shop" placeholder="请选择店铺">
-                        <i-option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']"
+                    <i-select  :label="select" id="shop" placeholder="请选择店铺">
+                        <i-option  v-for="sp in shop" :value="sp['name']"
                                   v-text="sp['name']"></i-option>
                     </i-select>
                 </div>
@@ -123,6 +123,7 @@
                 else return false;
             },
             login() {
+                var that = this;
                 reg = /^[1][3,4,5,7,8][0-9]{9}$/;
                 if (this.phone != "" && reg.test(this.phone) && this.select != "") {
                     overlay();
@@ -132,10 +133,10 @@
                         result = JSON.parse(result);
                         if (result.status == 1) {
                             overlay(false);
-                            $.cookie('zys', $("#shop").val(), {
+                            $.cookie('zys', that.select, {
                                 expires: 7
                             });
-                            $.cookie('zyp', $("#tel").val(), {
+                            $.cookie('zyp', that.phone, {
                                 expires: 7
                             });
                             window.location.href = "main.html?id=" + result.job_number;

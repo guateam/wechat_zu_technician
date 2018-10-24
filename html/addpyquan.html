@@ -94,10 +94,10 @@
     </style>
 </head>
 
-<body>
+<body onunload="app.del_already()">
     <div id="app">
         <row style="width: 100%;padding-top: 7px;font-size: 16px">
-            <span style="margin-left: 15px"><a href="javascript:history.go(-1)">取消</a></span>
+            <span @click="del_already()" style="margin-left: 15px"><a>取消</a></span>
             <span @click="create_pyq()" style="float: right;margin-right: 15px;color: #409eff">发表</span>
         </row>
         <row>
@@ -140,10 +140,9 @@
                 <!--新加的上传，Test-->
 
 
-                <upload ref="upload" :data="{'id':tech}" :on-success="after_vcr"
-                        :format="['mp4']" show-upload-list="flase"
-                        :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"
-                        type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
+                <upload ref="upload" :data="{'id':tech}" :on-success="after_vcr" :format="['mp4']" show-upload-list="flase"
+                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig" type="drag"
+                    action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
@@ -206,7 +205,7 @@
                 swal({
                     text: "正在发布...",
                     showConfirmButton: false,
-                    width:200,
+                    width: 200,
                     onOpen: () => {
                         swal.showLoading()
                     }
@@ -271,13 +270,14 @@
                 })
             },
             handleBeforeUpload(file) {
-                swal({
-                    text: "正在上传，请稍候",
-                    width: 200,
-                    onOpen: () => {
-                        swal.showLoading();
-                    }
-                })
+                console.log(file)
+                // swal({
+                //     text: "正在上传，请稍候",
+                //     width: 200,
+                //     onOpen: () => {
+                //         swal.showLoading();
+                //     }
+                // })
             },
             handleRemove(name) {
                 var that = this;
@@ -298,12 +298,25 @@
                         }
                         $.post("../php/del_photo.php", {
                             job_number: that.job_number,
-                            url: name
+                            url:[name]
                         }).done(() => {})
                     }
                 })
             },
-
+            del_already() {
+                var that = this;
+                if (that.uploadimg.length >= 1) {
+                    var dirs = [];
+                    for(var i in that.uploadimg){
+                        dirs.push(that.uploadimg[i]['url']);
+                    }
+                    $.post("../php/del_photo.php", {
+                        url: dirs,
+                        job_number:that.job_number
+                    })
+                }
+                history.go(-1);
+            },
 
 
 
@@ -319,9 +332,7 @@
                 var check = this.uploadimg.length;
                 this.uploadList.push([]);
 
-                for (var i = 0; i < 2000; i++) {
-                }
-                ;
+                for (var i = 0; i < 2000; i++) {};
                 var lth = this.uploadList.length;
                 console.log(lth);
                 var input = (check + this.uploadList.length) > max_count;
