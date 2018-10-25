@@ -7,6 +7,7 @@
     <title>添加动态</title>
     <link rel="stylesheet" type="text/css" href="../css/iview.css">
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
+    <link rel="stylesheet" href="../css/global.css"/>
     <style>
         .demo-upload-list{
             display: inline-block;
@@ -176,6 +177,7 @@
 <script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script src="../js/tinyImgUpload.js"></script>
+<script type="text/javascript" src="../js/windowOpen.js"></script>
 <script>
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -197,11 +199,10 @@
         methods: {
             create_pyq() {
                 if (this.content == "") {
-                    swal({
-                        text: "正文内容不能为空",
-                    })
+                    $(this).openWindow("", "正文内容不能为空", ["好的"])
                     return;
                 }
+
                 swal({
                     text: "正在发布...",
                     showConfirmButton: false,
@@ -222,18 +223,21 @@
                 }).done((res) => {
                     res = JSON.parse(res);
                     if (res.status == 1) {
-                        swal({
-                            type: "success",
-                            text: "发布成功!",
-                            timer: 1000,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            showConfirmButton: false,
-                        }).then((result) => {
-                            if (result.dismiss === swal.DismissReason.timer || result.value) {
-                                window.location.href = "pyquan.html?id=" + that.job_number
-                            }
+                        $(this).openWindow("", "发布成功", ["好的"], () => {
+                            window.location.href = "pyquan.html?id=" + that.job_number
                         })
+                        // swal({
+                        //     type: "success",
+                        //     text: "发布成功!",
+                        //     timer: 1000,
+                        //     allowOutsideClick: false,
+                        //     allowEscapeKey: false,
+                        //     showConfirmButton: false,
+                        // }).then((result) => {
+                        //     if (result.dismiss === swal.DismissReason.timer || result.value) {
+                        //         window.location.href = "pyquan.html?id=" + that.job_number
+                        //     }
+                        // })
                     }
 
                 })
@@ -263,11 +267,12 @@
                 alert("fail");
             },
             handleMax(file) {
-                swal({
-                    text: "文件过大，不得超过5M",
-                    type: "error",
-                    width: 230,
-                })
+                $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
+                // swal({
+                //     text: "文件过大，不得超过5M",
+                //     type: "error",
+                //     width: 230,
+                // })
             },
             handleBeforeUpload(file) {
                 console.log(file)
@@ -281,38 +286,49 @@
             },
             handleRemove(name) {
                 var that = this;
-                swal({
-                    text: "确认删除该图片吗？",
-                    allowOutsideClick: false,
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: "删除",
-                    cancelButtonText: "取消",
-                    width: 280,
-                }).then((res) => {
-                    if (res.value) {
-                        for (var i = 0; i < this.uploadimg.length; i++) {
-                            if (this.uploadimg[i].url == name) {
-                                this.uploadimg.splice(i, 1);
-                            }
+                $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
+                    for (var i = 0; i < this.uploadimg.length; i++) {
+                        if (this.uploadimg[i].url == name) {
+                            this.uploadimg.splice(i, 1);
                         }
-                        $.post("../php/del_photo.php", {
-                            job_number: that.job_number,
-                            url:[name]
-                        }).done(() => {})
                     }
+                    $.post("../php/del_photo.php", {
+                        job_number: that.job_number,
+                        url: [name]
+                    }).done(() => {})
                 })
+                // swal({
+                //     text: "确认删除该图片吗？",
+                //     allowOutsideClick: false,
+                //     showConfirmButton: true,
+                //     showCancelButton: true,
+                //     confirmButtonText: "删除",
+                //     cancelButtonText: "取消",
+                //     width: 280,
+                // }).then((res) => {
+                //     if (res.value) {
+                //         for (var i = 0; i < this.uploadimg.length; i++) {
+                //             if (this.uploadimg[i].url == name) {
+                //                 this.uploadimg.splice(i, 1);
+                //             }
+                //         }
+                //         $.post("../php/del_photo.php", {
+                //             job_number: that.job_number,
+                //             url: [name]
+                //         }).done(() => {})
+                //     }
+                // })
             },
             del_already() {
                 var that = this;
                 if (that.uploadimg.length >= 1) {
                     var dirs = [];
-                    for(var i in that.uploadimg){
+                    for (var i in that.uploadimg) {
                         dirs.push(that.uploadimg[i]['url']);
                     }
                     $.post("../php/del_photo.php", {
                         url: dirs,
-                        job_number:that.job_number
+                        job_number: that.job_number
                     })
                 }
                 history.go(-1);

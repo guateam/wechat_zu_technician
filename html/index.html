@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/weui-min.css"/>
     <link rel="stylesheet" href="../css/example.css"/>
     <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
+    <link rel="stylesheet" href="../css/global.css"/>
     <style>
         .weui-label {
             width: 60px;
@@ -45,20 +46,20 @@
     <form>
         <div class="weui-cells weui-cells_form" style="height: 135px;background-color: #f2f2f2;border: none">
             <div class="weui-cell"
-                 style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:7%;border: none">
+                 style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:5%;border: none">
                 <div class="weui-cell__hd"><label class="weui-label"></label></div>
                 <div class="weui-cell__bd">
                     <!--<select id="shop" placeholder="店名" >-->
                     <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
                     <!--</select>-->
-                    <i-select  :label="select" id="shop" placeholder="请选择店铺">
+                    <i-select   :label="select" id="shop" placeholder="请选择店铺" >
                         <i-option  v-for="sp in shop" :value="sp['name']"
                                   v-text="sp['name']"></i-option>
                     </i-select>
                 </div>
             </div>
             <div class="weui-cell weui-cell_vcode"
-                 style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:7%;border: none">
+                 style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:5%;border: none">
                 <div class="weui-cell__hd">
                     <label class="weui-label"></label>
                 </div>
@@ -74,7 +75,7 @@
                 </div>
             </div>
             <div class="weui-cell weui-cell_vcode"
-                 style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:7%;border: none">
+                 style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:5%;border: none">
                 <div class="weui-cell__hd">
                     <label class="weui-label"></label>
                 </div>
@@ -104,6 +105,7 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/jquery.cookie.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
+<script type="text/javascript" src="../js/windowOpen.js"></script>
 <script type="text/javascript">
     function overlay(state = true) {
         $('#modal-overlay').attr("hidden", !state)
@@ -142,33 +144,37 @@
                             window.location.href = "main.html?id=" + result.job_number;
 
                         } else {
-                            swal({
-                                title: "技师不存在",
-                                type: "error",
-                                width: "100"
-                            })
+                            $(this).openWindow("", "技师不存在", ["好的"])
+                            // swal({
+                            //     title: "技师不存在",
+                            //     type: "error",
+                            //     width: "100"
+                            // })
                         }
                     });
 
                 } else {
                     if (this.select == "") {
-                        swal({
-                            title: "没有选择店铺",
-                            type: "error",
-                            width: 250
-                        })
+                        $(this).openWindow("", "没有选择店铺", ["好的"])
+                        // swal({
+                        //     title: "没有选择店铺",
+                        //     type: "error",
+                        //     width: 250
+                        // })
                     } else if (this.phone == "") {
-                        swal({
-                            title: "手机号不能为空",
-                            type: "error",
-                            width: 250,
-                        })
+                        $(this).openWindow("", "手机号不能为空", ["好的"])
+                        // swal({
+                        //     title: "手机号不能为空",
+                        //     type: "error",
+                        //     width: 250,
+                        // })
                     } else if (reg.test(this.phone)) {
-                        swal({
-                            title: "手机号格式不正确",
-                            type: "error",
-                            width: 250,
-                        })
+                        $(this).openWindow("", "手机号格式不正确", ["好的"])
+                        // swal({
+                        //     title: "手机号格式不正确",
+                        //     type: "error",
+                        //     width: 250,
+                        // })
                     }
 
                 }

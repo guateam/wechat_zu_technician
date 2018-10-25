@@ -6,7 +6,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">   <title>首页</title>
     <link rel="stylesheet" href="../css/weui-min.css"/>
     <link rel="stylesheet" href="../css/example.css"/>
-
+    <link rel="stylesheet" href="../css/global.css"/>
 
     <style>
         #modal-overlay {
@@ -167,6 +167,7 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/windowOpen.js"></script>
 <script type="text/javascript" src="../js/echarts-simple-min.js"></script>
 <script type="text/javascript" src="../js/sweetalert.js"></script>
 <script type="text/javascript">
@@ -294,11 +295,12 @@
         }).done((data) => {
             data = JSON.parse(data)
             if (data.status == 1) {
-                swal({
-                    type: "success",
-                    text: "成功签到！",
-                    width: 200
-                });
+                $(this).openWindow("", "成功签到", ["好的"])
+                // swal({
+                //     type: "success",
+                //     text: "成功签到！",
+                //     width: 200
+                // });
                 console.log("开启计时器")
                 interval_id = setInterval(() => {
                     console.log("计时器检测")
@@ -315,21 +317,23 @@
             } 
 			else if (data.status == -1) 
 			{
-                swal({
-                    type: "error",
-                    text: "已经签到过了！",
-                    width: 200
-                })
+                $(this).openWindow("", "已经签到过了", ["好的"])
+                // swal({
+                //     type: "error",
+                //     text: "已经签到过了！",
+                //     width: 200
+                // })
                 $('#checkin').hide()
                 $('#checkout').show()
             } 
 			else 
 			{
-                swal({
-                    type: "error",
-                    text: "签到失败！",
-                    width: 200
-                })
+                $(this).openWindow("", "签到失败", ["好的"])
+                // swal({
+                //     type: "error",
+                //     text: "签到失败！",
+                //     width: 200
+                // })
             }
         })
     }
@@ -345,32 +349,35 @@
             data = JSON.parse(data)
             if (data.status == 1) 
 			{
-                swal({
-                    type: "success",
-                    text: "成功签退！",
-                    width: 200
-                })
+                $(this).openWindow("", "成功签退", ["好的"])
+                // swal({
+                //     type: "success",
+                //     text: "成功签退！",
+                //     width: 200
+                // })
                 $('#checkout').hide()
                 $('#checkin').show()
                 clearInterval(interval_id);
             } 
 			else if (data.status == -1) 
 			{
-                swal({
-                    type: "error",
-                    text: "已经签退过了！",
-                    width: 200
-                })
+                $(this).openWindow("", "已经签退过了", ["好的"])
+                // swal({
+                //     type: "error",
+                //     text: "已经签退过了！",
+                //     width: 200
+                // })
                 $('#checkout').hide()
                 $('#checkin').show()
             } 
 			else 
 			{
-                swal({
-                    type: "error",
-                    text: "签退失败！",
-                    width: 200
-                })
+                $(this).openWindow("", "签退失败", ["好的"])
+                // swal({
+                //     type: "error",
+                //     text: "签退失败！",
+                //     width: 200
+                // })
             }
         })
    }

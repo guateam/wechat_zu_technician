@@ -8,6 +8,7 @@
     <link href="../css/pyquan.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/iview.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+    <link rel="stylesheet" href="../css/global.css"/>
     <style>
         #modal-overlay {
             position: absolute; /* 使用绝对定位或固定定位  */
@@ -117,7 +118,6 @@
                     </div>
                     <div class="po-cmt">
                         <div class="po-hd">
-                            <p v-text="job_number"></p>
                             <p class="post" v-text="item['content']"></p>
                             <div>
                                 <img @click="show_pic(imgidx,item['img'])"
@@ -157,6 +157,7 @@
 <script type="text/javascript" src="../vendor/iview/dist/iview.min.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+<script type="text/javascript" src="../js/windowOpen.js"></script>
 <script>
     // var tgt = [];
 
@@ -249,11 +250,12 @@
                 })
             },
             handleMax(file) {
-                swal({
-                    text: "文件过大，不得超过5M",
-                    type: "error",
-                    width: 230,
-                })
+                $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
+                // swal({
+                //     text: "文件过大，不得超过5M",
+                //     type: "error",
+                //     width: 230,
+                // })
             },
             handleFail(res, file) {
                 alert("fail");
@@ -268,11 +270,12 @@
                     that.background = res.url;
                     swal.close();
                 } else {
-                    swal({
-                        text: res.state,
-                        type: "error",
-                        width: 230,
-                    })
+                    $(this).openWindow("", res.state, ["好的"])
+                    // swal({
+                    //     text: res.state,
+                    //     type: "error",
+                    //     width: 230,
+                    // })
                 }
 
             },
