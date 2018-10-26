@@ -168,7 +168,7 @@
                         //     type: "error",
                         //     width: 250,
                         // })
-                    } else if (reg.test(this.phone)) {
+                    } else if (!reg.test(this.phone)) {
                         $(this).openWindow("", "手机号格式不正确", ["好的"])
                         // swal({
                         //     title: "手机号格式不正确",
@@ -176,7 +176,6 @@
                         //     width: 250,
                         // })
                     }
-
                 }
             }
         },

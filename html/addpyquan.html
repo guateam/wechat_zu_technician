@@ -141,8 +141,8 @@
                 <!--新加的上传，Test-->
 
 
-                <upload ref="upload" :data="{'id':tech}" :on-success="after_vcr" :format="['mp4']" show-upload-list="flase"
-                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig" type="drag"
+                <upload ref="upload" :data="{job_number:job_number}"  :format="['mp4','mov','avi']" show-upload-list="flase"
+                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"  :on-success="videosuccess" type="drag"
                     action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
@@ -191,6 +191,7 @@
         data() {
             return {
                 uploadimg: [],
+                uploadvdo:[],
                 content: "",
                 job_number: getQueryString('id'),
                 overlay: false,
@@ -212,17 +213,22 @@
                     }
                 })
                 var that = this;
-                var ids = "";
+                var ids = "",vds="";
                 for (var i in this.uploadimg) {
                     ids += this.uploadimg[i]['id'] + ","
+                }
+                for(var i in this.uploadvdo) {
+                    vds+= this.uploadvdo[i]['id'] + ","
                 }
                 $.post("../php/addpyq.php", {
                     ids: ids,
                     job_number: that.job_number,
-                    content: that.content
+                    content: that.content,
+                    video:vds,
                 }).done((res) => {
                     res = JSON.parse(res);
                     if (res.status == 1) {
+                        swal.close()
                         $(this).openWindow("", "发布成功", ["好的"], () => {
                             window.location.href = "pyquan.html?id=" + that.job_number
                         })
@@ -241,6 +247,24 @@
                     }
 
                 })
+            },
+            videosuccess(res,file){
+                var that = this;
+
+                if (res.state == 1) {
+                    console.log(res.url);
+                    that.uploadvdo.push({
+                        'url': res.url,
+                        'id': res.ID
+                    });
+                    swal.close();
+                } else {
+                    swal({
+                        text: res.state,
+                        type: "error",
+                        width: 230,
+                    })
+                }
             },
             handleSuccess(res, file) {
                 var that = this;
@@ -361,13 +385,6 @@
                 }
                 return check + lth <= 5;
                 return true;
-            },
-            after_vcr(res, file) {
-                var that = this;
-                console.log(res);
-                if (res.state == 1) {
-                    that.vcr_url = res.url;
-                }
             },
             handleFormatError(file) {
                 this.$Notice.warning({

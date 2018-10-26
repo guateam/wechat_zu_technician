@@ -2,7 +2,7 @@
 require("database.php");
 $dir = $_SERVER['DOCUMENT_ROOT']."/vcr/";
 $save_dir = "/vcr/";
-$job_number =implode("",$_POST);
+$job_number =$_POST['job_number'];
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
 
@@ -16,7 +16,7 @@ for($i = 0;$i<7;$i++)
     $rnd_str.=$dict[$idx];    
 }
 
-if ($_FILES["file"]["type"] == "video/mp4" )
+if ($_FILES["file"]["type"] == "video/mp4" || $_FILES["file"]["type"] == "video/quicktime" )
 {
     if ($_FILES["file"]["error"] > 0)
     {
@@ -35,15 +35,12 @@ if ($_FILES["file"]["type"] == "video/mp4" )
             $tm = date("ymdhis",time());
             $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
             $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
-            // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
-			$tech = get("technician",'job_number',$job_number);
-			if($tech[0]['vcr']!='' || isset($tech[0]['vcr']) || !is_null($tech[0]['vcr']))
-					unlink($_SERVER['DOCUMENT_ROOT'].$tech[0]['vcr']);
 				
 			move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-			set("technician",'job_number',$job_number,[['vcr',$sv]]);
-
-			echo json_encode(["state"=>1,'url'=>$sv]);
+			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()]]);
+            $tp_vdo_id = (get("technician_video",'dir',$sv))[0];
+            $tp_vdo_id = $tp_vdo_id['ID'];
+			echo json_encode(["state"=>1,'url'=>$sv,"ID"=>$tp_vdo_id]);
         }
     }
 }
