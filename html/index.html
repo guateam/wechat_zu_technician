@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>登录</title>
-    <link rel="stylesheet" href="../css/weui-min.css"/>
-    <link rel="stylesheet" href="../css/example.css"/>
+    <link rel="stylesheet" href="../css/weui-min.css" />
+    <link rel="stylesheet" href="../css/example.css" />
     <link rel="stylesheet" type="text/css" href="../vendor/iview/dist/styles/iview.css">
-    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/global.css" />
     <style>
         .weui-label {
             width: 45px;
@@ -37,64 +37,59 @@
 </head>
 
 <body style="background-color: #f2f2f2">
-<div id="app" style="width:100%;height:100%">
-    <div class="head" style="height:25%;display: flex;justify-content: center;align-items: center;">
-        <div class="box" style="width: 35%;height: 50%">
-            <img src="../src/pic-01.jpg" alt="logo" style="width: 100%;height: 100%;">
+    <div id="app" style="width:100%;height:100%">
+        <div class="head" style="height:25%;display: flex;justify-content: center;align-items: center;">
+            <div class="box" style="width: 35%;height: 50%">
+                <img src="../src/pic-01.jpg" alt="logo" style="width: 100%;height: 100%;">
+            </div>
+        </div>
+        <form>
+            <div class="weui-cells weui-cells_form" style="height: 135px;background-color: #f2f2f2;border: none">
+                <div class="weui-cell" style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:5%;border: none">
+                    <div class="weui-cell__hd"><label class="weui-label"></label></div>
+                    <div class="weui-cell__bd">
+                        <!--<select id="shop" placeholder="店名" >-->
+                        <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
+                        <!--</select>-->
+                        <i-select v-model="select" id="shop" placeholder="请选择店铺">
+                            <i-option v-for="sp in shop" :value="sp['name']" >{{sp['name']}}</i-option>
+                        </i-select>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_vcode" style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:5%;border: none">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label"></label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input id="tel" class="weui-input" type="tel" v-model="phone" placeholder="手机号" />
+                    </div>
+                    <div class="weui-cell__ft">
+                        <button class="weui-vcode-btn" style="border: none;">
+                            <div style="border: 1px solid gray;background-color: #fe736c;border-radius: 10px;color: white;height: 35px;display: flex;justify-content: center;align-items: center;font-size: 14px;width: 100%;margin-right: 25px">
+                                获取验证码
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_vcode" style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:5%;border: none">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label"></label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="tel" placeholder="请输入验证码" />
+                    </div>
+                </div>
+            </div>
+            <div @click="login()" class="weui-btn-area" style="margin-top: 40px">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips" style="background-color: #8c8ef9;border-radius: 20px">登录</a>
+            </div>
+        </form>
+        <div id="modal-overlay" v-show="show">
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
+            </div>
         </div>
     </div>
-    <form>
-        <div class="weui-cells weui-cells_form" style="height: 135px;background-color: #f2f2f2;border: none">
-            <div class="weui-cell"
-                 style="background-image: url(../src/商户.png);background-repeat: no-repeat;background-position:5%;border: none">
-                <div class="weui-cell__hd"><label class="weui-label"></label></div>
-                <div class="weui-cell__bd">
-                    <!--<select id="shop" placeholder="店名" >-->
-                    <!--<option :selected="default_select(sp['name'])" v-for="sp in shop" :value="sp['name']" v-text="sp['name']"></option>-->
-                    <!--</select>-->
-                    <i-select   :label="select" id="shop" placeholder="请选择店铺" >
-                        <i-option  v-for="sp in shop" :value="sp['name']"
-                                  v-text="sp['name']"></i-option>
-                    </i-select>
-                </div>
-            </div>
-            <div class="weui-cell weui-cell_vcode"
-                 style="background-image: url(../src/手机.png);background-repeat: no-repeat;background-position:5%;border: none">
-                <div class="weui-cell__hd">
-                    <label class="weui-label"></label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input id="tel" class="weui-input" type="tel" v-model="phone" placeholder="手机号"/>
-                </div>
-                <div class="weui-cell__ft">
-                    <button class="weui-vcode-btn" style="border: none;">
-                        <div style="border: 1px solid gray;background-color: #fe736c;border-radius: 10px;color: white;height: 35px;display: flex;justify-content: center;align-items: center;font-size: 14px;width: 100%;margin-right: 25px">
-                            获取验证码
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="weui-cell weui-cell_vcode"
-                 style="height: 45px;background-image: url(../src/验证码.png);background-repeat: no-repeat;background-position:5%;border: none">
-                <div class="weui-cell__hd">
-                    <label class="weui-label"></label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="tel" placeholder="请输入验证码"/>
-                </div>
-            </div>
-        </div>
-        <div @click="login()" class="weui-btn-area" style="margin-top: 40px">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips"
-               style="background-color: #8c8ef9;border-radius: 20px">登录</a>
-        </div>
-    </form>
-    <div id="modal-overlay" v-show="show">
-        <div class="modal-data">
-            <img src="../src/loading.gif"/>
-        </div>
-    </div>
-</div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script src="../js/vue.js"></script>
@@ -117,6 +112,7 @@
             shop: [],
             phone: "",
             select: "",
+            shown:"",
             show: true,
         },
         methods: {
@@ -181,16 +177,17 @@
         },
         created() {
             var that = this;
-            if ($.cookie('zyp')) {
-                this.phone = $.cookie('zyp')
-            }
-            if ($.cookie('zys')) {
-                this.select = $.cookie('zys')
-            }
+
             $.post("../php/getshop.php").done((res) => {
                 res = JSON.parse(res);
                 for (var i = 0; i < res.all_shop.length; i++) {
                     that.shop.push(res.all_shop[i])
+                }
+                if ($.cookie('zyp')) {
+                    this.phone = $.cookie('zyp')
+                }
+                if ($.cookie('zys')) {
+                    this.select = $.cookie('zys')
                 }
                 that.show = false;
             })
