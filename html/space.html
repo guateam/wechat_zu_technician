@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <link rel="stylesheet" href="../css/global.css"/>
     <style>
+        *{
+            line-height: 1.6;
+        }
         .demo-upload-list {
             display: inline-block;
             width: 50px;
@@ -121,9 +124,9 @@
         <!--</i-col>-->
         <!--</row>-->
         <!--姓名工号头像-->
-        <row type="flex" justify="center" style="margin-top: 8px">
+        <row type="flex" justify="center" style="margin-top: 18px">
             <i-col span="22">
-                <card :bordered="false" dis-hover>
+                <card :bordered="false" dis-hover style="height: 120px">
                     <row type="flex" justify="space-between" align="bottom">
                         <i-col>
                             <row type="flex" justity="start" align="bottom">
@@ -169,7 +172,7 @@
             <i-col span="22">
                 <card :bordered="false" dis-hover>
                     <row type="flex" justify="space-between" :gutter="30">
-                        <i-col span="12">
+                        <i-col span="24">
                             <row type="flex" justify="space-between" style="margin-top: 8px">
                                 <i-col>性别:</i-col>
                                 <i-col class="info" v-text="personalInfo.sex"></i-col>
@@ -185,7 +188,7 @@
                             </row>
                         </i-col>
 
-                        <i-col span="12">
+                        <i-col span="24">
                             <row type="flex" justify="space-between" style="margin-top: 8px">
                                 <i-col>手机:</i-col>
                                 <i-col class="info" v-text="personalInfo.phone_number"></i-col>
