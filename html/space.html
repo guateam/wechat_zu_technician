@@ -285,25 +285,6 @@
             closeBig() {
                 this.big_img = false;
             },
-            beforeUpload(file) {
-                var that = this;
-                var max_count = 5;
-                var check = this.personalInfo.pictureList.length;
-                this.uploadList.push([]);
-
-                for (var i = 0; i < 2000; i++) {};
-                var lth = this.uploadList.length;
-                console.log(lth);
-                var input = (check + this.uploadList.length) > max_count;
-
-                if (input) {
-                    this.$Notice.warning({
-                        title: '最多只能上传5张图片'
-                    });
-                    this.uploadList.pop();
-                }
-                return check + lth <= 5;
-            },
             handleRemove(name) {
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
                     for (var i = 0; i < this.personalInfo.pictureList.length; i++) {
@@ -338,63 +319,6 @@
                 //     }
                 // })
             },
-            handleSuccess(res, file) {
-                var that = this;
-                var reg = /\{(.+?)\}/g;
-                res = res.match(reg);
-                res = JSON.parse(res);
-                if (res.state == 1) {
-                    console.log(res.url);
-                    that.personalInfo.pictureList.push({
-                        url: res.url
-                    });
-                }
-            },
-            onHead(res, file) {
-                this.personalInfo.picture = file.name;
-                var that = this;
-                var reg = /\{(.+?)\}/g;
-                res = res.match(reg);
-                res = JSON.parse(res);
-                console.log(res);
-                if (res.state == 1) {
-                    that.personalInfo.picture = res.url;
-                }
-            },
-            after_vcr(res, file) {
-                var that = this;
-                console.log(res);
-                if (res.state == 1) {
-                    that.vcr_url = res.url;
-                }
-            },
-            handleFormatError(file) {
-                this.$Notice.warning({
-                    title: '文件格式不正确',
-                    desc: '不支持 ' + file.name + ' 文件的格式'
-                });
-            },
-            handleBeforeUpload() {
-                const check = this.uploadList.length < 5;
-                if (!check) {
-                    this.$Notice.warning({
-                        title: 'Up to five pictures can be uploaded.'
-                    });
-                }
-                return check;
-            },
-            handleMaxSize(file) {
-                this.$Notice.warning({
-                    title: '文件大小超出限制',
-                    desc: '图片  ' + file.name + ' 太大了, 不能超过 2MB.'
-                });
-            },
-            vcr_toobig() {
-                this.$Notice.warning({
-                    title: "视频大小超出限制",
-                    desc: "最大只能为50MB"
-                })
-            }
         },
         mounted() {
 
@@ -420,7 +344,7 @@
                     that.personalInfo.is_on_the_job = info['in_job'];
                     that.personalInfo.inviter = info['inviter'];
                     that.personalInfo.rate = info['rate'];
-                    that.personalInfo.intro = info['description'];
+                    that.personalInfo.intro = info['description'] === null ? "": info['description'];
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
                     that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
                 }
