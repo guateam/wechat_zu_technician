@@ -29,6 +29,7 @@ if ((
     if ($_FILES["file"]["error"] > 0)
     {
         echo json_encode(["state"=>$_FILES["file"]["error"]]);
+        exit();
     }
     else
     {
@@ -37,6 +38,7 @@ if ((
         if (file_exists( $dir . $_FILES["file"]["name"]))
         {
             echo json_encode(["state"=>'文件已经存在']);
+            exit();
         }
         else
         {
@@ -47,25 +49,30 @@ if ((
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             if($tc)
 			{
-                move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-                add("technician_photo",[['job_number',$job_number],['img',$sv],['time',time()]]);
-
-                if($bg)
-				{
-                    if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
-                        $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
-                        unlink($del_dir);
-                        del("technician_photo",'img',$tc['friend_circle_background']);
+                if(move_uploaded_file($_FILES["file"]["tmp_name"],$tm )){
+                    add("technician_photo",[['job_number',$job_number],['img',$sv],['time',time()]]);
+                    if($bg)
+                    {
+                        if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
+                            $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
+                            unlink($del_dir);
+                            del("technician_photo",'img',$tc['friend_circle_background']);
+                        }
+                        set("technician",'job_number',$job_number,[['friend_circle_background',$sv]]);
                     }
-                    set("technician",'job_number',$job_number,[['friend_circle_background',$sv]]);
+                    $tp_img_id = (get("technician_photo",'img',$sv))[0];
+                    $tp_img_id = $tp_img_id['ID'];
+                    echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
+                    exit();
+                }else{
+                    echo json_encode(["state"=>'文件上传失败']);
+                    exit();
                 }
-                $tp_img_id = (get("technician_photo",'img',$sv))[0];
-                $tp_img_id = $tp_img_id['ID'];
-                echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
             }
             else
 			{
                 echo json_encode(["state"=>0]);
+                exit();
             }
         }
     }
@@ -74,6 +81,7 @@ if ((
 else
 {
     echo json_encode(["state"=>"格式错误:".$_FILES["file"]["type"]]);
+    exit();
 }
 
 ?>

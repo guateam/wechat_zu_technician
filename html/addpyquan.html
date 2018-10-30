@@ -400,56 +400,49 @@
             }
         },
 
-
-
-
-
-
-
-
         // 这里也是copy过来的
 
         created() {
             // overlay();
-            var that = this;
-            $.post("../php/gettechdetail.php", {
-                job_number: id
-            }).done((result) => {
-                result = JSON.parse(result);
-                if (result.status == 1) {
-                    info = result.data[0];
-                    that.personalInfo.id = info['job_number'];
-                    that.personalInfo.name = info['name'];
-                    that.personalInfo.phone_number = info['phone_number'];
+            // var that = this;
+            // $.post("../php/gettechdetail.php", {
+            //     job_number: id
+            // }).done((result) => {
+            //     result = JSON.parse(result);
+            //     if (result.status == 1) {
+            //         info = result.data[0];
+            //         that.personalInfo.id = info['job_number'];
+            //         that.personalInfo.name = info['name'];
+            //         that.personalInfo.phone_number = info['phone_number'];
 
-                    if (info['gender'] == 1) that.personalInfo.sex = "男";
-                    else that.personalInfo.sex = "女";
+            //         if (info['gender'] == 1) that.personalInfo.sex = "男";
+            //         else that.personalInfo.sex = "女";
 
-                    that.personalInfo.birth = info['birthday'];
-                    that.personalInfo.join_date = info['entry_date'];
-                    that.personalInfo.is_on_the_job = info['in_job'];
-                    that.personalInfo.inviter = info['inviter'];
-                    that.personalInfo.rate = info['rate'];
-                    that.personalInfo.intro = info['description'];
-                    that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
-                    that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
-                }
-            })
-            $.post("../php/get_all_photo.php", {
-                job_number: id
-            }).done((result) => {
-                if (result) {
-                    result = JSON.parse(result);
-                    for (var i = 0; i < result.length; i++) {
-                        that.personalInfo.pictureList.push({
-                            url: result[i]['url'],
-                        });
-                    }
-                }
-                // overlay(false);
-                that.overlay = false;
-                that.modal_id = "modal-overlay-opa";
-            })
+            //         that.personalInfo.birth = info['birthday'];
+            //         that.personalInfo.join_date = info['entry_date'];
+            //         that.personalInfo.is_on_the_job = info['in_job'];
+            //         that.personalInfo.inviter = info['inviter'];
+            //         that.personalInfo.rate = info['rate'];
+            //         that.personalInfo.intro = info['description'];
+            //         that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
+            //         that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
+            //     }
+            // })
+            // $.post("../php/get_all_photo.php", {
+            //     job_number: id
+            // }).done((result) => {
+            //     if (result) {
+            //         result = JSON.parse(result);
+            //         for (var i = 0; i < result.length; i++) {
+            //             that.personalInfo.pictureList.push({
+            //                 url: result[i]['url'],
+            //             });
+            //         }
+            //     }
+            //     // overlay(false);
+            //     that.overlay = false;
+            //     that.modal_id = "modal-overlay-opa";
+            // })
         }
 
     })
