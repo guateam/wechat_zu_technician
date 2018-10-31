@@ -20,7 +20,7 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
 {
     if ($_FILES["file"]["error"] > 0)
     {
-        echo json_encode(['state'=>0]);
+        echo json_encode(['state'=>$_FILES["file"]["error"]]);
         exit();
     }
     else
@@ -29,7 +29,7 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
         // 如果没有 upload 目录，你需要创建它，upload 目录权限为 777
         if (file_exists( $dir.$_FILES["file"]["name"]))
         {
-            echo json_encode(['state'=>0]);
+            echo json_encode(['state'=>"文件已经存在或路径不存在"]);
             exit();
         }
         else
