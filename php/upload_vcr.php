@@ -16,11 +16,12 @@ for($i = 0;$i<7;$i++)
     $rnd_str.=$dict[$idx];    
 }
 
-if ($_FILES["file"]["type"] == "video/mp4" || $_FILES["file"]["type"] == "video/quicktime" )
+if ($_FILES["file"]["type"] == "video/mp4"  )
 {
     if ($_FILES["file"]["error"] > 0)
     {
-		echo json_encode(['state'=>0]);
+        echo json_encode(['state'=>0]);
+        exit();
     }
     else
     {
@@ -29,6 +30,7 @@ if ($_FILES["file"]["type"] == "video/mp4" || $_FILES["file"]["type"] == "video/
         if (file_exists( $dir.$_FILES["file"]["name"]))
         {
             echo json_encode(['state'=>0]);
+            exit();
         }
         else
         {
@@ -40,9 +42,14 @@ if ($_FILES["file"]["type"] == "video/mp4" || $_FILES["file"]["type"] == "video/
 			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()]]);
             $tp_vdo_id = (get("technician_video",'dir',$sv))[0];
             $tp_vdo_id = $tp_vdo_id['ID'];
-			echo json_encode(["state"=>1,'url'=>$sv,"ID"=>$tp_vdo_id]);
+            echo json_encode(["state"=>1,'url'=>$sv,"ID"=>$tp_vdo_id]);
+            exit();
         }
     }
+}
+else
+{
+    echo json_encode(['state'=>"不支持上传该类型的文件，仅支持Mp4格式"]);
 }
 
 ?>
