@@ -87,10 +87,9 @@
 </head>
 
 <body>
-    <div id="app" style="width:100%;height:100%">
-        <header>
-            <!--更换背景，点击查看大图这个你直接从以前那儿copy一下代码吧我就不再写一遍了，滑稽-->
-            <upload style="width:100%;height: 250px" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
+<div id="app" style="width:100%;height:100%">
+    <header>
+        <upload style="width:100%;height: 250px" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
                 :max-size="4096" :before-upload="handleBeforeUpload" :show-upload-list="false" :on-error="handleFail"
                 :on-exceeded-size="handleMax" multiple style="display: inline-block;width:50px;">
                 <img id="bg" :src="background" style="width:100%;height:100%" v-if="background !=''">
