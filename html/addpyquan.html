@@ -9,6 +9,15 @@
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
     <link rel="stylesheet" href="../css/global.css" />
     <style>
+        *{
+            background-color: white;
+        }
+        img{
+            object-fit: cover;
+        }
+        .ivu-upload-list{
+            display: none;
+        }
         .demo-upload-list{
             display: inline-block;
             width: 120px;
@@ -96,14 +105,14 @@
 </head>
 
 <body >
-    <div id="app">
+    <div id="app" style="background-color: white">
         <row style="width: 100%;padding-top: 7px;font-size: 16px">
-            <span @click="del_already()" style="margin-left: 15px"><a>取消</a></span>
+            <span @click="del_already()" style="margin-left: 15px;color: #409eff"><a>取消</a></span>
             <span @click="create_pyq()" style="float: right;margin-right: 15px;color: #409eff">发表</span>
         </row>
         <row>
             <div style="margin-top: 10px">
-                <textarea v-model="content" placeholder="这一刻的想法..." :rows="6" style="width: 100%;font-size: 1.2em;border: none;padding-top: 10px;padding-left: 2em;"></textarea>
+                <textarea v-model="content" placeholder="这一刻的想法..." :rows="12" style="width: 100%;font-size: 1.2em;border: none;padding-top: 10px;padding-left: 2em;"></textarea>
             </div>
             <row>
                 <!-- <div class="demo-upload-list" v-for="item in uploadList">
@@ -118,7 +127,7 @@
                         <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
                     </template>
                 </div> -->
-                <div style="width:100px;height:100px" class="demo-upload-list" v-for="item in uploadList">
+                <div style="width:100px;height:100px;margin: 0 0 10px 20px;" class="demo-upload-list" v-for="item in uploadList">
                     <img  style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
                 </div>
                 <br>
