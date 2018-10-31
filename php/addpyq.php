@@ -1,8 +1,38 @@
 <?php
 require("database.php");
-$ids = $_POST['ids'];
-$video = $_POST['video'];
+date_default_timezone_set('PRC');
+$urls = $_POST['urls'];
 $job_number = $_POST['job_number'];
+//生成文件时候的路径
+$dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
+//数据库里存的路径
+$save_dir = "/photo/";
+
+$time= time();
+foreach($urls as $url){
+    if (strstr($url,",")){
+        $image = explode(',',$url);
+        $url = $image[1];
+    }
+    $img = base64_decode($url);
+    //产生随机文件名
+    $dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',
+        'v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+        'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'];
+    $rnd_str = "";
+    for($i = 0;$i<7;$i++)
+    {
+        $idx = rand(0,count($dict)-1);
+        $rnd_str.=$dict[$idx];    
+    }
+    $rnd_str.=date("is",time());
+    $sv = $dir.$rnd_str.'.jpg';
+    file_put_contents($sv, $img);
+    add('technician_photo',[['img',$save_dir.$rnd_str.'.jpg'],['time',$time],['job_number',$job_number]]);
+}
+$ids = sql_str("select group_concat(ID) as id from technician_photo where `time` = '$time'");
+//视频暂时先放一下
+//$video = $_POST['video'];
 $content = $_POST['content'];
-add("friend_circle",[['content',$content],['img',$ids],['video',$video],['job_number',$job_number],['date',time()]]);
+add("friend_circle",[['content',$content],['img',$ids[0]['id']],['video',""],['job_number',$job_number],['date',$time]]);
 echo json_encode(['status'=>1]);

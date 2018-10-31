@@ -7,7 +7,7 @@
     <title>添加动态</title>
     <link rel="stylesheet" type="text/css" href="../css/iview.css">
     <link rel="stylesheet" type="text/css" href="../css/tinyImgUpload.css">
-    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/global.css" />
     <style>
         .demo-upload-list{
             display: inline-block;
@@ -95,7 +95,7 @@
     </style>
 </head>
 
-<body onunload="app.del_already()">
+<body >
     <div id="app">
         <row style="width: 100%;padding-top: 7px;font-size: 16px">
             <span @click="del_already()" style="margin-left: 15px"><a>取消</a></span>
@@ -118,13 +118,13 @@
                         <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
                     </template>
                 </div> -->
-                <div class="demo-upload-list" v-for="item in uploadimg">
-                    <img :src="item.url" @click="handleRemove(item.url)">
+                <div style="width:100px;height:100px" class="demo-upload-list" v-for="item in uploadList">
+                    <img  style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
                 </div>
                 <br>
-                <upload type="drag" action="../php/upload_photo.php" :on-success="handleSuccess" :on-error="handleFail"
+                <upload type="drag"
                     :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax" :before-upload="handleBeforeUpload"
-                    :show-upload-list="false" multiple style="display: inline-block;width:100px;margin-left: 20px">
+                    action="//jsonplaceholder.typicode.com/posts/" multiple style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
@@ -132,18 +132,12 @@
 
 
 
-
-
-
-
-
-
                 <!--新加的上传，Test-->
 
 
-                <upload ref="upload" :data="{job_number:job_number}"  :format="['mp4','mov','avi']" show-upload-list="flase"
-                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig"  :on-success="videosuccess" type="drag"
-                    action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
+                <upload ref="upload" :data="{job_number:job_number}" :format="['mp4','mov','avi']" show-upload-list="flase"
+                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig" :on-success="videosuccess"
+                    type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
@@ -152,14 +146,6 @@
 
 
                 <!--End-->
-
-
-
-
-
-
-
-
 
             </row>
         </row>
@@ -191,10 +177,11 @@
         data() {
             return {
                 uploadimg: [],
-                uploadvdo:[],
+                uploadvdo: [],
                 content: "",
                 job_number: getQueryString('id'),
                 overlay: false,
+                uploadList:[],//待上传的文件列表
             }
         },
         methods: {
@@ -213,18 +200,20 @@
                     }
                 })
                 var that = this;
-                var ids = "",vds="";
-                for (var i in this.uploadimg) {
-                    ids += this.uploadimg[i]['id'] + ","
+                var ids = "",
+                    vds = "";
+                // for (var i in this.uploadimg) {
+                //     ids += this.uploadimg[i]['id'] + ","
+                // }
+                for (var i in this.uploadvdo) {
+                    vds += this.uploadvdo[i]['id'] + ","
                 }
-                for(var i in this.uploadvdo) {
-                    vds+= this.uploadvdo[i]['id'] + ","
-                }
+
                 $.post("../php/addpyq.php", {
-                    ids: ids,
+                    urls: that.uploadList,
                     job_number: that.job_number,
                     content: that.content,
-                    video:vds,
+                    video: vds,
                 }).done((res) => {
                     res = JSON.parse(res);
                     if (res.status == 1) {
@@ -232,23 +221,11 @@
                         $(this).openWindow("", "发布成功", ["好的"], () => {
                             window.location.href = "pyquan.html?id=" + that.job_number
                         })
-                        // swal({
-                        //     type: "success",
-                        //     text: "发布成功!",
-                        //     timer: 1000,
-                        //     allowOutsideClick: false,
-                        //     allowEscapeKey: false,
-                        //     showConfirmButton: false,
-                        // }).then((result) => {
-                        //     if (result.dismiss === swal.DismissReason.timer || result.value) {
-                        //         window.location.href = "pyquan.html?id=" + that.job_number
-                        //     }
-                        // })
                     }
 
                 })
             },
-            videosuccess(res,file){
+            videosuccess(res, file) {
                 var that = this;
 
                 if (res.state == 1) {
@@ -299,49 +276,29 @@
                 // })
             },
             handleBeforeUpload(file) {
-                console.log(file)
-                // swal({
-                //     text: "正在上传，请稍候",
-                //     width: 200,
-                //     onOpen: () => {
-                //         swal.showLoading();
-                //     }
-                // })
+                // 创建一个 FileReader 对象
+                let reader = new FileReader()
+                // readAsDataURL 方法用于读取指定 Blob 或 File 的内容
+                // 当读操作完成，readyState 变为 DONE，loadend 被触发，此时 result 属性包含数据：URL（以 base64 编码的字符串表示文件的数据）
+                // 读取文件作为 URL 可访问地址
+                reader.readAsDataURL(file)
+
+                var that = this
+                reader.onloadend = function (e) {
+                    file.url = reader.result
+                    that.uploadList.push(file.url)
+                }
             },
+
             handleRemove(name) {
                 var that = this;
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
-                    for (var i = 0; i < this.uploadimg.length; i++) {
-                        if (this.uploadimg[i].url == name) {
-                            this.uploadimg.splice(i, 1);
+                    for (var i = 0; i < this.uploadList.length; i++) {
+                        if (this.uploadList[i] == name) {
+                            this.uploadList.splice(i, 1);
                         }
                     }
-                    $.post("../php/del_photo.php", {
-                        job_number: that.job_number,
-                        url: [name]
-                    }).done(() => {})
                 })
-                // swal({
-                //     text: "确认删除该图片吗？",
-                //     allowOutsideClick: false,
-                //     showConfirmButton: true,
-                //     showCancelButton: true,
-                //     confirmButtonText: "删除",
-                //     cancelButtonText: "取消",
-                //     width: 280,
-                // }).then((res) => {
-                //     if (res.value) {
-                //         for (var i = 0; i < this.uploadimg.length; i++) {
-                //             if (this.uploadimg[i].url == name) {
-                //                 this.uploadimg.splice(i, 1);
-                //             }
-                //         }
-                //         $.post("../php/del_photo.php", {
-                //             job_number: that.job_number,
-                //             url: [name]
-                //         }).done(() => {})
-                //     }
-                // })
             },
             del_already() {
                 var that = this;
@@ -358,34 +315,7 @@
                 history.go(-1);
             },
 
-
-
-
             // 新加的一些methods
-
-
-
-
-            beforeUpload(file) {
-                var that = this;
-                var max_count = 5;
-                var check = this.uploadimg.length;
-                this.uploadList.push([]);
-
-                for (var i = 0; i < 2000; i++) {};
-                var lth = this.uploadList.length;
-                console.log(lth);
-                var input = (check + this.uploadList.length) > max_count;
-
-                if (input) {
-                    this.$Notice.warning({
-                        title: '最多只能上传5张图片'
-                    });
-                    this.uploadList.pop();
-                }
-                return check + lth <= 5;
-                return true;
-            },
             handleFormatError(file) {
                 this.$Notice.warning({
                     title: '文件格式不正确',
@@ -403,46 +333,6 @@
         // 这里也是copy过来的
 
         created() {
-            // overlay();
-            // var that = this;
-            // $.post("../php/gettechdetail.php", {
-            //     job_number: id
-            // }).done((result) => {
-            //     result = JSON.parse(result);
-            //     if (result.status == 1) {
-            //         info = result.data[0];
-            //         that.personalInfo.id = info['job_number'];
-            //         that.personalInfo.name = info['name'];
-            //         that.personalInfo.phone_number = info['phone_number'];
-
-            //         if (info['gender'] == 1) that.personalInfo.sex = "男";
-            //         else that.personalInfo.sex = "女";
-
-            //         that.personalInfo.birth = info['birthday'];
-            //         that.personalInfo.join_date = info['entry_date'];
-            //         that.personalInfo.is_on_the_job = info['in_job'];
-            //         that.personalInfo.inviter = info['inviter'];
-            //         that.personalInfo.rate = info['rate'];
-            //         that.personalInfo.intro = info['description'];
-            //         that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
-            //         that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
-            //     }
-            // })
-            // $.post("../php/get_all_photo.php", {
-            //     job_number: id
-            // }).done((result) => {
-            //     if (result) {
-            //         result = JSON.parse(result);
-            //         for (var i = 0; i < result.length; i++) {
-            //             that.personalInfo.pictureList.push({
-            //                 url: result[i]['url'],
-            //             });
-            //         }
-            //     }
-            //     // overlay(false);
-            //     that.overlay = false;
-            //     that.modal_id = "modal-overlay-opa";
-            // })
         }
 
     })

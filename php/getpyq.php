@@ -7,7 +7,7 @@ $i = 0;
 foreach($datas as $data)
 {
     $datas[$i]['img'] = explode(",", $data['img']);
-    array_pop($datas[$i]['img']);
+    //array_pop($datas[$i]['img']);
     $j = 0;
     foreach($datas[$i]['img'] as $imgid)
 	{
