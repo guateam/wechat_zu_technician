@@ -132,7 +132,7 @@
                                         <li class="list">
                                             <div class="guest">
                                                 <div class="thumb" :tumblist="'list' + idx">
-                                                    <img v-for="(img, imgidx) in item.img" :src="img" v-if="img != ''"
+                                                    <img @click="click_content = item.content" v-for="(img, imgidx) in item.img" :src="img" v-if="img != ''"
                                                         style="width:100px;height:100px;margin:5px">
                                                 </div>
                                             </div>
@@ -173,7 +173,7 @@
         <div class="swiper-container" id="origin-img">
             <div class="swiper-wrapper"></div>
             <div class="swiper-pagination"></div>
-            <div class="upload">xxx上传于2018-06-17</div>
+            <div class="upload" v-text="click_content"></div>
         </div>
     </div>
     <script src="../js/jquery.js"></script>
@@ -249,6 +249,7 @@
                 background: "",
                 job_number: getQueryString('id'),
                 head: "",
+                click_content:"",
                 background: "",
                 show: true,
                 big_img: false,
