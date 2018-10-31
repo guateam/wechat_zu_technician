@@ -32,7 +32,7 @@ foreach($urls as $url){
 }
 $ids = sql_str("select group_concat(ID) as id from technician_photo where `time` = '$time'");
 //视频暂时先放一下
-//$video = $_POST['video'];
+$video = $_POST['video'];
 $content = $_POST['content'];
-add("friend_circle",[['content',$content],['img',$ids[0]['id']],['video',""],['job_number',$job_number],['date',$time]]);
+add("friend_circle",[['content',$content],['img',$ids[0]['id']],['video',$video],['job_number',$job_number],['date',$time]]);
 echo json_encode(['status'=>1]);
