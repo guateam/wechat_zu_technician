@@ -1,7 +1,8 @@
 <?php
 require("database.php");
 date_default_timezone_set('PRC');
-$urls = $_POST['urls'];
+$urls = [];
+if(isset($_POST['urls']))$urls = $_POST['urls'];
 $job_number = $_POST['job_number'];
 //生成文件时候的路径
 $dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
@@ -31,8 +32,11 @@ foreach($urls as $url){
     add('technician_photo',[['img',$save_dir.$rnd_str.'.jpg'],['time',$time],['job_number',$job_number]]);
 }
 $ids = sql_str("select group_concat(ID) as id from technician_photo where `time` = '$time'");
+//存进数据库的图片ID序列
+$img = "";
+if(!is_null($ids[0]['id']))$img = $ids[0]['id'];
 //视频暂时先放一下
 $video = $_POST['video'];
 $content = $_POST['content'];
-add("friend_circle",[['content',$content],['img',$ids[0]['id']],['video',$video],['job_number',$job_number],['date',$time]]);
+add("friend_circle",[['content',$content],['img',$img],['video',$video],['job_number',$job_number],['date',$time]]);
 echo json_encode(['status'=>1]);

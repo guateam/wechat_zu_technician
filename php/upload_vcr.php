@@ -16,7 +16,7 @@ for($i = 0;$i<7;$i++)
     $rnd_str.=$dict[$idx];    
 }
 
-if ($_FILES["file"]["type"] == "video/mp4"  )
+if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video/quicktime")
 {
     if ($_FILES["file"]["error"] > 0)
     {

@@ -6,29 +6,39 @@ $datas = sql_str("select * from friend_circle where `job_number`='$job_number' o
 $i = 0;
 foreach($datas as $data)
 {
-    $datas[$i]['img'] = explode(",", $data['img']);
-    //array_pop($datas[$i]['img']);
-    $j = 0;
-    foreach($datas[$i]['img'] as $imgid)
-	{
-        $result = get("technician_photo",'ID',$imgid);
-        if($result)
-		{
-            $datas[$i]['img'][$j] = $result[0]['img'];
+    if($data['img'] != ""){
+        $datas[$i]['img'] = explode(",", $data['img']);
+        $j = 0;
+        foreach($datas[$i]['img'] as $imgid)
+        {
+            $result = get("technician_photo",'ID',$imgid);
+            if($result)
+            {
+                $datas[$i]['img'][$j] = $result[0]['img'];
+            }
+            $j++;
         }
-        $j++;
+    }else{
+        $datas[$i]['img'] =[];
     }
-    $datas[$i]['video'] = explode(",", $data['video']);
-    $j = 0;
-    foreach($datas[$i]['video'] as $videoid)
-	{
-        $result = get("technician_video",'ID',$videoid);
-        if($result)
-		{
-            $datas[$i]['video'][$j] = $result[0]['dir'];
+    
+    if($data['video'] != ""){
+        $datas[$i]['video'] = explode(",", $data['video']);
+        array_pop( $datas[$i]['video']);
+        $j = 0;
+        foreach($datas[$i]['video'] as $videoid)
+        {
+            $result = get("technician_video",'ID',$videoid);
+            if($result)
+            {
+                $datas[$i]['video'][$j] = $result[0]['dir'];
+            }
+            $j++;
         }
-        $j++;
+    }else{
+        $datas[$i]['video'] =[];
     }
+    
 
     $tm1 = $datas[$i]['date'];
     $tm2 = time();

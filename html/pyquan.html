@@ -131,10 +131,12 @@
                                     </ul>
                                     <!-- <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px;margin-right:5px;object-fit: cover;"
                                         v-for="(img,imgidx) in item['img']" :src="img" v-if="img != ''"> -->
-
-                                    <video v-for="vdo in item['video']" v-if="vdo != ''" width="304" height="100"
-                                        controls="controls" :src="vdo" id="MediaPlayer1">
+                                    <video v-for="vdo in item['video']" width="400" controls autoplay>
+                                        <source :src="vdo" type="video/mp4">
                                     </video>
+                                    <!-- <video v-for="vdo in item['video']" v-if="vdo != ''" width="304" height="100"
+                                        controls="controls" :src="vdo" id="MediaPlayer1">
+                                    </video> -->
                                 </div>
                                 <p class="time" v-text="item['date']"></p>
                             </div>
