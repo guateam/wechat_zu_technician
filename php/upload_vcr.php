@@ -49,7 +49,7 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
 }
 else
 {
-    echo json_encode(['state'=>"不支持上传该类型的文件，仅支持Mp4格式"]);
+    echo json_encode(['state'=>"不支持上传该类型的文件，仅支持Mp4和mov格式"]);
 }
 
 ?>
