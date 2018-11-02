@@ -6,7 +6,8 @@ $datas = sql_str("select * from friend_circle where `job_number`='$job_number' o
 $i = 0;
 foreach($datas as $data)
 {
-    if($data['img'] != ""){
+    if($data['img'] != "")
+    {
         $datas[$i]['img'] = explode(",", $data['img']);
         $j = 0;
         foreach($datas[$i]['img'] as $imgid)
@@ -18,11 +19,14 @@ foreach($datas as $data)
             }
             $j++;
         }
-    }else{
+    }
+    else
+    {
         $datas[$i]['img'] =[];
     }
     
-    if($data['video'] != ""){
+    if($data['video'] != "")
+    {
         $datas[$i]['video'] = explode(",", $data['video']);
         array_pop( $datas[$i]['video']);
         $j = 0;
@@ -35,7 +39,9 @@ foreach($datas as $data)
             }
             $j++;
         }
-    }else{
+    }
+    else
+    {
         $datas[$i]['video'] =[];
     }
     
