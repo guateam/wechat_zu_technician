@@ -35,6 +35,10 @@ foreach($datas as $data)
             $result = get("technician_video",'ID',$videoid);
             if($result)
             {
+                // $movie = new ffmpeg_movie($result[0]['dir']);
+                // $ff_frame = $movie->getFrame(1);
+                // $gd_image = $ff_frame->toGDImage();
+                // $base64 = base64EncodeImage($gd_image);
                 $datas[$i]['video'][$j] = $result[0]['dir'];
             }
             $j++;
@@ -50,6 +54,27 @@ foreach($datas as $data)
     $tm2 = time();
     $gap = $tm2-$tm1;
 
+    if ($gap < 60) $gap = $gap."秒前";
+    else {
+        $gap /= 60;
+        if ($gap < 60) $gap = floor($gap)."分钟前";
+        else {
+            $gap /= 60;
+            if ($gap < 24) $gap = floor($gap)."小时前";
+            else {
+                $gap /= 24;
+                if ($gap <= 30) $gap = floor($gap)."天前";
+                else {
+                    $gap /= 30;
+                    if ($gap <= 12) $gap = floor($gap)."月前";
+                    else {
+                        $gap /= 12;
+                        if ($gap >= 1) $gap =floor($gap)."年前";
+                    }
+                }
+            }
+        }
+    }
     $datas[$i]['date']=$gap;
     $i++;
 
@@ -68,5 +93,17 @@ else
     if(!is_null($jb['photo']))$head = $jb['photo'];
 }
 echo json_encode(['status'=>1,'data'=>$datas,'head'=>$head,'background'=>$background]);
+
+
+
+
+
+function base64EncodeImage ($image_file) {
+    $base64_image = '';
+    $image_info = getimagesize($image_file);
+    $image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+    $base64_image = 'data:' . $image_info['mime'] . ';base64,' . chunk_split(base64_encode($image_data));
+    return $base64_image;
+}
 
 ?>

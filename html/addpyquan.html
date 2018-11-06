@@ -130,15 +130,14 @@
                 <div style="width:100px;height:100px;margin: 0 0 10px 20px;" class="demo-upload-list" v-for="item in uploadList">
                     <img style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
                 </div>
-                <div style="width:100px;height:100px;margin: 0 0 10px 20px;"  v-for="item in uploadvdo">
-                    <video controls style="width:100px;height:100px;margin: 0 0 10px 20px;">
+                <div style="width:100px;height:100px;margin: 0 0 10px 20px;" v-for="item in uploadvdo">
+                    <video onloadeddata="app.video_poster(this)" controls style="width:100px;height:100px;margin: 0 0 10px 20px;">
                         <source :src="item.url" type="video/mp4">
                     </video>
                 </div>
                 <br>
-                <upload type="drag" :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax"
-                    :before-upload="handleBeforeUpload" :format="['mp4','mov','avi','jpg','bmp','png']" :action="action"
-                    :on-success="videosuccess" multiple style="display: inline-block;width:100px;margin-left: 20px">
+                <upload type="drag" :data="{job_number:job_number}" :before-upload="handleBeforeUpload" :format="['mp4','mov','avi','jpg','bmp','png']"
+                    :action="action" :on-success="videosuccess" multiple style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
@@ -175,6 +174,8 @@
             return {
                 uploadimg: [],
                 uploadvdo: [],
+                photo_max: 1024 * 1024 * 3,//MB
+                video_max: 1024 * 1024 * 5,//MB
                 upload_type: "",
                 action: "../php/upload_vcr.php",
                 content: "",
@@ -224,6 +225,14 @@
 
                 })
             },
+            video_poster(video) {
+                var scale = 0.8;
+                var canvas = document.createElement("canvas"); //canvas画布
+                canvas.width = video.videoWidth * scale;
+                canvas.height = video.videoHeight * scale;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); //画图
+                video.setAttribute("poster", canvas.toDataURL("image/png")); //关键一步 —— 设置标签的 poster 属性的值为 base64 编译过后的canvas绘图。
+            },
             videosuccess(res, file) {
                 var that = this;
                 if (this.upload_type == "image") return;
@@ -268,6 +277,7 @@
             },
             handleMax(file) {
                 $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
+                return false;
                 // swal({
                 //     text: "文件过大，不得超过5M",
                 //     type: "error",
@@ -289,19 +299,59 @@
                 if (this.upload_type == '') {
                     //只能上传图片类型
                     if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") {
+                        //检测图片文件大小
+                        if (file.size > this.photo_max) {
+                            this.$Notice.warning({
+                                title: '超出限制',
+                                desc: '图片文件过大，不得超过 ' + this.photo_max / 1024 / 1024 + "MB",
+                            });
+                            return false;
+                        }
                         this.upload_type = "image"
                         this.action = "//jsonplaceholder.typicode.com/posts/";
                         reader.readAsDataURL(file)
+                        //图片永不立即上传
+                        return false
                     } else {
-                        //上传视频
+                        //上传视频,第一次检测文件按大小
+                        if (file.size > this.video_max) {
+                            this.$Notice.warning({
+                                title: '超出限制',
+                                desc: '视频文件过大，不得超过 ' + this.video_max / 1024 / 1024 + "MB",
+                            });
+                            return false;
+                        }
                         this.upload_type = "video"
                         this.action = "../php/upload_vcr.php";
                     }
                 } else {
+
+                    //检测文件是否过大
+                    if (this.upload_type == 'image') {
+                        if (file.size > this.photo_max) {
+                            this.$Notice.warning({
+                                title: '超出限制',
+                                desc: '图片文件过大，不得超过 ' + this.photo_max / 1024 / 1024 + "MB",
+                            });
+                            return false;
+                        }
+                    }
+                    if (this.upload_type == 'video') {
+                        if (file.size > this.video_max) {
+                            this.$Notice.warning({
+                                title: '超出限制',
+                                desc: '视频文件过大，不得超过 ' + this.video_max / 1024 / 1024 + "MB",
+                            });
+                            return false;
+                        }
+                    }
+
                     //之后的上传只能选取和第一次上传类型相同的文件
                     if (this.upload_type == "image" && (file.type == "image/png" || file.type == "image/bmp" ||
                             file.type == "image/jpeg")) {
                         reader.readAsDataURL(file)
+                        //图片永不立即上传
+                        return false;
                     } else if (this.upload_type == "video") {
                         this.$Notice.warning({
                             title: '达到上限',
