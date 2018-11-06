@@ -104,7 +104,7 @@
     </style>
 </head>
 
-<body >
+<body>
     <div id="app" style="background-color: white">
         <row style="width: 100%;padding-top: 7px;font-size: 16px">
             <span @click="del_already()" style="margin-left: 15px;color: #409eff"><a>取消</a></span>
@@ -128,33 +128,21 @@
                     </template>
                 </div> -->
                 <div style="width:100px;height:100px;margin: 0 0 10px 20px;" class="demo-upload-list" v-for="item in uploadList">
-                    <img  style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
+                    <img style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
+                </div>
+                <div style="width:100px;height:100px;margin: 0 0 10px 20px;"  v-for="item in uploadvdo">
+                    <video controls style="width:100px;height:100px;margin: 0 0 10px 20px;">
+                        <source :src="item.url" type="video/mp4">
+                    </video>
                 </div>
                 <br>
-                <upload type="drag"
-                    :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax" :before-upload="handleBeforeUpload"
-                    action="//jsonplaceholder.typicode.com/posts/" multiple style="display: inline-block;width:100px;margin-left: 20px">
+                <upload type="drag" :data="{job_number:job_number}" :max-size="4096" :on-exceeded-size="handleMax"
+                    :before-upload="handleBeforeUpload" :format="['mp4','mov','avi','jpg','bmp','png']" :action="action"
+                    :on-success="videosuccess" multiple style="display: inline-block;width:100px;margin-left: 20px">
                     <div style="width: 100px; height:100px; line-height: 50px;">
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
                 </upload>
-
-
-
-                <!--新加的上传，Test-->
-
-
-                <upload ref="upload" :data="{job_number:job_number}" :format="['mp4','mov','avi']" show-upload-list="flase"
-                    :max-size="51200" :on-format-error="handleFormatError" :on-exceeded-size="vcr_toobig" :on-success="videosuccess"
-                    type="drag" action="../php/upload_vcr.php" style="display: inline-block;width:100px;margin-left: 20px">
-                    <div style="width: 100px; height:100px; line-height: 50px;">
-                        <p style="font-size: 40px;line-height: 100px;">+</p>
-                    </div>
-                </upload>
-
-
-
-                <!--End-->
 
             </row>
         </row>
@@ -187,10 +175,12 @@
             return {
                 uploadimg: [],
                 uploadvdo: [],
+                upload_type: "",
+                action: "../php/upload_vcr.php",
                 content: "",
                 job_number: getQueryString('id'),
                 overlay: false,
-                uploadList:[],//待上传的文件列表
+                uploadList: [], //待上传的文件列表
             }
         },
         methods: {
@@ -236,7 +226,7 @@
             },
             videosuccess(res, file) {
                 var that = this;
-
+                if (this.upload_type == "image") return;
                 if (res.state == 1) {
                     console.log(res.url);
                     that.uploadvdo.push({
@@ -290,12 +280,41 @@
                 // readAsDataURL 方法用于读取指定 Blob 或 File 的内容
                 // 当读操作完成，readyState 变为 DONE，loadend 被触发，此时 result 属性包含数据：URL（以 base64 编码的字符串表示文件的数据）
                 // 读取文件作为 URL 可访问地址
-                reader.readAsDataURL(file)
-
                 var that = this
                 reader.onloadend = function (e) {
                     file.url = reader.result
                     that.uploadList.push(file.url)
+                }
+                //第一次上传确定上传类型
+                if (this.upload_type == '') {
+                    //只能上传图片类型
+                    if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") {
+                        this.upload_type = "image"
+                        this.action = "//jsonplaceholder.typicode.com/posts/";
+                        reader.readAsDataURL(file)
+                    } else {
+                        //上传视频
+                        this.upload_type = "video"
+                        this.action = "../php/upload_vcr.php";
+                    }
+                } else {
+                    //之后的上传只能选取和第一次上传类型相同的文件
+                    if (this.upload_type == "image" && (file.type == "image/png" || file.type == "image/bmp" ||
+                            file.type == "image/jpeg")) {
+                        reader.readAsDataURL(file)
+                    } else if (this.upload_type == "video") {
+                        this.$Notice.warning({
+                            title: '达到上限',
+                            desc: '视频只能上传一个哦 '
+                        });
+                        return false;
+                    } else {
+                        this.$Notice.warning({
+                            title: '类型限制',
+                            desc: '图片和视频不能同时存在 '
+                        });
+                        return false;
+                    }
                 }
             },
 
@@ -341,8 +360,7 @@
 
         // 这里也是copy过来的
 
-        created() {
-        }
+        created() {}
 
     })
 
