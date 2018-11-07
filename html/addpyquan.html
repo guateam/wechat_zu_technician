@@ -354,11 +354,14 @@
                         //图片永不立即上传
                         return false;
                     } else if (this.upload_type == "video") {
-                        this.$Notice.warning({
-                            title: '达到上限',
-                            desc: '视频只能上传一个哦 '
-                        });
-                        return false;
+                        if(this.uploadvdo.length >= 1){
+                            this.$Notice.warning({
+                                title: '达到上限',
+                                desc: '视频只能上传一个哦 '
+                            });
+                            return false;
+                        }
+                       
                     } else {
                         this.$Notice.warning({
                             title: '类型限制',

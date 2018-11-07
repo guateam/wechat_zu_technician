@@ -2,6 +2,20 @@
 require("database.php");
 $dir = $_SERVER['DOCUMENT_ROOT']."/vcr/";
 $save_dir = "/vcr/";
+
+//判断操作系统
+$osname = PHP_OS;
+if(strpos($osname,"Linux")!==false){
+    $osname = 'Linux';
+/**
+ * linux操作系统
+ */
+}else if(strpos($osname,"WIN")!==false){
+    $osname = 'Windows';
+/**
+ * windows操作系统
+ */
+}
 $job_number =$_POST['job_number'];
 $temp = explode(".", $_FILES["file"]["name"]);
 $extension = end($temp);        // 获取文件后缀名
