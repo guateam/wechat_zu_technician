@@ -300,6 +300,7 @@
                     //只能上传图片类型
                     if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") {
                         //检测图片文件大小
+                        alert(file.size)
                         if (file.size > this.photo_max) {
                             this.$Notice.warning({
                                 title: '超出限制',

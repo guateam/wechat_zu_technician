@@ -35,11 +35,14 @@ foreach($datas as $data)
             $result = get("technician_video",'ID',$videoid);
             if($result)
             {
+                // $file = $_SERVER['DOCUMENT_ROOT'].$result[0]['dir'];
+                // $command ="ffmpeg -i $file -y -f  image2  -ss 60 -vframes 1  test1.jpg                ";
                 // $movie = new ffmpeg_movie($result[0]['dir']);
                 // $ff_frame = $movie->getFrame(1);
                 // $gd_image = $ff_frame->toGDImage();
                 // $base64 = base64EncodeImage($gd_image);
-                $datas[$i]['video'][$j] = $result[0]['dir'];
+                //$datas[$i]['video'][$j] = $result[0]['dir'];
+                $datas[$i]['video'][$j] = ['src'=>$result[0]['dir'],'play'=>false,'poster'=>$result[0]['poster']];
             }
             $j++;
         }
@@ -49,11 +52,12 @@ foreach($datas as $data)
         $datas[$i]['video'] =[];
     }
     
-
+    //计算与目前的时间相差多久
     $tm1 = $datas[$i]['date'];
     $tm2 = time();
     $gap = $tm2-$tm1;
 
+    //转换成文字表示
     if ($gap < 60) $gap = $gap."秒前";
     else {
         $gap /= 60;

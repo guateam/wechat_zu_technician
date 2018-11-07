@@ -104,9 +104,9 @@
 <body>
     <div id="app" style="width:100%;height:100%">
         <header style="height: 250px">
-            <upload  ref="upload" style="width:100%;height: 250px" action="../php/upload_photo.php" :on-success="handleSuccess" :data="{job_number:job_number,bg:true}"
-                :max-size="4096" :before-upload="handleBeforeUpload" :show-upload-list="false" :on-error="handleFail"
-                :on-exceeded-size="handleMax" multiple style="display: inline-block;width:50px;">
+            <upload ref="upload" style="width:100%;height: 250px" action="../php/upload_photo.php" :on-success="handleSuccess"
+                :data="{job_number:job_number,bg:true}" :max-size="4096" :before-upload="handleBeforeUpload"
+                :show-upload-list="false" :on-error="handleFail" :on-exceeded-size="handleMax" multiple style="display: inline-block;width:50px;">
                 <img id="bg" :src="background" style="width:100%;height:100%;object-fit: fill" v-if="background !=''">
                 <img style="width:100%;height:100%" src="../src/background.png" v-else>
             </upload>
@@ -146,9 +146,12 @@
                                     </ul>
                                     <!-- <img @click="show_pic(imgidx,item['img'])" style="width:100px;height:100px;margin-right:5px;object-fit: cover;"
                                         v-for="(img,imgidx) in item['img']" :src="img" v-if="img != ''"> -->
-                                    <video v-for="vdo in item['video']" style="width:90%;height:180px" controls>
-                                        <source :src="vdo" type="video/mp4">
-                                    </video>
+                                    <div  v-for="vdo in item['video']"  v-for="vdo in item['video']" style="position: relative;display: flex;align-items: center;justify-content: center;">
+                                        <img @click="play($event,vdo)" src="../src/播放.png" alt="" :style="{'border-radius':'8px','position': 'absolute','z-index':10,'opacity':100}">
+                                        <video :poster="vdo.poster" style="width:100%;height:180px">
+                                            <source :src="vdo.src" type="video/mp4">
+                                        </video>
+                                    </div>
                                     <!-- <video v-for="vdo in item['video']" v-if="vdo != ''" width="304" height="100"
                                         controls="controls" :src="vdo" id="MediaPlayer1">
                                     </video> -->
@@ -275,6 +278,24 @@
                     this.click_img = imgs[index];
                     this.big_img = true;
                 },
+                play(video,vdo) {
+                    vdo.play = !vdo.play
+                    video = video.target.parentElement.lastChild;
+                    //alert(video.poster)
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                },
+                video_poster(video) {
+                    var scale = 0.8;
+                    var canvas = document.createElement("canvas"); //canvas画布
+                    canvas.width = video.videoWidth * scale;
+                    canvas.height = video.videoHeight * scale;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); //画图
+                    video.setAttribute("poster", canvas.toDataURL("image/png")); //关键一步 —— 设置标签的 poster 属性的值为 base64 编译过后的canvas绘图。
+                },
                 handleBeforeUpload() {
                     swal({
                         text: "正在更改封面背景，请稍候",
@@ -323,49 +344,6 @@
                     for (var i in res.data) {
                         that.list.push(res.data[i])
                         that.imgsdata["list" + i] = res.data[i].img
-                    }
-                    // for (var i = 0; i < that.list.length - 1; i++) {
-                    //     nearest = i;
-                    //     for (var j = i + 1; j < that.list.length; j++) {
-                    //         if (that.list[nearest]['date'] > that.list[j]['date']) {
-                    //             nearest = j;
-                    //         }
-                    //     }
-                    //     if (nearest != i) {
-                    //         tp = that.list[i];
-                    //         that.list[i] = that.list[nearest];
-                    //         that.list[nearest] = tp;
-                    //     }
-                    // }
-                    for (var i in that.list) {
-                        console.log(that.list[i]['date'])
-                        if (that.list[i]['date'] < 60) that.list[i]['date'] = that.list[i]['date'] +
-                            "秒前";
-                        else {
-                            that.list[i]['date'] /= 60;
-                            if (that.list[i]['date'] < 60) that.list[i]['date'] = parseInt(that.list[i]
-                                ['date'], 0) + "分钟前";
-                            else {
-                                that.list[i]['date'] /= 60;
-                                if (that.list[i]['date'] < 24) that.list[i]['date'] = parseInt(that.list[
-                                    i]['date'], 0) + "小时前";
-                                else {
-                                    that.list[i]['date'] /= 24;
-                                    if (that.list[i]['date'] <= 30) that.list[i]['date'] = parseInt(
-                                        that.list[i]['date'], 0) + "天前";
-                                    else {
-                                        that.list[i]['date'] /= 30;
-                                        if (that.list[i]['date'] <= 12) that.list[i]['date'] = parseInt(
-                                            that.list[i]['date'], 0) + "月前";
-                                        else {
-                                            that.list[i]['date'] /= 12;
-                                            if (that.list[i]['date'] >= 1) that.list[i]['date'] =
-                                                parseInt(that.list[i]['date'], 0) + "年前";
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                     that.head = res.head;
                     that.background = res.background;
