@@ -9,9 +9,9 @@ $begin = strtotime($begin);
 $end = strtotime($end);
 $invited = get("inviteship",'inviter_job_number',$job_number);
 $tech = [];
+$total_earn = 0;
 if($invited)
 {
-    $total_earn = 0;
     foreach($invited as $inv)
 	{
         $earn = 0;

@@ -120,7 +120,7 @@
                     </div>
                     <div class="weui-media-box__bd" style="float: right;text-align: right">
                         <h4 class="weui-media-box__title" style="color: #cc99cc">￥{{ service.bonus }}</h4>
-                        <p class="weui-media-box__desc" style="font-family: monospace">{{ service.time }}</p>
+                        <p class="weui-media-box__desc" style="font-family: monospace" v-text="service.time"></p>
                     </div>
                 </a>
                 <div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2;" v-show="service.show">
@@ -158,8 +158,10 @@
 <!-- <script type="text/javascript" src="example.js"></script> -->
 <script type="text/javascript" src="../js/weui-min.js"></script>
 <script type="text/javascript" src="../js/zepto.js"></script>
+
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript" src="../js/windowOpen.js"></script>
+<script type="text/javascript" src="../js/date-format.js"></script>
 <script>
     function getQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -480,7 +482,7 @@
                             service_name: data.key_info[i].service_name,
                             room_number: data.key_info[i].room_number,
                             bonus: data.key_info[i].bonus,
-                            time: data.key_info[i].time,
+                            time: date("Y-m-d H:i:s",data.key_info[i].time),
                             order_id: data.key_info[i].order_id,
                             income: data.key_info[i].income,
                             clock_type: data.key_info[i].clock_type,
@@ -509,7 +511,7 @@
                         service_name: data.key_info[i].service_name,
                         room_number: data.key_info[i].room_number,
                         bonus: data.key_info[i].bonus,
-                        time: data.key_info[i].time,
+                        time: date("Y-m-d H:i:s",data.key_info[i].time),
                         order_id: data.key_info[i].order_id,
                         income: data.key_info[i].income,
                         clock_type: data.key_info[i].clock_type,
