@@ -80,7 +80,7 @@
             <div class="weui-panel__hd">业绩排行</div>
 
 
-            <div v-for="(it,idx) in yejilist " class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+            <div v-for="(it,idx) in yejilist " v-if="idx <=10 " class="display-block" style="border-bottom: 1px solid #f2f2f2;">
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                     <div class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
                         <span v-text="idx+1"></span>
@@ -309,32 +309,11 @@
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
-                    for (var i = 0; i < res.data.length; i++) {
-                        that.yejilist.push(res.data[i])
-                    }
-                    // for (var i = 0; i < this.yejilist.length - 1; i++) {
-                    //     highest = i;
-                    //     for (var j = i + 1; j < this.yejilist.length; j++) {
-                    //         if (this.sum(highest) < this.sum(j)) {
-                    //             highest = j;
-                    //         }
-                    //     }
-                    //     if (highest != i) {
-                    //         var tp = this.yejilist[i];
-                    //         this.yejilist[i] = this.yejilist[highest];
-                    //         this.yejilist[highest] = tp;
-                    //         Vue.set(this.yejilist, highest, this.yejilist[highest]);
-                    //     }
+                    that.yejilist = res.data
+                    // for (var i = 0; i < res.data.length; i++) {
+                    //     that.yejilist.push(res.data[i])
                     // }
                     that.self_job_number = getQueryString('id');
-
-
-                    // begin = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) +
-                    //     "-01 00:00:00";
-                    // end = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59";
-                    // that.get_data(begin, end);
-
-
                     that.show = false;
                     that.opa = true;
                 }

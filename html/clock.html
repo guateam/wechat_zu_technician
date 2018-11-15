@@ -106,7 +106,7 @@
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="weui-panel__hd">业绩详情</div>
             <div class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
-                @click="showDetail(index)">
+                @click="showDetail(index)" >
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                     <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
                         <span>排钟</span>

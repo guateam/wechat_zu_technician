@@ -18,31 +18,8 @@ if($invited)
 	{   
         //获取下家信息
         $fresh_jbnb = $inv['freshman_job_number'];
-    //    $ods = get("service_order",'job_number',);
-
         //获取下家支付给本家的钱
         $yeji = get_lost($inv['freshman_job_number'],$begin,$end);
-        // foreach($ods as $idx => $od)
-		// {
-        //     $tm = get('consumed_order','order_id',$od['order_id']);
-        //     $ntime = strtotime($tm[0]['generated_time']);
-        //     if($begin<$ntime && $ntime < $end)
-		// 	{
-        //         $name = get("service_type","ID",$od['item_id']);
-        //         if($tm)
-		// 		{
-        //             $ods[$idx] = array_merge($ods[$idx],['time'=>$tm[0]['generated_time']]);
-        //         }
-        //         if($name)
-		// 		{
-        //             $ods[$idx]['item_id'] = $name[0]['name'];
-        //             $ods[$idx]=array_merge($ods[$idx],['earn'=>$inv['persentage']*$name[0]['commission']/10000]);
-        //             $earn+=$inv['persentage']*$name[0]['commission']/10000;
-        //         }
-        //         $ods[$idx]=array_merge($ods[$idx],['show'=>true]);
-        //         array_push($show_ods,$ods[$idx]);
-        //     }
-        // }
         $total_earn+=$yeji['lost'];
         array_push($tech,['job_number'=>$inv['freshman_job_number'],'order'=>$yeji['order'],'lost'=>$yeji['lost']]);
     }
