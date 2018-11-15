@@ -43,8 +43,8 @@ if ((
         else
         {
             $tm = date("ymdhis",time());
-            $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
-            $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
+            $sv = $save_dir.$rnd_str.$tm.'.'.$extension;
+            $tm=$dir.$rnd_str.$tm.'.'.$extension;
             $tc = (get("technician",'job_number',$job_number))[0];
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             if($tc)

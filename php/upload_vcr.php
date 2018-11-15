@@ -49,8 +49,8 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
         else
         {
             $tm = date("ymdhis",time());
-            $sv = $save_dir.$rnd_str.$tm.$_FILES["file"]["name"];
-            $tm=$dir.$rnd_str.$tm.$_FILES["file"]["name"];
+            $sv = $save_dir.$rnd_str.$tm.'.'.$extension;
+            $tm=$dir.$rnd_str.$tm.'.'.$extension;
 				
 			move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
 			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()]]);

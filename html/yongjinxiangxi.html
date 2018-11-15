@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">   <title>佣金明细</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>佣金明细</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
-    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/global.css" />
     <style>
         a :focus {
             background-color: #cc99cc;
@@ -99,8 +100,8 @@
                                 <p class="weui-media-box__desc" v-text="'房号：'+od.private_room_number"></p>
                             </div>
                             <div class="weui-media-box__bd" style="float: right;text-align: right">
-                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['earn']"></h4>
-                                <p class="weui-media-box__desc" style="font-family: monospace" v-text="od.time "></p>
+                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['lost']"></h4>
+                                <p class="weui-media-box__desc" style="font-family: monospace" v-text="date('Y-m-d H:i:s',od.appointment_time) "></p>
                             </div>
                         </a>
                     </div>
@@ -127,6 +128,7 @@
 <script type="text/javascript" src="../js/zepto.js"></script>
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script type="text/javascript" src="../js/windowOpen.js"></script>
+<script type="text/javascript" src="../js/date-format.js"></script>
 <script>
     Date.prototype.Format = function (fmt) { //author: meizz   
         var o = {
@@ -181,10 +183,13 @@
                 //     if(this.list[idx]['order'][i]['show'])
                 //         count += (this.list[idx]['order'][i]['earn']*this.list[idx]['per']/100);
                 // }
-                return this.list[idx]['earn'];
+                return this.list[idx]['lost'];
             },
             count() {
                 return this.list.length;
+            },
+            date(a,b){
+                return date(a,b);
             },
             certaindate(mode) {
                 var that = this;
@@ -276,18 +281,21 @@
                 that.show = true;
                 $.post('../php/getyongjing.php', {
                     job_number: getQueryString('id'),
-                    begin:begin,
-                    end:end,
+                    begin: begin,
+                    end: end,
                 }).done((res) => {
                     that.list = [];
                     that.display = [];
                     res = JSON.parse(res);
                     if (res.status == 1) {
-                        for (var i in res.data) {
-                            that.list.push(res.data[i])
-                            that.total_earn = res.total_earn;
-                            that.display.push(false);
-                        }
+                        that.list = res.data;
+                        that.total_earn = res.total_earn;
+                        that.display.push(false);
+                        // for (var i in res.data) {
+                        //     that.list.push(res.data[i])
+                        //     that.total_earn = res.total_earn;
+                        //     that.display.push(false);
+                        // }
                     }
                     that.show = false;
                 })
@@ -298,18 +306,20 @@
             var that = this;
             $.post('../php/getyongjing.php', {
                 job_number: getQueryString('id'),
-                begin:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
-                end:new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
+                begin: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
+                end: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
-                    for (var i in res.data) {
-                        that.list.push(res.data[i])
-                        that.total_earn = res.total_earn;
-                        that.display.push(false);
-                    }
-                }
+                    that.list = res.data;
+                    that.total_earn = res.total_earn;
+                    that.display.push(false);
+                    // for (var i in res.data) {
+                    //     that.list.push(res.data[i])
 
+
+                    // }
+                }
                 that.show = false;
                 that.opa = true;
             })
