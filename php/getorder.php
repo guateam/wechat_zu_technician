@@ -28,7 +28,6 @@ foreach($service_order as $so)
 {
     $one_consumed_order = get("consumed_order","order_id",$so['order_id']);
     $time = $one_consumed_order[0]['generated_time'];
-    $time = substr($time,0,10);
     if($all_time)
 	{
         $date = $time;
@@ -40,7 +39,7 @@ foreach($service_order as $so)
 		{
             if($tp['ID']== $so['item_id'])
 			{
-                $so['price']=$tp['price']*$tp['discount']/100.0;
+                $so['price']=$tp['price'];
                 $so['price']/=100;
                 $ticheng+=$tp['commission']/100;
                 $yeji+=$so['price'];
