@@ -2,19 +2,14 @@
 require("database.php");
 $dir = $_SERVER['DOCUMENT_ROOT']."/vcr/";
 $save_dir = "/vcr/";
+$img_dir =$_SERVER['DOCUMENT_ROOT']."/photo/";
 
 //判断操作系统
 $osname = PHP_OS;
 if(strpos($osname,"Linux")!==false){
     $osname = 'Linux';
-/**
- * linux操作系统
- */
 }else if(strpos($osname,"WIN")!==false){
     $osname = 'Windows';
-/**
- * windows操作系统
- */
 }
 $job_number =$_POST['job_number'];
 $temp = explode(".", $_FILES["file"]["name"]);
@@ -49,14 +44,30 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
         else
         {
             $tm = date("ymdhis",time());
+            //图片的名字,包含要保存到的路径，用于创建文件和命令行参数
+            $img_name = $img_dir.$rnd_str.$tm;
+            //保存在数据库中的路径格式
+            $sv_img_name = '/photo/'.$rnd_str.$tm.'.jpg';
             $sv = $save_dir.$rnd_str.$tm.'.'.$extension;
             $tm=$dir.$rnd_str.$tm.'.'.$extension;
-				
-			move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
-			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()]]);
-            $tp_vdo_id = (get("technician_video",'dir',$sv))[0];
-            $tp_vdo_id = $tp_vdo_id['ID'];
-            echo json_encode(["state"=>1,'url'=>$sv,"ID"=>$tp_vdo_id]);
+			//保存文件到某文件夹	
+            move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
+            //根据系统获取视频第一帧图片，作为视频封面
+            $osname = PHP_OS;
+            if(strpos($osname,"Linux")!==false){
+                $osname = 'Linux';
+                $cmd="ffmpeg -i ".$tm." -f image2 -y ".$img_name.".jpg";
+                exec($cmd,$result);
+
+            }else if(strpos($osname,"WIN")!==false){
+                $osname = 'Windows';
+                $cmd=$_SERVER['DOCUMENT_ROOT']."/ffmpeg/bin/ffmpeg.exe -i ".$tm." -f image2 -y ".$img_name.".jpg";
+                exec($cmd,$result);
+                
+            }
+			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()],['poster',$sv_img_name]]);
+            $tp_vdo = (get("technician_video",'dir',$sv))[0];
+            echo json_encode(["state"=>1,'url'=>$sv,"ID"=>$tp_vdo['ID'],'poster'=>$tp_vdo['poster']]);
             exit();
         }
     }

@@ -131,7 +131,7 @@
                     <img style="width:100px;height:100px" :src="item" @click="handleRemove(item)">
                 </div>
                 <div style="width:100px;height:100px;margin: 0 0 10px 20px;" v-for="item in uploadvdo">
-                    <video onloadeddata="app.video_poster(this)" controls style="width:100px;height:100px;margin: 0 0 10px 20px;">
+                    <video :poster="item.poster" controls style="width:100px;height:100px;margin: 0 0 10px 20px;">
                         <source :src="item.url" type="video/mp4">
                     </video>
                 </div>
@@ -142,7 +142,6 @@
                         <p style="font-size: 40px;line-height: 100px;">+</p>
                     </div>
                 </upload>
-
             </row>
         </row>
 
@@ -225,14 +224,6 @@
 
                 })
             },
-            video_poster(video) {
-                var scale = 0.8;
-                var canvas = document.createElement("canvas"); //canvas画布
-                canvas.width = video.videoWidth * scale;
-                canvas.height = video.videoHeight * scale;
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); //画图
-                video.setAttribute("poster", canvas.toDataURL("image/png")); //关键一步 —— 设置标签的 poster 属性的值为 base64 编译过后的canvas绘图。
-            },
             videosuccess(res, file) {
                 var that = this;
                 if (this.upload_type == "image") return;
@@ -240,7 +231,8 @@
                     console.log(res.url);
                     that.uploadvdo.push({
                         'url': res.url,
-                        'id': res.ID
+                        'id': res.ID,
+                        'poster':res.poster
                     });
                     swal.close();
                 } else {
