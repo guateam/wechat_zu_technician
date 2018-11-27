@@ -42,24 +42,35 @@ if ((
         }
         else
         {
+            //时间字符串
             $tm = date("ymdhis",time());
+            //保存到数据库里面的路径
             $sv = $save_dir.$rnd_str.$tm.'.'.$extension;
-            $tm=$dir.$rnd_str.$tm.'.'.$extension;
+            //调用move_uploaded_file时，作为参数的路径
+            $mv=$dir.$rnd_str.$tm.'.'.$extension;
+            //检测是否存在该工号的技师
             $tc = (get("technician",'job_number',$job_number))[0];
-            // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
+            // 如果存在技师，则继续
             if($tc)
 			{
-                if(move_uploaded_file($_FILES["file"]["tmp_name"],$tm )){
+                //如果成功上传文件
+                if(move_uploaded_file($_FILES["file"]["tmp_name"],$mv)){
+                    //数据库增加记录
                     add("technician_photo",[['job_number',$job_number],['img',$sv],['time',time()]]);
+                    //如果本次上传是用于切换朋友圈背景的
                     if($bg)
                     {
+                        //如果存在旧的朋友圈背景图片
                         if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
+                            //删除旧的图片和数据库记录
                             $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
                             unlink($del_dir);
                             del("technician_photo",'img',$tc['friend_circle_background']);
                         }
+                        //设置新的朋友圈背景图片
                         set("technician",'job_number',$job_number,[['friend_circle_background',$sv]]);
                     }
+                    //获取刚刚添加到数据库里面的记录ID，并将其返回
                     $tp_img_id = (get("technician_photo",'img',$sv))[0];
                     $tp_img_id = $tp_img_id['ID'];
                     echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
