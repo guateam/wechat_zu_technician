@@ -75,7 +75,9 @@ if ((
                     $tp_img_id = $tp_img_id['ID'];
                     echo json_encode(["state"=>1,'url'=>$sv,'ID'=>$tp_img_id]);
                     exit();
-                }else{
+                }
+				else
+				{
                     echo json_encode(["state"=>'文件上传失败']);
                     exit();
                 }
