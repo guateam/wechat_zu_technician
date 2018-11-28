@@ -54,7 +54,22 @@ if ((
             if($tc)
 			{
                 //如果成功上传文件
-                if(move_uploaded_file($_FILES["file"]["tmp_name"],$mv)){
+                if(move_uploaded_file($_FILES["file"]["tmp_name"],$mv))
+				{
+					//------------------------------------------------------------
+					$osname = PHP_OS;	
+					if(strpos($osname,"Linux")!==false)
+					{
+						$cmd="jpegoptim -m 20 ".$mv;						
+						//---------------------------------------------
+						$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");				
+						fwrite($myfile, "cmd = ".$cmd."   "."\r\n");
+						fclose($myfile);
+						//---------------------------------------------
+						exec($cmd,$result);
+					}
+					//------------------------------------------------------------
+					
                     //数据库增加记录
                     add("technician_photo",[['job_number',$job_number],['img',$sv],['time',time()]]);
                     //如果本次上传是用于切换朋友圈背景的

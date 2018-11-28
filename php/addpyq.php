@@ -29,6 +29,22 @@ foreach($urls as $url){
     $rnd_str.=date("is",time());
     $sv = $dir.$rnd_str.'.jpg';
     file_put_contents($sv, $img);
+	
+	//------------------------------------------------------------
+	$osname = PHP_OS;	
+	if(strpos($osname,"Linux")!==false)
+	{
+		$cmd="jpegoptim -m 20 ".$sv;
+		
+		//---------------------------------------------
+		$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");				
+		fwrite($myfile, "cmd = ".$cmd."   "."\r\n");
+		fclose($myfile);
+		//---------------------------------------------
+		exec($cmd,$result);
+	}
+	//------------------------------------------------------------
+	
     add('technician_photo',[['img',$save_dir.$rnd_str.'.jpg'],['time',$time],['job_number',$job_number]]);
 }
 $ids = sql_str("select group_concat(ID) as id from technician_photo where `time` = '$time'");
