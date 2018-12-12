@@ -1,7 +1,15 @@
 <?php
 require("database.php");
 function get_all_yeji(){
-    $jbnb = get("technician");
+    //获取工号，然后查出类型
+    $type = $_POST['type'];
+    $type = sql_str("select type from technician where job_number = '$type'");
+    if($type && count($type)>0){
+        $type = $type[0]['type'];
+    }
+
+    //获取指定类型的技师列表
+    $jbnb = sql_str("get * from technician where type='$type'");
     $result = [];
     foreach($jbnb as $job){
         $yeji = get_yeji($job['job_number']);
@@ -23,6 +31,7 @@ function get_all_yeji(){
     }
     return $result;
 }
+
 function get_yeji($job_number)
 {
     if(isset($_POST['begin']))$begin = $_POST['begin'];

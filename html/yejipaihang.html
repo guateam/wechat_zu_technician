@@ -287,6 +287,7 @@
                 $.post("../php/getyeji.php", {
                     begin: begin,
                     end: end,
+                    type:that.self_job_number,
                 }).done((res) => {
                     res = JSON.parse(res);
                     if (res.status == 1) {
@@ -303,9 +304,11 @@
         },
         created() {
             var that = this;
+            that.self_job_number = getQueryString('id');
             $.post("../php/getyeji.php", {
                 begin: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-01 00:00:00",
                 end: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-31 23:59:59",
+                type:that.self_job_number,
             }).done((res) => {
                 res = JSON.parse(res);
                 if (res.status == 1) {
@@ -313,7 +316,7 @@
                     // for (var i = 0; i < res.data.length; i++) {
                     //     that.yejilist.push(res.data[i])
                     // }
-                    that.self_job_number = getQueryString('id');
+                    
                     that.show = false;
                     that.opa = true;
                 }

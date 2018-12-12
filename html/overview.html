@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="" style="height: 26%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;">
-        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+        <div v-if="type==1" class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">项目业绩（元）</h3>
                 <h1 style="color: #404040;font-size: 15px" v-text="income"></h1>
@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-    <div class=""
+    <div v-if="type==1" class=""
          style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
         <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
             <div class="weui-flex__item" style="justify-content: space-between;">
@@ -96,7 +96,7 @@
                 <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="point_ratio"></span>
             </div>
         </div>
-        <div class="weui-flex" style="height: 70%;align-items: center;">
+        <div  class="weui-flex" style="height: 70%;align-items: center;">
             <div class="weui-flex__item" style="margin-left: 20px">
                 <h3 style="color: gray;font-size: 15px;font-weight: 400">点钟（次）</h3>
                 <h1 style="color: #404040;font-size: 15px" v-text="point_clock"></h1>
@@ -163,6 +163,7 @@
                 bonus: 0,
                 total_bonus: 0,
                 clock: 0,
+                type:0,
                 point_clock: 0,
                 point_ratio: '0%',
                 charge_count: 0,
@@ -329,6 +330,7 @@
                     that.clock = data.total_clock;
                     that.bonus = data.bonus;
                     that.income = data.total_income;
+                    that.type = data.type;
                     for (var i = 0; i < data.length; i++) {
                         if (data[i]['clock_type'] == 1) that.point_clock++;
                     }
