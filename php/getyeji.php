@@ -1,15 +1,17 @@
 <?php
 require("database.php");
-function get_all_yeji(){
-    //获取工号，然后查出类型
-    $type = $_POST['type'];
-    $type = sql_str("select type from technician where job_number = '$type'");
-    if($type && count($type)>0){
-        $type = $type[0]['type'];
-    }
+//获取工号，然后查出类型
+global $type;
+$type = $_POST['type'];
+$type = sql_str("select type from technician where job_number = '$type'");
+if($type && count($type)>0){
+    $type = $type[0]['type'];
+}
 
+function get_all_yeji(){
+    global $type;
     //获取指定类型的技师列表
-    $jbnb = sql_str("get * from technician where type='$type'");
+    $jbnb = sql_str("select * from technician where type='$type'");
     $result = [];
     foreach($jbnb as $job){
         $yeji = get_yeji($job['job_number']);
@@ -34,6 +36,7 @@ function get_all_yeji(){
 
 function get_yeji($job_number)
 {
+    global $type;
     if(isset($_POST['begin']))$begin = $_POST['begin'];
     if(isset($_POST['end']))$end = $_POST['end'];
     $begin = strtotime($begin);
@@ -46,9 +49,13 @@ function get_yeji($job_number)
         foreach($so as $idx => $svod)
 		{
             $item_id = $svod['item_id'];
-            $commission = sql_str("select commission from service_type where `ID`='$item_id'");
+            $commission = sql_str("select commission,commission2 from service_type where `ID`='$item_id'");
             //记录自己的营业金额
-            $price+=intval($commission[0]['commission'])/100;       
+            if($type == 1)
+                $price+=intval($commission[0]['commission'])/100;  
+            else if($type == 2){
+                $price+=intval($commission[0]['commission2'])/100;  
+            }     
         }
     }
     return [

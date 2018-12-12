@@ -142,7 +142,7 @@
                                         </li>
                                     </ul>
                                     <div  v-for="vdo in item['video']"  v-for="vdo in item['video']" style="position: relative;display: flex;align-items: center;justify-content: center;">
-                                        <img @click="play($event,vdo)" src="../src/播放.png" alt="" :style="{'border-radius':'8px','position': 'absolute','z-index':10,'opacity':100}">
+                                        <img @click="play($event,vdo)" src="../src/播放.png" alt="" :style="{'border-radius':'8px','position': 'absolute','z-index':1,'opacity':100}">
                                         <video :poster="vdo.poster" style="width:100%;height:180px">
                                             <source :src="vdo.src" type="video/mp4">
                                         </video>
