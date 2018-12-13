@@ -34,6 +34,14 @@
              background-color: #fff;
              opacity: 0.5;
         }
+        .biao{
+            height: 2em;
+        }
+        .biaoge{
+            text-align: center;
+            height: 1em;
+            line-height: 1.5;
+        }
         /* 模态框样式 */
         .modal-data{
              margin: 80% auto;
@@ -106,20 +114,20 @@
             <div v-if="!empty">
                 <table>
                     <tr>
-                        <th width="140">时间</th>
-                        <th width="70">金额</th>
-                        <th width="100">手机号</th>
-                        <th width="100">微信号</th>
+                        <th class="biao" width="140">时间</th>
+                        <th class="biao" width="70">金额</th>
+                        <th class="biao" width="100">手机号</th>
+                        <th class="biao" width="100">微信号</th>
                     </tr>
                     <tr v-for="(it, index) in recharge_list">
-                        <td v-text="it.time"></td>
-                        <td v-text="'￥'+parseInt(it.charge)"></td>
-                        <td v-text="it.phone_number"></td>
-                        <td v-text="it.name"></td>
+                        <td class="biaoge" v-text="it.time"></td>
+                        <td class="biaoge" v-text="'￥'+parseInt(it.charge)"></td>
+                        <td class="biaoge" v-text="it.phone_number"></td>
+                        <td class="biaoge" v-text="it.name"></td>
                     </tr>
                 </table>
             </div>
-            <div v-else>
+            <div v-else style="margin-top: 20px;padding-bottom: 20px;width: 100%;display: flex;align-items: center;justify-content: center;">
                 <p>暂无数据</p>
             </div>
         </div>

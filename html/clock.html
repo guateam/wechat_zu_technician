@@ -34,6 +34,14 @@
              background-color: #fff;
              opacity: 0.5;
         }
+        .biao{
+            height: 2em;
+        }
+        .biaoge{
+            text-align: center;
+            height: 1em;
+            line-height: 1.5;
+        }
         /* 模态框样式 */
         .modal-data{
              margin: 80% auto;
@@ -144,16 +152,16 @@
             <div v-else>
                 <table>
                     <tr>
-                        <th width="140">时间</th>
-                        <th width="100">项目</th>
-                        <th width="70">金额</th>
-                        <th width="70">提成</th>
+                        <th class="biao" width="140">时间</th>
+                        <th class="biao" width="100">项目</th>
+                        <th class="biao" width="70">金额</th>
+                        <th class="biao" width="70">提成</th>
                     </tr>
                     <tr v-for="(service, index) in service_list">
-                        <td v-text="service.time"></td>
-                        <td v-text="service.service_name"></td>
-                        <td v-text="'￥'+service.income"></td>
-                        <td v-text="'￥'+service.bonus"></td>
+                        <td class="biaoge" v-text="service.time"></td>
+                        <td class="biaoge" v-text="service.service_name"></td>
+                        <td class="biaoge" v-text="'￥'+service.income"></td>
+                        <td class="biaoge" v-text="'￥'+service.bonus"></td>
                     </tr>
                 </table>
             </div>
