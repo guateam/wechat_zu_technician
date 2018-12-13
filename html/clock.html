@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">    <title>业绩明细</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>业绩明细</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
-    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/global.css" />
     <style>
         a :focus{
             background-color:#cc99cc;
@@ -49,7 +50,8 @@
 
         <div class="weui-flex" style="height: 6%;">
             <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
-                <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}" onfocus="this.blur();">全部</a>
+                <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                    onfocus="this.blur();">全部</a>
             </div>
             <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
                 <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black"
@@ -105,8 +107,8 @@
 
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="weui-panel__hd">业绩详情</div>
-            <div class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
-                @click="showDetail(index)" >
+            <div v-if="type==1" class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
+                @click="showDetail(index)">
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                     <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
                         <span>排钟</span>
@@ -138,6 +140,22 @@
                             service.income }}</p>
                     </div>
                 </div>
+            </div>
+            <div v-else>
+                <table>
+                    <tr>
+                        <th width="140">时间</th>
+                        <th width="100">项目</th>
+                        <th width="70">金额</th>
+                        <th width="70">提成</th>
+                    </tr>
+                    <tr v-for="(service, index) in service_list">
+                        <td v-text="service.time"></td>
+                        <td v-text="service.service_name"></td>
+                        <td v-text="'￥'+service.income"></td>
+                        <td v-text="'￥'+service.bonus"></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="weui-footer" style="margin-top: 20px">
@@ -201,6 +219,7 @@
                     clock_type: 1,
                     show: false
                 }],
+                type: 1,
             }
         },
         methods: {
@@ -482,7 +501,7 @@
                             service_name: data.key_info[i].service_name,
                             room_number: data.key_info[i].room_number,
                             bonus: data.key_info[i].bonus,
-                            time: date("Y-m-d H:i:s",data.key_info[i].time),
+                            time: date("Y-m-d H:i:s", data.key_info[i].time),
                             order_id: data.key_info[i].order_id,
                             income: data.key_info[i].income,
                             clock_type: data.key_info[i].clock_type,
@@ -511,7 +530,7 @@
                         service_name: data.key_info[i].service_name,
                         room_number: data.key_info[i].room_number,
                         bonus: data.key_info[i].bonus,
-                        time: date("Y-m-d H:i:s",data.key_info[i].time),
+                        time: date("Y-m-d H:i:s", data.key_info[i].time),
                         order_id: data.key_info[i].order_id,
                         income: data.key_info[i].income,
                         clock_type: data.key_info[i].clock_type,
@@ -519,6 +538,7 @@
                     })
                 }
                 that.show = false;
+                that.type = data.type;
                 that.opa = true;
             })
         }
