@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>业绩汇总</title>
-    <link rel="stylesheet" href="../css/weui-min.css"/>
-    <link rel="stylesheet" href="../css/example.css"/>
-    <link rel="stylesheet" href="../css/global.css"/>
+    <link rel="stylesheet" href="../css/weui-min.css" />
+    <link rel="stylesheet" href="../css/example.css" />
+    <link rel="stylesheet" href="../css/global.css" />
     <style>
         /* 定义模态对话框外面的覆盖层样式 */
         #modal-overlay {
@@ -44,97 +44,92 @@
 </head>
 
 <body style="background-color: #f2f2f2">
-<div id="pg" style="width:100%;height:100%">
-    <div class="weui-flex" style="font-size: 15px">
-        <div class="weui-flex__item" style="flex: 0 0 50%;">
-            <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker"
-               style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
-                    src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
-        </div>
-        <div class="weui-flex weui-flex__item"
-             style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
-            <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black;">本月</a>
-            <a href="javascript:;" @click="return_month(-1)" class="weui-flex__item" style="color: black">上月</a>
-        </div>
-    </div>
-    <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
-        <div class="box weui-flex"
-             style="flex: 0 0 94%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
-            <div class="item weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总提成（元）</h3>
-                <h1 style="color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
+    <div id="pg" style="width:100%;height:100%">
+        <div class="weui-flex" style="font-size: 15px">
+            <div class="weui-flex__item" style="flex: 0 0 50%;">
+                <a href="javascript:;" @click="choose_month" class="weui-btn weui-btn_default" id="showPicker" style="background-color: white;background-image: url(../src/下箭头.png);background-repeat: no-repeat;background-position: 90%"><img
+                        src="../src/日历.png" style="float: left;margin: 10px auto">{{choosen}}</a>
+            </div>
+            <div class="weui-flex weui-flex__item" style="align-items: center;text-align: center;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 5px;background-color: white">
+                <a href="javascript:;" @click="return_month(1)" class="weui-flex__item" style="color: black;">本月</a>
+                <a href="javascript:;" @click="return_month(-1)" class="weui-flex__item" style="color: black">上月</a>
             </div>
         </div>
-    </div>
-    <div class="" style="height: 26%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;">
-        <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">项目业绩（元）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="income"></h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">项目提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="bonus"></h1>
+        <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
+            <div class="box weui-flex" style="flex: 0 0 94%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
+                <div class="item weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总提成（元）</h3>
+                    <h1 style="color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
+                </div>
             </div>
         </div>
-        <div class="weui-flex" style="height: 50%;align-items: center;">
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐人数（人）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
+        <div class="" style="height: 26%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;">
+            <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">项目业绩（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="income"></h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">项目提成（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="bonus"></h1>
+                </div>
             </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐提成（元）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="invite_num"></h1>
-            </div>
-        </div>
-    </div>
-    <div v-if="type==1" class=""
-         style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="justify-content: space-between;">
-                <span style="background-image: url(../src/时钟.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">点钟率</span>
-                <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="point_ratio"></span>
-            </div>
-        </div>
-        <div  class="weui-flex" style="height: 70%;align-items: center;">
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">点钟（次）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="point_clock"></h1>
-            </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">总钟次（次）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="clock"></h1>
+            <div class="weui-flex" style="height: 50%;align-items: center;">
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐人数（人）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐提成（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="invite_num"></h1>
+                </div>
             </div>
         </div>
-    </div>
-    <div class=""
-         style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
-        <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
-            <div class="weui-flex__item" style="justify-content: space-between;">
-                <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">售卡业绩</span>
-                <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num"></span>
+        <div v-if="type==1" class="" style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
+            <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+                <div class="weui-flex__item" style="justify-content: space-between;">
+                    <span style="background-image: url(../src/时钟.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">点钟率</span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="point_ratio"></span>
+                </div>
+            </div>
+            <div class="weui-flex" style="height: 70%;align-items: center;">
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">点钟（次）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="point_clock"></h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">总钟次（次）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="clock"></h1>
+                </div>
             </div>
         </div>
-        <div class="weui-flex" style="height: 70%;align-items: center;">
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡次数（次）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="charge_count"></h1>
+        <div @click="navi('recharge_record.html')" class="" style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
+            <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+                <div class="weui-flex__item" style="justify-content: space-between;">
+                    <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px;font-size:13px">售卡业绩 (点击查看详情)</span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num"></span>
+                </div>
             </div>
-            <div class="weui-flex__item" style="margin-left: 20px">
-                <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡金额（元）</h3>
-                <h1 style="color: #404040;font-size: 15px" v-text="charge_num"></h1>
+            <div class="weui-flex" style="height: 70%;align-items: center;">
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡提成（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="charge_bonus"></h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡金额（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="charge_num"></h1>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="weui-footer" style="margin-top: 20px">
-        <p class="weui-footer__text">查帐方式以结账时间为准</p>
-    </div>
-    <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
-        <div class="modal-data">
-            <img src="../src/loading.gif"/>
+        <div class="weui-footer" style="margin-top: 20px">
+            <p class="weui-footer__text">查帐方式以结账时间为准</p>
+        </div>
+        <div :id="opa?'modal-overlay-opa':'modal-overlay'" v-show="show">
+            <div class="modal-data">
+                <img src="../src/loading.gif" />
+            </div>
         </div>
     </div>
-</div>
 </body>
 <script type="text/javascript" src="../js/jweixin.js"></script>
 <script type="text/javascript" src="../js/weui-min.js"></script>
@@ -161,9 +156,11 @@
                 figure: [],
                 income: 0,
                 bonus: 0,
-                total_bonus: 0,
+                job_number:getQueryString('id'),
+                total_bonus: 0, //项目提成
+                charge_bonus: 0, //售卡提成
                 clock: 0,
-                type:0,
+                type: 0,
                 point_clock: 0,
                 point_ratio: '0%',
                 charge_count: 0,
@@ -173,9 +170,13 @@
                 choosen: "本月",
                 opa: false,
                 show: true,
+                shopid: getQueryString('spid'),
             }
         },
         methods: {
+            navi(url){
+                window.location.href= url +"?id="+this.job_number+"&spid="+this.shopid;
+            },
             get_now_month() {
                 var date = new Date();
                 var begin = "";
@@ -324,7 +325,8 @@
                 $.post("../php/getorder.php", {
                     job_number: job_number,
                     date: begin,
-                    date2: end
+                    date2: end,
+                    shopid: that.shopid,
                 }).done((result) => {
                     data = JSON.parse(result);
                     that.clock = data.total_clock;
@@ -339,14 +341,22 @@
                         that.point_ratio += "%";
                     } else that.point_ratio = that.point_clock / that.clock * 100;
                 });
-                $.post("../php/getcharge.php", {
+                $.post("../php/recharge_record.php", {
                     job_number: job_number,
                     begin: begin,
                     end: end,
+                    shopid: that.shopid,
                 }).done((result) => {
                     data = JSON.parse(result);
-                    that.charge_count = data.count;
-                    that.charge_num = data.charge;
+                    //that.charge_count = data.count;
+                    if (data.status == 1) {
+                        that.charge_num = data.total_income;
+                        that.charge_bonus = data.total_bonus;
+                    } else {
+                        that.charge_num = 0;
+                        that.charge_bonus = 0;
+                    }
+
                     that.charge_num += "元";
                 });
                 $.post("../php/getinvite.php", {
