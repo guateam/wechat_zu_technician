@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <title>业绩明细</title>
+    <title>售卡详情</title>
     <link rel="stylesheet" href="../css/weui-min.css" />
     <link rel="stylesheet" href="../css/example.css" />
     <link rel="stylesheet" href="../css/global.css" />
@@ -50,7 +50,7 @@
 
         <div class="weui-flex" style="height: 6%;">
             <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
-                <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[3]}"
                     onfocus="this.blur();">全部</a>
             </div>
             <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
@@ -91,71 +91,36 @@
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 100%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">业绩(元)</h3>
-                    <span style="color: white;font-size: 15px" v-text="'￥'+total_income"></span>
-                </div>
-                <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">提成(元)</h3>
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">售卡提成(元)</h3>
                     <span style="color: white;font-size: 15px" v-text="'￥'+bonus"></span>
                 </div>
                 <div class="item weui-flex__item" style="margin-left: 10px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总钟数(次)</h3>
-                    <span style="color: white;font-size: 15px" v-text="total_clock"></span>
+                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">售卡金额(元)</h3>
+                    <span style="color: white;font-size: 15px" v-text="'￥'+income"></span>
                 </div>
             </div>
         </div>
 
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
-            <div class="weui-panel__hd">业绩详情</div>
-            <div v-if="type==1" class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
-                @click="showDetail(index)">
-                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
-                    <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
-                        <span>排钟</span>
-                    </div>
-                    <div v-if="service.clock_type==2" class="weui-media-box__hd" style="border-radius: 50%;background-color: #9fc5e8;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
-                        <span>点钟</span>
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title" style="font-size: 14px">{{ service.service_name }}</h4>
-                        <p class="weui-media-box__desc">房号：{{ service.room_number }}</p>
-                    </div>
-                    <div class="weui-media-box__bd" style="float: right;text-align: right">
-                        <h4 class="weui-media-box__title" style="color: #cc99cc">￥{{ service.bonus }}</h4>
-                        <p class="weui-media-box__desc" style="font-family: monospace" v-text="service.time"></p>
-                    </div>
-                </a>
-                <div class="weui-panel__bd display-none" style="display: block;background-color: #f2f2f2;" v-show="service.show">
-                    <div class="weui-media-box weui-media-box_text" style="padding-bottom: 0;">
-                        <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                        <div style="margin-left: 2px;border-left: 1px solid #cc99cc;height:50px;">
-                            <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">业绩流水号</h4>
-                            <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;">{{
-                                service.order_id }}</p>
-                        </div>
-                        <div style="border: 1px solid #cc99cc;border-radius: 2px;width: 4px;height: 4px;"></div>
-                        <h4 class="weui-media-box__desc " style="margin-left: 15px;margin-bottom: 0;">
-                            业绩金额（元）</h4>
-                        <p class="weui-media-box__title" style="margin-left: 15px;color:#cc99cc;margin-bottom: 0">{{
-                            service.income }}</p>
-                    </div>
-                </div>
-            </div>
-            <div v-else>
+            <div class="weui-panel__hd">售卡详情</div>
+            <div v-if="!empty">
                 <table>
                     <tr>
                         <th width="140">时间</th>
-                        <th width="100">项目</th>
                         <th width="70">金额</th>
-                        <th width="70">提成</th>
+                        <th width="100">手机号</th>
+                        <th width="100">微信号</th>
                     </tr>
-                    <tr v-for="(service, index) in service_list">
-                        <td v-text="service.time"></td>
-                        <td v-text="service.service_name"></td>
-                        <td v-text="'￥'+service.income"></td>
-                        <td v-text="'￥'+service.bonus"></td>
+                    <tr v-for="(it, index) in recharge_list">
+                        <td v-text="it.time"></td>
+                        <td v-text="'￥'+parseInt(it.charge)"></td>
+                        <td v-text="it.phone_number"></td>
+                        <td v-text="it.name"></td>
                     </tr>
                 </table>
+            </div>
+            <div v-else>
+                <p>暂无数据</p>
             </div>
         </div>
         <div class="weui-footer" style="margin-top: 20px">
@@ -189,13 +154,16 @@
     }
     var job_number = getQueryString("id");
 
-    new Vue({
+    var app = new Vue({
         el: '#detail',
         data() {
             return {
-                total_clock: 0,
-                bonus: 0,
-                total_income: 0,
+                recharge_list: [],
+                empty: false,
+                job_number: getQueryString('id'),
+                shopid: getQueryString('spid'),
+                bonus: 0, //充卡提成
+                income: 0, //充卡额
 
                 choosen_month: "月份",
                 choosen_date: "日期",
@@ -206,27 +174,14 @@
                 choosen: [
                     "#FFFFFF",
                     "#FFFFFF",
-                    "#FFFFFF",
+                    "#6699CC",
                     "#FFFFFF",
                 ],
-                service_list: [{
-                    service_name: '',
-                    room_number: '',
-                    bonus: 0,
-                    time: '',
-                    order_id: '',
-                    income: 0,
-                    clock_type: 1,
-                    show: false
-                }],
+
                 type: 1,
             }
         },
         methods: {
-            showDetail(index) {
-                this.service_list[index].show = !this.service_list[index].show;
-                // this.service_list[index].bonus += 1;
-            },
             selectDate() {
                 var that = this;
                 weui.datePicker({
@@ -243,39 +198,44 @@
                         if (result[2] < 10) {
                             d = "0" + d;
                         }
-                        var date = y + m + d;
+                        var v_date = y + m + d;
 
                         that.choosen = [
                             "#FFFFFF",
                             "#FFFFFF",
                             "#FFFFFF",
+                            "#FFFFFF",
                         ]
 
-                        that.choosen_date = date;
+                        that.choosen_date = v_date;
                         that.choosen_month = "月份";
                         that.show = true;
-                        $.post("../php/getorder.php", {
-                            job_number: job_number,
-                            date: date,
-                            dataType: 'json',
-                        }).done((result) => {
-                            that.service_list = []
-                            var data = JSON.parse(result);
-                            that.total_clock = data.total_clock;
-                            that.bonus = data.bonus;
-                            that.total_income = data.total_income;
-                            that.service_list = [];
-                            for (var i in data.key_info) {
-                                that.service_list.push({
-                                    service_name: data.key_info[i].service_name,
-                                    room_number: data.key_info[i].room_number,
-                                    bonus: data.key_info[i].bonus,
-                                    time: data.key_info[i].time,
-                                    order_id: data.key_info[i].order_id,
-                                    income: data.key_info[i].income,
-                                    clock_type: data.key_info[i].clock_type,
-                                    show: false
-                                })
+                        //这里有个getorder.php
+                        that.recharge_list = [];
+                        $.post("../php/recharge_record.php", {
+                            begin: v_date,
+                            end: v_date,
+                            shopid: that.shopid,
+                            job_number: that.job_number
+                        }).done((res) => {
+                            res = JSON.parse(res);
+                            if (res.status == 1) {
+                                that.empty = false;
+                                for (var i in res.data) {
+                                    that.recharge_list.push({
+                                        charge: res.data[i].charge,
+                                        name: res.data[i].name,
+                                        phone_number: res.data[i].phone_number,
+                                        time: date("Y-m-d H:i:s", res.data[i].time)
+                                    })
+                                }
+                                //that.recharge_list = res.data;
+                                that.bonus = res.total_bonus;
+                                that.income = res.total_income;
+                            } else {
+                                that.empty = true;
+                                that.bonus = 0;
+                                that.income = 0;
                             }
                             that.show = false;
                         })
@@ -368,31 +328,35 @@
                             "#FFFFFF",
                             "#FFFFFF",
                             "#FFFFFF",
+                            "#FFFFFF",
                         ]
                         that.show = true;
-                        $.post("../php/getorder.php", {
-                            job_number: job_number,
-                            date: begin,
-                            date2: end,
-                            dataType: 'json',
-                        }).done((result) => {
-                            that.service_list = []
-                            var data = JSON.parse(result);
-                            that.total_clock = data.total_clock;
-                            that.bonus = data.bonus;
-                            that.total_income = data.total_income;
-                            that.service_list = [];
-                            for (var i in data.key_info) {
-                                that.service_list.push({
-                                    service_name: data.key_info[i].service_name,
-                                    room_number: data.key_info[i].room_number,
-                                    bonus: data.key_info[i].bonus,
-                                    time: data.key_info[i].time,
-                                    order_id: data.key_info[i].order_id,
-                                    income: data.key_info[i].income,
-                                    clock_type: data.key_info[i].clock_type,
-                                    show: false
-                                })
+                        //这里有个getorder.php
+                        that.recharge_list = [];
+                        $.post("../php/recharge_record.php", {
+                            begin: begin,
+                            end: end,
+                            shopid: that.shopid,
+                            job_number: that.job_number
+                        }).done((res) => {
+                            res = JSON.parse(res);
+                            if (res.status == 1) {
+                                that.empty = false;
+                                for (var i in res.data) {
+                                    that.recharge_list.push({
+                                        charge: res.data[i].charge,
+                                        name: res.data[i].name,
+                                        phone_number: res.data[i].phone_number,
+                                        time: date("Y-m-d H:i:s", res.data[i].time)
+                                    })
+                                }
+                                //that.recharge_list = res.data;
+                                that.bonus = res.total_bonus;
+                                that.income = res.total_income;
+                            } else {
+                                that.empty = true;
+                                that.bonus = 0;
+                                that.income = 0;
                             }
                             that.show = false;
                         })
@@ -410,41 +374,17 @@
                 ];
                 that.choosen_month = "月份";
                 that.choosen_date = "日期";
-                $.post("../php/getorder.php", {
-                    job_number: job_number,
-                    date: "",
-                    dataType: 'json',
-                }).done((result) => {
-                    that.service_list = []
-                    var data = JSON.parse(result);
-                    that.total_clock = data.total_clock;
-                    that.bonus = data.bonus;
-                    that.total_income = data.total_income;
-                    that.service_list = [];
-                    for (var i in data.key_info) {
-                        that.service_list.push({
-                            service_name: data.key_info[i].service_name,
-                            room_number: data.key_info[i].room_number,
-                            bonus: data.key_info[i].bonus,
-                            time: data.key_info[i].time,
-                            order_id: data.key_info[i].order_id,
-                            income: data.key_info[i].income,
-                            clock_type: data.key_info[i].clock_type,
-                            show: false
-                        })
-                    }
-                    that.show = false;
-                })
+                //这里有个getorder.php
             },
             certaindate(mode) {
                 var that = this;
                 that.show = true;
-                var date = new Date();
+                var v_date = new Date();
                 var str = "";
                 var str2 = "";
-                str += date.getFullYear() + "-";
-                if (date.getMonth() < 10) str += "0";
-                str += date.getMonth() + 1 + "-";
+                str += v_date.getFullYear() + "-";
+                if (v_date.getMonth() < 10) str += "0";
+                str += v_date.getMonth() + 1 + "-";
 
                 that.choosen_date = "日期";
                 that.choosen_month = "月份";
@@ -453,25 +393,28 @@
                     that.choosen[0] = "#6699CC"
                     that.choosen[1] = "#FFFFFF"
                     that.choosen[2] = "#FFFFFF"
-                    if (date.getDate() < 10) str += "0";
-                    str += date.getDate();
+                    that.choosen[3] = "#FFFFFF"
+                    if (v_date.getDate() < 10) str += "0";
+                    str += v_date.getDate();
                     str2 = str;
                 } else if (mode == 2) {
                     that.choosen[1] = "#6699CC"
                     that.choosen[2] = "#FFFFFF"
                     that.choosen[0] = "#FFFFFF"
-                    date.setTime(date.getTime() - 24 * 60 * 60 * 1000)
-                    if (date.getDate() < 10) str += "0";
-                    str += date.getDate();
+                    that.choosen[3] = "#FFFFFF"
+                    v_date.setTime(v_date.getTime() - 24 * 60 * 60 * 1000)
+                    if (v_date.getDate() < 10) str += "0";
+                    str += v_date.getDate();
                     str2 = str;
                 } else if (mode == 3) {
                     that.choosen[2] = "#6699CC"
                     that.choosen[1] = "#FFFFFF"
                     that.choosen[0] = "#FFFFFF"
+                    that.choosen[3] = "#FFFFFF"
                     str2 = str;
                     str += "01";
-                    month = date.getMonth()
-                    var new_year = date.getFullYear(); //取当前的年份   
+                    month = v_date.getMonth()
+                    var new_year = v_date.getFullYear(); //取当前的年份   
                     var new_month = ++month; //取下一个月的第一天，方便计算（最后一天不固定）   
                     if (month > 11) //如果当前大于12月，则年份转到下一年   
                     {
@@ -482,64 +425,94 @@
                     new_date.setTime(new_date.getTime() - 1000 * 60 * 60 * 24);
                     if (new_date.getDate() < 10) str2 += "0";
                     str2 += new_date.getDate() //获取当月最后一天日期  
+                } else if (mode == 4) {
+                    that.choosen[2] = "#FFFFFF"
+                    that.choosen[1] = "#FFFFFF"
+                    that.choosen[0] = "#FFFFFF"
+                    that.choosen[3] = "#6699CC"
+                    str = str2 = "";
                 }
 
-                $.post("../php/getorder.php", {
-                    job_number: job_number,
-                    date: str,
-                    date2: str2,
-                    dataType: 'json',
-                }).done((result) => {
-                    that.service_list = []
-                    var data = JSON.parse(result);
-                    that.total_clock = data.total_clock;
-                    that.bonus = data.bonus;
-                    that.total_income = data.total_income;
-                    that.service_list = [];
-                    for (var i in data.key_info) {
-                        that.service_list.push({
-                            service_name: data.key_info[i].service_name,
-                            room_number: data.key_info[i].room_number,
-                            bonus: data.key_info[i].bonus,
-                            time: date("Y-m-d H:i:s", data.key_info[i].time),
-                            order_id: data.key_info[i].order_id,
-                            income: data.key_info[i].income,
-                            clock_type: data.key_info[i].clock_type,
-                            show: false
-                        })
+                //这里有个getorder.php
+                that.recharge_list = [];
+                $.post("../php/recharge_record.php", {
+                    begin: str,
+                    end: str2,
+                    shopid: that.shopid,
+                    job_number: that.job_number
+                }).done((res) => {
+                    res = JSON.parse(res);
+                    if (res.status == 1) {
+                        that.empty = false;
+                        for (var i in res.data) {
+                            that.recharge_list.push({
+                                charge: res.data[i].charge,
+                                name: res.data[i].name,
+                                phone_number: res.data[i].phone_number,
+                                time: date("Y-m-d H:i:s", res.data[i].time)
+                            })
+                        }
+                        //that.recharge_list = res.data;
+                        that.bonus = res.total_bonus;
+                        that.income = res.total_income;
+                    } else {
+                        that.empty = true;
+                        that.bonus = 0;
+                        that.income = 0;
                     }
                     that.show = false;
                 })
+            },
+            getCurrentMonthLast() {
+                var date = new Date();
+                var currentMonth = date.getMonth();
+                var nextMonth = ++currentMonth;
+                var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1);
+                var oneDay = 1000 * 60 * 60 * 24;
+                return new Date(nextMonthFirstDay - oneDay);
+            },
+            getCurrentMonthFirst() {
+                var date = new Date();
+                date.setDate(1);
+                return date;
             }
         },
         created() {
             var that = this
             that.show = true;
-            $.post("../php/getorder.php", {
-                job_number: job_number,
-                date: "",
-                dataType: 'json',
-            }).done((result) => {
-                that.service_list = []
-                var data = JSON.parse(result);
-                that.total_clock = data.total_clock;
-                that.bonus = data.bonus;
-                that.total_income = data.total_income;
-                for (var i in data.key_info) {
-                    that.service_list.push({
-                        service_name: data.key_info[i].service_name,
-                        room_number: data.key_info[i].room_number,
-                        bonus: data.key_info[i].bonus,
-                        time: date("Y-m-d H:i:s", data.key_info[i].time),
-                        order_id: data.key_info[i].order_id,
-                        income: data.key_info[i].income,
-                        clock_type: data.key_info[i].clock_type,
-                        show: false
-                    })
+            var str = "";
+            var str2 = "";
+
+            var first_day = that.getCurrentMonthFirst();
+            var last_day = that.getCurrentMonthLast();
+            str = first_day.getFullYear() + '-' + (first_day.getMonth() + 1) + "-" + first_day.getDate();
+            str2 += last_day.getFullYear() + '-' + (last_day.getMonth() + 1) + "-" + last_day.getDate();
+            $.post("../php/recharge_record.php", {
+                begin: str,
+                end: str2,
+                shopid: that.shopid,
+                job_number: getQueryString('id')
+            }).done((res) => {
+                res = JSON.parse(res);
+                if (res.status == 1) {
+                    //that.recharge_list = res.data;
+                    that.empty = false;
+                    for (var i in res.data) {
+                        that.recharge_list.push({
+                            charge: res.data[i].charge,
+                            name: res.data[i].name,
+                            phone_number: res.data[i].phone_number,
+                            time: date("Y-m-d H:i:s", res.data[i].time)
+                        })
+                    }
+                    that.bonus = res.total_bonus;
+                    that.income = res.total_income;
+                } else {
+                    that.empty = true;
+                    that.bonus = 0;
+                    that.income = 0;
                 }
                 that.show = false;
-                that.type = data.type;
-                that.opa = true;
             })
         }
     })

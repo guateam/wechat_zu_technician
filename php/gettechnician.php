@@ -5,7 +5,7 @@ function gettechnician($id)
     $shop = get("shop");
     if($technician)
 	{
-        return ['status'=>1,'name'=>$technician[0]['name'],'shop'=>$shop[0]['name']];
+        return ['status'=>1,'name'=>$technician[0]['name'],'shop'=>$shop[0]['name'],'shopid'=>$shop[0]['ID']];
     }
 	else
 	{
