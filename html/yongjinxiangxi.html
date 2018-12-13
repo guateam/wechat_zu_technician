@@ -83,7 +83,7 @@
                         <h4 class="weui-media-box__title" style="font-size: 14px" v-text="item['job_number']"></h4>
                     </div>
                     <div class="weui-media-box__bd" style="float: right;text-align: right">
-                        <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+lost(idx)"></h4>
+                        <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'提成￥'+lost(idx)"></h4>
                     </div>
                 </a>
                 <div v-if="display[idx]" class="weui-panel__bd " style="display: block;background-color: #f2f2f2;">
@@ -96,11 +96,11 @@
                                 <span>点钟</span>
                             </div>
                             <div class="weui-media-box__bd">
-                                <h4 class="weui-media-box__title" style="font-size: 14px" v-text="od.item_id"></h4>
+                                <h4 class="weui-media-box__title" style="font-size: 14px" v-text="od.name"></h4>
                                 <p class="weui-media-box__desc" v-text="'房号：'+od.private_room_number"></p>
                             </div>
                             <div class="weui-media-box__bd" style="float: right;text-align: right">
-                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'￥'+od['lost']"></h4>
+                                <h4 class="weui-media-box__title" style="color: #cc99cc" v-text="'提成￥'+od['lost']"></h4>
                                 <p class="weui-media-box__desc" style="font-family: monospace" v-text="date('Y-m-d H:i:s',od.appointment_time) "></p>
                             </div>
                         </a>
