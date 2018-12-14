@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../css/global.css" />
 
     <style>
+        *{
+            line-height: 1.5;
+        }
         #modal-overlay {
             position: fixed;
             /* 使用绝对定位或固定定位  */
@@ -87,7 +90,7 @@
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩汇总</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">数据分析总结</h1>
                 </div>
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/明细.png);background-repeat: no-repeat;cursor: pointer"
                     onclick="navi('clock.html')">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩明细</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询每条明细</h1>
@@ -102,7 +105,7 @@
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">打赏记录</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询被打赏的记录</h1>
                 </div>
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/售卡记录.png);background-repeat: no-repeat;cursor: pointer"
                     onclick="navi('recharge_record.html')">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">售卡记录</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询售卡详细情况</h1>
@@ -116,18 +119,22 @@
                     <h3 style="color: black;font-size: 12px;font-weight: 400;margin-left: 50px">佣金详情</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询佣金情况</h1>
                 </div>
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;cursor: pointer"
                     onclick="navi('yejipaihang.html')">
                     <h3 style="color: black;font-size: 12px;font-weight: 400;margin-left: 50px">业绩排行</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询业绩排行情况</h1>
                 </div>
-                <div id='checkin' class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签到.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                    onclick="login()">
+            </div>
+        </div>
+        <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+            <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid;justify-content: center;">
+                <div id='checkin' class="weui-flex__item" style="background-image: url(../src/签到.png);background-repeat: no-repeat;cursor: pointer;flex: 0 0 40%"
+                     onclick="login()">
                     <h3 style="color: black;font-size: 12px;font-weight: 400;margin-left: 50px">签到</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">连接店内WiFi签到</h1>
                 </div>
-                <div id="checkout" class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签退.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                    onclick="logout()">
+                <div id="checkout" class="weui-flex__item" style="background-image: url(../src/签退.png);background-repeat: no-repeat;cursor: pointer;flex: 0 0 40%"
+                     onclick="logout()">
                     <h3 style="color: black;font-size: 12px;font-weight: 400;margin-left: 50px">签退</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">连接店内WiFi签退</h1>
                 </div>
