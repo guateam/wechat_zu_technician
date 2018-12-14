@@ -111,7 +111,7 @@
 
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="weui-panel__hd">售卡详情</div>
-            <div v-if="!empty">
+            <div>
                 <table>
                     <tr>
                         <th class="biao" width="140">时间</th>
@@ -119,7 +119,7 @@
                         <th class="biao" width="100">手机号</th>
                         <th class="biao" width="100">微信号</th>
                     </tr>
-                    <tr v-for="(it, index) in recharge_list">
+                    <tr v-for="(it, index) in recharge_list"  v-if="!empty">
                         <td class="biaoge" v-text="it.time"></td>
                         <td class="biaoge" v-text="'￥'+parseInt(it.charge)"></td>
                         <td class="biaoge" v-text="it.phone_number"></td>
@@ -127,9 +127,9 @@
                     </tr>
                 </table>
             </div>
-            <div v-else style="margin-top: 20px;padding-bottom: 20px;width: 100%;display: flex;align-items: center;justify-content: center;">
+            <!-- <div v-else style="margin-top: 20px;padding-bottom: 20px;width: 100%;display: flex;align-items: center;justify-content: center;">
                 <p>暂无数据</p>
-            </div>
+            </div> -->
         </div>
         <div class="weui-footer" style="margin-top: 20px">
             <p class="weui-footer__text">查帐方式以结账时间为准</p>
