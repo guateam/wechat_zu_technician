@@ -115,7 +115,7 @@
 
         <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px">
             <div class="weui-panel__hd">业绩详情</div>
-            <div v-if="type==1" class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
+            <div v-if="type == 1" class="display-block" style="border-bottom: 1px solid #f2f2f2;" v-for="(service, index) in service_list"
                 @click="showDetail(index)">
                 <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                     <div v-if="service.clock_type==1" class="weui-media-box__hd" style="border-radius: 50%;background-color: #ffcc99;height: 50px;width: 50px; justify-content: center;align-items: center; display: flex;">
@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else>
+            <div v-else-if="type == 2">
                 <table>
                     <tr>
                         <th class="biao" width="140">时间</th>
@@ -197,7 +197,7 @@
     }
     var job_number = getQueryString("id");
 
-    new Vue({
+    let app = new Vue({
         el: '#detail',
         data() {
             return {
