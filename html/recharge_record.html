@@ -41,6 +41,7 @@
             text-align: center;
             height: 1em;
             line-height: 1.5;
+            font-size:12px;
         }
         /* 模态框样式 */
         .modal-data{
@@ -114,14 +115,14 @@
             <div>
                 <table>
                     <tr>
-                        <th class="biao" width="140">时间</th>
-                        <th class="biao" width="70">金额</th>
-                        <th class="biao" width="100">手机号</th>
-                        <th class="biao" width="100">微信号</th>
+                        <th width="40%" class="biao" width="140">时间</th>
+                        <th  width="19%"class="biao" width="70">金额</th>
+                        <th width="32%" class="biao" width="100">手机号</th>
+                        <th  width="15%"class="biao" width="100">微信</th>
                     </tr>
                     <tr v-for="(it, index) in recharge_list"  v-if="!empty">
-                        <td class="biaoge" v-text="it.time"></td>
-                        <td class="biaoge" v-text="'￥'+parseInt(it.charge)"></td>
+                        <td class="biaoge" v-text="it.time" ></td>
+                        <td class="biaoge" v-text="'￥'+parseInt(it.charge)" ></td>
                         <td class="biaoge" v-text="it.phone_number"></td>
                         <td class="biaoge" v-text="it.name"></td>
                     </tr>
@@ -490,10 +491,22 @@
             that.show = true;
             var str = "";
             var str2 = "";
-
             var first_day = that.getCurrentMonthFirst();
             var last_day = that.getCurrentMonthLast();
-            str = first_day.getFullYear() + '-' + (first_day.getMonth() + 1) + "-" + first_day.getDate();
+
+            url_time = getQueryString('time');
+            if(url_time != null && url_time != undefined){
+                str = date("Y-m-d",parseInt(url_time)/1000)
+                that.choosen_month = date("Y-m",parseInt(url_time)/1000);
+                that.choosen = [
+                            "#FFFFFF",
+                            "#FFFFFF",
+                            "#FFFFFF",
+                            "#FFFFFF",
+                        ]
+            }else{
+                str = first_day.getFullYear() + '-' + (first_day.getMonth() + 1) + "-" + first_day.getDate();
+            }
             str2 += last_day.getFullYear() + '-' + (last_day.getMonth() + 1) + "-" + last_day.getDate();
             $.post("../php/recharge_record.php", {
                 begin: str,

@@ -103,21 +103,21 @@
                 </div>
             </div>
         </div>
-        <div @click="navi('recharge_record.html')" class="" style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
+        <div @click="navi_with_time('recharge_record.html')" class="" style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
             <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="justify-content: space-between;">
-                    <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px;font-size:13px">售卡业绩 (点击查看详情)</span>
-                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px" v-text="charge_num"></span>
+                    <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 5%;padding-left: 33px">售卡业绩(点击查看详情)</span>
+                    <span style="width: 50%;float: right;text-align: right;margin-right: 20px;display: none" v-text="charge_num"></span>
                 </div>
             </div>
             <div class="weui-flex" style="height: 70%;align-items: center;">
                 <div class="weui-flex__item" style="margin-left: 20px">
-                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡提成（元）</h3>
-                    <h1 style="color: #404040;font-size: 15px" v-text="charge_bonus"></h1>
-                </div>
-                <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡金额（元）</h3>
                     <h1 style="color: #404040;font-size: 15px" v-text="charge_num"></h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 20px">
+                    <h3 style="color: gray;font-size: 15px;font-weight: 400">售卡提成（元）</h3>
+                    <h1 style="color: #404040;font-size: 15px" v-text="charge_bonus"></h1>
                 </div>
             </div>
         </div>
@@ -138,6 +138,7 @@
 <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
 <script src="../js/vue.js"></script>
 <script type="text/javascript" src="../js/windowOpen.js"></script>
+<script type="text/javascript" src="../js/date-format.js"></script>
 <script type="text/javascript">
     //月份选择器，以多列选择器代替
     // var threehide = 1;
@@ -164,7 +165,7 @@
                 point_clock: 0,
                 point_ratio: '0%',
                 charge_count: 0,
-                charge_num: '0元',
+                charge_num: '0',
                 invite_count: 0,
                 invite_num: 0,
                 choosen: "本月",
@@ -176,6 +177,10 @@
         methods: {
             navi(url){
                 window.location.href= url +"?id="+this.job_number+"&spid="+this.shopid;
+            },
+            navi_with_time(url){
+                var timestamp = new Date(this.choosen+"-1 00:00:00").getTime();
+                window.location.href= url +"?id="+this.job_number+"&spid="+this.shopid +"&time=" + timestamp;
             },
             get_now_month() {
                 var date = new Date();
@@ -356,8 +361,6 @@
                         that.charge_num = 0;
                         that.charge_bonus = 0;
                     }
-
-                    that.charge_num += "元";
                 });
                 $.post("../php/getinvite.php", {
                     job_number: job_number,

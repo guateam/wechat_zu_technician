@@ -95,7 +95,7 @@ function get_lost($job_number, $begin, $end)
                 }
                 $so[$idx] = array_merge($so[$idx], ['lost' => $item[0]['invite_income'] / 100,'name'=>$item[0]['name']]);
             }else{
-                $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'被删除']);
+                $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'该服务已被删除']);
             }
         }
     }
