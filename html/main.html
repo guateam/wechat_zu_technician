@@ -50,11 +50,11 @@
                         <h1 style="color: white;font-size: 15px;font-weight: 400" v-text="id"></h1>
                     </div>
                 </div>
-                <div style="display: flex;align-items: center;margin-top: 5px;color: white;font-size: 16px;font-weight: 400"
+                <!-- <div style="display: flex;align-items: center;margin-top: 5px;color: white;font-size: 16px;font-weight: 400"
                     onclick="navi('pyquan.html')">
                     <img src="../src/朋友圈.png" alt="" style="margin-left: 10px;">
                     <span style="margin-left: 8px">朋友圈</span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div style="height: 30%;text-align: center;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
@@ -100,25 +100,16 @@
 
         <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
             <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/打赏记录.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/commission.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
                     onclick="navi('dashangjilu.html')">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">打赏记录</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询被打赏的记录</h1>
                 </div>
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/售卡记录.png);background-repeat: no-repeat;cursor: pointer"
+                <!-- <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/售卡记录.png);background-repeat: no-repeat;cursor: pointer"
                     onclick="navi('recharge_record.html')">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">售卡记录</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询售卡详细情况</h1>
-                </div>
-            </div>
-        </div>
-        <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
-            <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
-                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/commission.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
-                    onclick="navi('yongjinxiangxi.html')">
-                    <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">佣金详情</h3>
-                    <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询佣金情况</h1>
-                </div>
+                </div> -->
                 <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/业绩排行.png);background-repeat: no-repeat;cursor: pointer"
                     onclick="navi('yejipaihang.html')">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">业绩排行</h3>
@@ -126,17 +117,31 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
+            <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid">
+                <div class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/commission.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                    onclick="navi('yongjinxiangxi.html')">
+                    <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">佣金详情</h3>
+                    <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查询佣金情况</h1>
+                </div>
+            </div>
+        </div> -->
         <div class="" style="height: 13%;background-color: white;width: 96%;margin-left: 2%;border-radius: 5px;margin-top: 10px">
             <div class="weui-flex" style="height: 100%;align-items:center;border-bottom: 1px #f2f2f2 solid;justify-content: center;">
-                <div id='checkin' class="weui-flex__item" style="background-image: url(../src/签到.png);background-repeat: no-repeat;cursor: pointer;flex: 0 0 40%"
-                     onclick="login()">
+                <div id='checkin' class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签到.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                    onclick="login()">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签到</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">连接店内WiFi签到</h1>
                 </div>
-                <div id="checkout" class="weui-flex__item" style="background-image: url(../src/签退.png);background-repeat: no-repeat;cursor: pointer;flex: 0 0 40%"
-                     onclick="logout()">
+                <div id="checkout" class="weui-flex__item" style="margin-left: 10px;background-image: url(../src/签退.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                    onclick="logout()">
                     <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">签退</h3>
                     <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">连接店内WiFi签退</h1>
+                </div>
+                <div class="weui-flex__item" style="margin-left: 12px;background-image: url(../src/朋友圈.png);background-repeat: no-repeat;border-right: 1px solid #f2f2f2;cursor: pointer"
+                    onclick="navi('pyquan.html')">
+                    <h3 style="color: black;font-size: 15px;font-weight: 400;margin-left: 50px">朋友圈</h3>
+                    <h1 style="color: grey;font-size: 9px;margin-left: 50px;margin-top: 6px">查看和发布自己的朋友圈</h1>
                 </div>
             </div>
         </div>
@@ -253,7 +258,7 @@
                     name: '',
                     id: '',
                     shop: '',
-                    shopid:'',
+                    shopid: '',
                     head: '',
                     type: '',
 
@@ -439,7 +444,7 @@
     }
 
     function navi(url) {
-        window.location.href = url + "?id=" + id+"&spid="+app1.shopid;
+        window.location.href = url + "?id=" + id + "&spid=" + app1.shopid;
     }
 
 

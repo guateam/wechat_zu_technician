@@ -58,7 +58,7 @@
         <div class="weui-flex" style="justify-content: center;align-items: center;height: 16%;">
             <div class="box weui-flex" style="flex: 0 0 94%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 20px">
-                    <h3 style="color: #d9d9d9;font-size: 15px;font-weight: 200">总提成（元）</h3>
+                    <h3 style="color: #000000;font-size: 18px;font-weight: 200"><b>总提成（元）</b></h3>
                     <h1 style="color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     <h1 style="color: #404040;font-size: 15px" v-text="bonus"></h1>
                 </div>
             </div>
-            <div class="weui-flex" style="height: 50%;align-items: center;">
+            <div @click="navi_with_time('yongjinxiangxi.html')" class="weui-flex" style="height: 50%;align-items: center;">
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">推荐人数（人）</h3>
                     <h1 style="color: #404040;font-size: 15px" v-text="invite_count"></h1>
@@ -106,7 +106,7 @@
         <div @click="navi_with_time('recharge_record.html')" class="" style="height: 18%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;margin-top: 10px">
             <div class="weui-flex" style="height: 30%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="justify-content: space-between;">
-                    <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 5%;padding-left: 33px">售卡业绩(点击查看详情)</span>
+                    <span style="background-image: url(../src/统计图.png);background-repeat: no-repeat;width: 50%;background-position: 10%;padding-left: 33px">售卡业绩</span>
                     <span style="width: 50%;float: right;text-align: right;margin-right: 20px;display: none" v-text="charge_num"></span>
                 </div>
             </div>
