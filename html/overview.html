@@ -59,12 +59,12 @@
             <div class="box weui-flex" style="flex: 0 0 94%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: #000000;font-size: 18px;font-weight: 200"><b>总提成（元）</b></h3>
-                    <h1 style="color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
+                    <h1 style="margin-top:5px;color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
                 </div>
             </div>
         </div>
         <div class="" style="height: 26%;background-color: white;width: 94%;margin-left: 3%;border-radius: 5px;">
-            <div class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
+            <div @click="navi_with_time('clock.html')" class="weui-flex" style="height: 50%;align-items: center;border-bottom: 1px #f2f2f2 solid">
                 <div class="weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: gray;font-size: 15px;font-weight: 400">项目业绩（元）</h3>
                     <h1 style="color: #404040;font-size: 15px" v-text="income"></h1>
