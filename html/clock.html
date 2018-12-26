@@ -445,6 +445,19 @@
                     that.show = false;
                 })
             },
+            getCurrentMonthLast() {
+                var date = new Date();
+                var currentMonth = date.getMonth();
+                var nextMonth = ++currentMonth;
+                var nextMonthFirstDay = new Date(date.getFullYear(), nextMonth, 1);
+                var oneDay = 1000 * 60 * 60 * 24;
+                return new Date(nextMonthFirstDay - oneDay);
+            },
+            getCurrentMonthFirst() {
+                var date = new Date();
+                date.setDate(1);
+                return date;
+            },
             certaindate(mode) {
                 var that = this;
                 that.show = true;
@@ -521,14 +534,11 @@
                 })
             }
         },
+        
         created() {
             var that = this
-            that.show = true;
-            $.post("../php/getorder.php", {
-                job_number: job_number,
-                date: "",
-                dataType: 'json',
-            }).done((result) => {
+
+            var page_callback = (result) => {
                 that.service_list = []
                 var data = JSON.parse(result);
                 that.total_clock = data.total_clock;
@@ -549,7 +559,36 @@
                 that.show = false;
                 that.type = data.type;
                 that.opa = true;
-            })
+            }
+
+
+            that.show = true;
+            var url_time = getQueryString('time');
+            if (url_time != null && url_time != undefined) {
+                var str = date("Y-m-d", parseInt(url_time) / 1000)
+                var str2 = "";
+                that.choosen_month = date("Y-m", parseInt(url_time) / 1000);
+                that.choosen = [
+                    "#FFFFFF",
+                    "#FFFFFF",
+                    "#FFFFFF",
+                    "#FFFFFF",
+                ]
+                var last_day = that.getCurrentMonthLast();
+                str2 += last_day.getFullYear() + '-' + (last_day.getMonth() + 1) + "-" + last_day.getDate();
+                $.post("../php/getorder.php", {
+                    job_number: job_number,
+                    date: str,
+                    date2: str2,
+                    dataType: 'json',
+                }).done(page_callback)
+            } else {
+                $.post("../php/getorder.php", {
+                    job_number: job_number,
+                    date: "",
+                    dataType: 'json',
+                }).done(page_callback)
+            }
         }
     })
 </script>
