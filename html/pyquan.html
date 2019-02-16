@@ -125,6 +125,8 @@
                         <div class="po-avt-wrap">
                             <div style="position: absolute;width: 60px;height: 40px;top: 0;left: 10px">
                                 <span style="font-size: 2em;font-weight: 400;">19</span><span>10月</span>
+                                <br>
+                                <a @click="delete_pyq(item.ID)">删除</a>
                             </div>
                         </div>
                         <div class="po-cmt">
@@ -206,6 +208,20 @@
                 },
             },
             methods: {
+                delete_pyq(id){
+                    $.post("../php/deletepyq.php",{
+                        id:id
+                    }).done((res)=>{
+                        res = JSON.parse(res);
+                        if(res == 1){
+                            $(this).openWindow("", "删除成功", ["好的"],()=>{
+                                location.reload();
+                            })
+                        }else{
+                            $(this).openWindow("", "删除失败", ["好的"])
+                        }
+                    });
+                },
                 navi(url) {
                     window.location.href = url + "?id=" + this.job_number;
                 },
