@@ -56,7 +56,8 @@ foreach($datas as $data)
     $tm1 = $datas[$i]['date'];
     $tm2 = time();
     $gap = $tm2-$tm1;
-
+    //转换为日期
+    $date = date("m-d",$tm1);
     //转换成文字表示
     if ($gap < 60) $gap = $gap."秒前";
     else {
@@ -80,6 +81,7 @@ foreach($datas as $data)
         }
     }
     $datas[$i]['date']=$gap;
+    $datas[$i]['datestr']=explode('-',$date);
     $i++;
 
 }
