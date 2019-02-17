@@ -57,11 +57,31 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
             if(strpos($osname,"Linux")!==false){
                 $osname = 'Linux';
                 $cmd="ffmpeg -i ".$tm." -f image2 -y ".$img_name.".jpg";
+                //获取视频时长
+                $ffmpeg_output = shell_exec("ffmpeg -i \"$tm\" 2>&1");
+                if( preg_match('/.*Duration: ((\d+)(?:\:)(\d+)(?:\:)(\d+))*/i', $ffmpeg_output, $matches) ) {
+                    //超过10秒则停止上传，并提示时长超出
+                    if ($matches[1] > "00:00:10" ){
+                        unlink($tm);
+                        echo json_encode(['state'=>"视频时长不能超过10秒"]);
+                        exit();
+                    }
+                } 
                 exec($cmd,$result);
 
             }else if(strpos($osname,"WIN")!==false){
                 $osname = 'Windows';
                 $cmd=$_SERVER['DOCUMENT_ROOT']."/ffmpeg/bin/ffmpeg.exe -i ".$tm." -f image2 -y ".$img_name.".jpg";
+                //获取视频时长
+                $ffmpeg_output = shell_exec($_SERVER['DOCUMENT_ROOT']."/ffmpeg/bin/ffmpeg.exe -i \"$tm\" 2>&1");
+                if( preg_match('/.*Duration: ((\d+)(?:\:)(\d+)(?:\:)(\d+))*/i', $ffmpeg_output, $matches) ) {
+                    //超过10秒则停止上传，并提示时长超出
+                    if ($matches[1] > "00:00:10" ){
+                        unlink($tm);
+                        echo json_encode(['state'=>"视频时长不能超过10秒"]);
+                        exit();
+                    }
+                } 
                 exec($cmd,$result);
                 
             }
