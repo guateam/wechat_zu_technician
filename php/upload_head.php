@@ -16,7 +16,7 @@ $dict=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','
 $rnd_str = "";
 for($i = 0;$i<7;$i++)
 {
-    $idx = rand(0,count($dict));
+    $idx = rand(0,count($dict)-1);
     $rnd_str.=$dict[$idx];    
 }
 

@@ -138,11 +138,11 @@
                         </i-col>
                         <i-col>
                             <!--技师头像禁止修改-->
-                            <!--<upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead"-->
-                            <!--:format="['jpg','jpeg','png']" :max-size="2048" multiple-->
-                            <!--:on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"-->
-                            <!--action="../php/upload_head.php"-->
-                            <!--style="display: inline-block;width:58px;">-->
+                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead"
+                            :format="['jpg','jpeg','png']" :max-size="2048" multiple
+                            :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"
+                            action="../php/upload_head.php"
+                            style="display: inline-block;width:58px;">
                             <div style="width: 58px;height:58px;line-height: 58px;">
                                 <img v-if="personalInfo.picture && personalInfo.picture != ''" border=0 style=" width: 100%; height: 100%;"
                                     :src="personalInfo.picture">
@@ -284,6 +284,23 @@
             },
             closeBig() {
                 this.big_img = false;
+            },
+            onHead(res, file) {
+                var that = this;
+                var reg = /\{(.+?)\}/g;
+                res = res.match(reg);
+                res = JSON.parse(res);
+                if (res.state == 1) {
+                    console.log(res.url);
+                    that.personalInfo.picture = res.url
+                    swal.close();
+                } else {
+                    swal({
+                        text: res.state,
+                        type: "error",
+                        width: 230,
+                    })
+                }
             },
             handleRemove(name) {
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
