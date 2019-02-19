@@ -84,10 +84,10 @@
 
     <div class="weui-panel weui-panel_access" style="background-color: white;border-radius: 5px;margin-top: 0">
 
-        <div v-for="it in list" v-show="it['show']" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
+        <div v-for="it in list" class="display-block" style="border-bottom: 1px solid #f2f2f2;">
             <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg ">
                 <div class="weui-media-box__bd" style="">
-                    <p v-text="'打赏人 '+it['user_id']"></p>
+                    <p v-text="'打赏人 '+it['username']"></p>
                     <h4 v-text="it['date']" class="weui-media-box__title"
                         style="font-family: monospace;color: #cc99cc"></h4>
                 </div>
@@ -162,8 +162,7 @@
             sum: function () {
                 var total = 0;
                 for (i in this.list) {
-                    if (this.list[i]['show'])
-                        total += this.list[i]['salary']
+                    total += this.list[i]['salary'];
                 }
                 return total / 100;
             },
@@ -241,7 +240,7 @@
             get_times() {
                 var count = 0;
                 for (var i in this.list) {
-                    if (this.list[i]['show']) count++;
+                   count++;
                 }
                 return count;
             },
