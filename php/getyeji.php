@@ -37,6 +37,7 @@ function get_all_yeji(){
 function get_yeji($job_number)
 {
     global $type;
+    $count = 0;
     if(isset($_POST['begin']))$begin = $_POST['begin'];
     if(isset($_POST['end']))$end = $_POST['end'];
     $begin = strtotime($begin);
@@ -49,18 +50,35 @@ function get_yeji($job_number)
         foreach($so as $idx => $svod)
 		{
             $item_id = $svod['item_id'];
-            $commission = sql_str("select commission,commission2 from service_type where `ID`='$item_id'");
+            $order_id = $svod['order_id'];
+
+            $co = sql_str("select * from consumed_order where order_id='$order_id'");
+            if(!$co)continue;
+            if($co[0]['state'] != 4 && $co[0]['state'] !=5 )continue;
+
+            //有效订单,上钟数增加1
+            $count++;
+
+            $commission = sql_str("select pai_commission,commission,pai_commission2,commission2 from service_type where `ID`='$item_id'");
             //记录自己的营业金额
             if($type == 1)
-                $price+=intval($commission[0]['commission'])/100;  
+                if($svod['clock_type'] == 1){
+                    $price+=intval($commission[0]['pai_commission'])/100;  
+                }else if($svod['clock_type'] == 2){
+                    $price+=intval($commission[0]['commission'])/100;  
+                }
             else if($type == 2){
-                $price+=intval($commission[0]['commission2'])/100;  
+                if($svod['clock_type'] == 1){
+                    $price+=intval($commission[0]['pai_commission2'])/100;  
+                }else if($svod['clock_type'] == 2){
+                    $price+=intval($commission[0]['commission2'])/100;  
+                }
             }     
         }
     }
     return [
         'job_number'=>$job_number,
-        'clock_num'=>count($so),
+        'clock_num'=>$count,
         'status'=>1,
         'earn'=>$price,
         ];
