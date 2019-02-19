@@ -42,8 +42,10 @@ function getsalarychart($id)
                                     
                                     //点钟
                                     }else if($value['clock_type'] == 2){
-                                        if($tech[0]['type'] == 2)
+                                        //技师
+                                        if($tech[0]['type'] == 1)
                                             $data[0] += $servicetype[0]['commission'] / 100;
+                                        //接待
                                         else
                                             $data[0] += $servicetype[0]['commission2'] / 100;
                                     }

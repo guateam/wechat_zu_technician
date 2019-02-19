@@ -25,17 +25,43 @@ function getsalary($id)
                             $month_end = strtotime(date('Y-m-t') . ' 23:59:59');
 
                             if ($order[0]['generated_time'] <= $day_end && $order[0]['generated_time'] >= $day_begin) {
+                                //技师
                                 if ($type == 1) {
-                                    $todaysalary += ($servicetype[0]['commission'] / 100);
+                                    //排钟
+                                    if($value['clock_type'] == 1)
+                                        $todaysalary += ($servicetype[0]['pai_commission'] / 100);
+                                    //点钟
+                                    else
+                                        $todaysalary += ($servicetype[0]['commission'] / 100);
+
+                                //接待
                                 } else if ($type == 2) {
-                                    $todaysalary += ($servicetype[0]['commission2'] / 100);
+                                    //排钟
+                                    if($value['clock_type'] == 1)
+                                        $todaysalary += ($servicetype[0]['pai_commission2'] / 100);
+                                    //点钟
+                                    else
+                                        $todaysalary += ($servicetype[0]['commission2'] / 100);
                                 }
                             }
                             if ($order[0]['generated_time'] <= $month_end && $order[0]['generated_time'] >= $month_begin) {
+                                //技师
                                 if ($type == 1) {
+                                //排钟
+                                if($value['clock_type'] == 1)
+                                    $salary += ($servicetype[0]['pai_commission'] / 100);
+                                //点钟
+                                else
                                     $salary += ($servicetype[0]['commission'] / 100);
+
+                                //接待
                                 } else if ($type == 2) {
-                                    $salary += ($servicetype[0]['commission2'] / 100);
+                                    //排钟
+                                    if($value['clock_type'] == 1)
+                                        $salary += ($servicetype[0]['pai_commission2'] / 100);
+                                    //点钟
+                                    else
+                                        $salary += ($servicetype[0]['commission2'] / 100);
                                 }
                             }
                         }

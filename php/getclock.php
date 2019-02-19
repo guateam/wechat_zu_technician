@@ -14,11 +14,11 @@ function getclock($id)
 			{
                 if ($value['clock_type'] == 2) 
 				{
-                    if ($order[0]['generated_time'] <= date('Y-m-d') . ' 23:59:59' && $order[0]['generated_time'] >= date('Y-m-d') . ' 00:00:00') 
+                    if ($order[0]['generated_time'] <= strtotime(date('Y-m-d') . ' 23:59:59') && $order[0]['generated_time'] >= strtotime(date('Y-m-d') . ' 00:00:00')) 
 					{
                         $todayclock++;
                     }
-                    if ($order[0]['generated_time'] <= date('Y-m') . '-31 23:59:59' && $order[0]['generated_time'] >= date('Y-m') . '-01 00:00:00') 
+                    if ($order[0]['generated_time'] <= strtotime(date('Y-m') . '-31 23:59:59') && $order[0]['generated_time'] >= strtotime(date('Y-m') . '-01 00:00:00')) 
 					{
                         $clock++;
                     }
