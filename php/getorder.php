@@ -52,10 +52,26 @@ foreach ($service_order as $so) {
             if ($tp['ID'] == $so['item_id']) {
                 $so['price'] = $tp['price'];
                 $so['price'] /= 100;
-                if($type == 1)
-                    $ticheng += $tp['commission'] / 100;
-                else if($type == 2)
-                    $ticheng += $tp['commission2'] / 100;
+
+
+                if($type == 1){
+                    if($so['clock_type'] == 1){
+                        $ticheng += $tp['pai_commission'] / 100;
+                    }
+                    else{
+                        $ticheng += $tp['commission'] / 100;
+                    }
+                }
+
+                else if($type == 2){
+                    if($so['clock_type'] == 1){
+                        $ticheng += $tp['pai_commission2'] / 100;
+                    }
+                    else{
+                        $ticheng += $tp['commission2'] / 100;
+                    }
+                }
+
 
                 $yeji += $so['price'];
                 array_push($key_info, [
