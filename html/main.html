@@ -44,10 +44,11 @@
                 v-text="shop"></div>
             <div class="box weui-flex" style="width: 100%; border-radius: 5px;justify-content: space-between;flex-direction: column">
                 <div style="width: 100%;display: flex;">
-                    <img onclick="navi('space.html')" :src="head" style="width: 64px;height: 64px;margin-left: 10px;border-radius:50%">
+                    <img onclick="navi('space.html')" :src="head" style="width: 74px;height: 74px;margin-left: 10px;border-radius:50%">
                     <div class="item weui-flex__item" style="margin-left: 10px">
                         <h3 style="color: white;font-size: 17px;font-weight: 400" v-text="name"></h3>
                         <h1 style="color: white;font-size: 15px;font-weight: 400" v-text="id"></h1>
+                        <button onclick="navi('notice.html')">公告</button>
                     </div>
                 </div>
                 <!-- <div style="display: flex;align-items: center;margin-top: 5px;color: white;font-size: 16px;font-weight: 400"
@@ -280,6 +281,12 @@
                         that.shop = data.shop
                         that.shopid = data.shopid
                     }
+                    $.post("../php/getnotice.php",{
+                        newest:true
+                    }).done((res)=>{
+                        res = JSON.parse(res);
+                        $(this).openWindow(res.data[0].title, res.data[0].content, ["好的"])
+                    })
                     $.post("../php/gettechdetail.php", {
                         job_number: id
                     }).done((result) => {
