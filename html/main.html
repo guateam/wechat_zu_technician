@@ -365,7 +365,8 @@
             ip: ip.geoplugin_request
         }).done((data) => {
             data = JSON.parse(data)
-            if (data.status == 1) {
+            if (data.status == 1) 
+			{
                 $(this).openWindow("", "成功签到", ["好的"])
                 // swal({
                 //     type: "success",
@@ -385,7 +386,9 @@
                 $('#checkin').hide()
                 $('#checkout').show()
 
-            } else if (data.status == -1) {
+            } 
+			else if (data.status == -1) 
+			{
                 $(this).openWindow("", "已经签到过了", ["好的"])
                 // swal({
                 //     type: "error",
@@ -394,7 +397,9 @@
                 // })
                 $('#checkin').hide()
                 $('#checkout').show()
-            } else {
+            } 
+			else 
+			{
                 $(this).openWindow("", "签到失败", ["好的"])
                 // swal({
                 //     type: "error",
