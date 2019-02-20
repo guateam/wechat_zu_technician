@@ -78,7 +78,8 @@ function get_yeji($job_number, $so, $begin, $end)
 function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
-    $so = sql_str("select * from service_order where `job_number`='$job_number' and `appoint_time`>=$begin and `appoint_time` <= $end ");
+    
+    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.generated_time >=$begin and B.generated_time <= $end ");
     //邀请该技师的人
     $self_p = sql_str("select * from inviteship where `freshman_job_number`='$job_number'");
     //付给邀请自己的人的钱
