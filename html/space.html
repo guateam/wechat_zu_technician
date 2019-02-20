@@ -174,6 +174,15 @@
                     <row type="flex" justify="space-between" :gutter="30">
                         <i-col span="24">
                             <row type="flex" justify="space-between" style="margin-top: 8px">
+                                    <i-col span="4">昵称:(点击以修改)</i-col>
+                                    <i-col @click.native="change_state()" class="info" v-text="personalInfo.nickname" v-show="personalInfo.nickname != '' && edit_nickname==false"></i-col>
+                                    <i-col span="8" v-show="personalInfo.nickname == '' || edit_nickname==true">                                    
+                                        <i-input style="display: inline-block"  v-model="personalInfo.nickname" ></i-input>
+                                        <i-button style="display: inline-block" type="primary" @click="change_nickname()">确认修改</i-button>
+                                    </i-col>
+
+                            </row>
+                            <row type="flex" justify="space-between" style="margin-top: 8px">
                                 <i-col>性别:</i-col>
                                 <i-col class="info" v-text="personalInfo.sex"></i-col>
                             </row>
@@ -260,7 +269,9 @@
                     intro: '',
                     picture: '',
                     vcr: '',
+                    nickname:'',
                 },
+                edit_nickname:false,
                 tech: id,
                 vcr_url: '',
                 value1: 0,
@@ -272,6 +283,21 @@
             }
         },
         methods: {
+            change_state(){
+                this.edit_nickname = true;
+            },
+            change_nickname(){
+                var that = this;
+                $.post("../php/change_nickname.php",{
+                    job_number:that.personalInfo.id,
+                    nickname:that.personalInfo.nickname,
+                }).done((res)=>{
+                    res = JSON.parse(res);
+                    if(res.status == 1){
+                        that.edit_nickname = false;
+                    }
+                })
+            },
             navi(url) {
                 window.location.href = url + "?id=" + id;
             },
@@ -364,6 +390,7 @@
                     that.personalInfo.intro = info['description'] === null ? "": info['description'];
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
                     that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
+                    that.personalInfo.nickname = info['nickname'] === null ? '' : info['nickname'];
                 }
             })
             $.post("../php/get_all_photo.php", {
