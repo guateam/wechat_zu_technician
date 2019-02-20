@@ -2,7 +2,12 @@
     $host = "http://dingxin.market.alicloudapi.com";
     $phone = $_POST['phone'];
     $path = "/dx/sendSms";
-    $code = 1000;
+    $code = "";
+    
+    for($i=0;$i<6;$i++){
+        $code.=rand(0,9);
+    }
+
     $method = "POST";
     $appcode = "dae44277a4164e25b238910f87614ca7";
     $headers = array();
