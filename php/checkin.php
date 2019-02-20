@@ -48,7 +48,7 @@ if($technician)
         }
 		else
 		{
-            echo(json_encode(['status'=>0]));
+            echo(json_encode(['status'=>0,'msg'=>'不在店内wifi']));
             //计时器检测到不在本店内，则为异常，记录下来
             if($interval)
                 add('attendance',[["sign_type",2],['job_number',$id]]);
@@ -56,10 +56,10 @@ if($technician)
     }
 	else
 	{
-        echo(json_encode(['status'=>0]));
+        echo(json_encode(['status'=>0,'msg'=>'店铺不存在']));
     }
 }
 else
 {
-    echo(json_encode(['status'=>0]));
+    echo(json_encode(['status'=>0,'msg'=>'技师不存在']));
 }
