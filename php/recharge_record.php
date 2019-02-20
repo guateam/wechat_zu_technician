@@ -30,9 +30,9 @@ $job_number = $_POST['job_number'];
 
 $str = "";
 if ($time_limit) {
-    $str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id and A.generated_time >= '$begin' && A.generated_time <= '$end' order by A.generated_time";
+    $str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id and A.type=1 and A.generated_time >= '$begin' && A.generated_time <= '$end' order by A.generated_time";
 } else {
-    $str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id order by A.generated_time";
+    $str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id and A.type=1 order by A.generated_time";
 }
 
 $records = sql_str($str);

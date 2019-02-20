@@ -28,7 +28,8 @@ $service_type = get("service_type");
 if (!$service_type) {
     $service_type = [];
 }
-
+$dian = 0;
+$pai = 0;
 $last_soid = "";
 $key_info = [];
 //提成
@@ -56,18 +57,22 @@ foreach ($service_order as $so) {
 
                 if($type == 1){
                     if($so['clock_type'] == 1){
+                        $pai++;
                         $ticheng += $tp['pai_commission'] / 100;
                     }
                     else{
+                        $dian++;
                         $ticheng += $tp['commission'] / 100;
                     }
                 }
 
                 else if($type == 2){
                     if($so['clock_type'] == 1){
+                        $pai++;
                         $ticheng += $tp['pai_commission2'] / 100;
                     }
                     else{
+                        $dian++;
                         $ticheng += $tp['commission2'] / 100;
                     }
                 }
@@ -94,6 +99,8 @@ foreach ($service_order as $so) {
 
 echo json_encode((object) [
     'total_clock' => count($key_info),
+    'dian'=>$dian,
+    'pai'=>$pai,
     'bonus' => $ticheng,
     'total_income' => $yeji,
     'key_info' => $key_info,

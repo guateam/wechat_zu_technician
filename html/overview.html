@@ -338,13 +338,15 @@
                     that.bonus = data.bonus;
                     that.income = data.total_income;
                     that.type = data.type;
+                    that.point_clock = data.dian;
                     for (var i = 0; i < data.length; i++) {
                         if (data[i]['clock_type'] == 1) that.point_clock++;
                     }
                     if (that.point_clock == 0 || that.clock == 0) {
                         that.point_ratio = 0;
-                        that.point_ratio += "%";
+
                     } else that.point_ratio = that.point_clock / that.clock * 100;
+                    that.point_ratio += "%";
                 });
                 $.post("../php/recharge_record.php", {
                     job_number: job_number,
