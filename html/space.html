@@ -174,7 +174,7 @@
                     <row type="flex" justify="space-between" :gutter="30">
                         <i-col span="24">
                             <row type="flex" justify="space-between" style="margin-top: 8px">
-                                    <i-col span="4">昵称:(点击以修改)</i-col>
+                                    <i-col span="10">昵称:(点击以修改)</i-col>
                                     <i-col @click.native="change_state()" class="info" v-text="personalInfo.nickname" v-show="personalInfo.nickname != '' && edit_nickname==false"></i-col>
                                     <i-col span="8" v-show="personalInfo.nickname == '' || edit_nickname==true">                                    
                                         <i-input style="display: inline-block"  v-model="personalInfo.nickname" ></i-input>
