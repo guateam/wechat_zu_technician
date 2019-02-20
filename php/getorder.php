@@ -57,7 +57,7 @@ foreach ($service_order as $so) {
         $date = $time;
         $date2 = $time;
     }
-    if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 3 || $one_consumed_order[0]['state'] == 5)) {
+    if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) {
         foreach ($service_type as $tp) {
             if ($tp['ID'] == $so['item_id']) {
                 $so['price'] = $tp['price'];

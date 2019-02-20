@@ -10,10 +10,8 @@ function getclock($id)
         foreach ($service as $value) 
 		{
             $order = get('consumed_order', 'order_id', $value['order_id']);
-            if ($order && ($order[0]['state'] == 3 || $order[0]['state']==5)) 
+            if ($order && ($order[0]['state'] == 4 || $order[0]['state']==5)) 
 			{
-                if ($value['clock_type'] == 2) 
-				{
                     if ($order[0]['generated_time'] <= strtotime(date('Y-m-d') . ' 23:59:59') && $order[0]['generated_time'] >= strtotime(date('Y-m-d') . ' 00:00:00')) 
 					{
                         $todayclock++;
@@ -22,7 +20,6 @@ function getclock($id)
 					{
                         $clock++;
                     }
-                }
             }
         }
         return ['status' => 1, 'clock' => $clock, 'todayclock' => $todayclock];

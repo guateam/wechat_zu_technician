@@ -87,6 +87,11 @@ function get_lost($job_number, $begin, $end)
     if ($so) {
         foreach ($so as $idx => $svod) {
             $item_id = $svod['item_id'];
+            $order_id = $svod['order_id'];
+            $consumed = sql_str("select state from consumed_order where order_id = '$order_id'");
+
+            if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
+
             $item = sql_str("select * from service_type where `ID`='$item_id'");
             if ($item) {
                 //计算支付给邀请人的钱

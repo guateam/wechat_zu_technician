@@ -24,7 +24,7 @@ function getsalarychart($id)
 
                     if (intval($order[0]['generated_time']) >= $begin && intval($order[0]['generated_time']) <= $end   ) 
 					{
-                        if ($order[0]['state'] == 3 || $order[0]['state'] == 5) 
+                        if ($order[0]['state'] == 4 || $order[0]['state'] == 5) 
 						{
                             if ($value['service_type'] == 1) 
 							{
