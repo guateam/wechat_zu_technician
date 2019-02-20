@@ -345,7 +345,7 @@
                     if (that.point_clock == 0 || that.clock == 0) {
                         that.point_ratio = 0;
 
-                    } else that.point_ratio = that.point_clock / that.clock * 100;
+                    } else that.point_ratio = (that.point_clock / that.clock * 100).toFixed(2);
                     that.point_ratio += "%";
                 });
                 $.post("../php/recharge_record.php", {
