@@ -89,7 +89,7 @@ function get_lost($job_number, $begin, $end)
         foreach ($so as $idx => $svod) {
             $item_id = $svod['item_id'];
             $order_id = $svod['order_id'];
-            $consumed = sql_str("select state from consumed_order where order_id = '$order_id'");
+            $consumed = sql_str("select state,generated_time from consumed_order where order_id = '$order_id'");
 
             if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
 
@@ -103,6 +103,7 @@ function get_lost($job_number, $begin, $end)
             }else{
                 $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'该服务已被删除']);
             }
+            $so[$idx]['appoint_time'] = $consumed[0]['generated_time'];
         }
     }
 

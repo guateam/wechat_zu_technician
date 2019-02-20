@@ -59,7 +59,7 @@
             <div class="box weui-flex" style="flex: 0 0 94%;height:86%; background-image: url(../src/background.png);border-radius: 5px;align-items: center">
                 <div class="item weui-flex__item" style="margin-left: 20px">
                     <h3 style="color: #000000;font-size: 18px;font-weight: 200"><b>总提成（元）</b></h3>
-                    <h1 style="margin-top:9px;color: white;font-size: 15px" v-text="bonus+invite_num"></h1>
+                    <h1 style="margin-top:9px;color: white;font-size: 15px" v-text="bonus+invite_num+charge_bonus"></h1>
                 </div>
             </div>
         </div>
@@ -157,7 +157,7 @@
                 figure: [],
                 income: 0,
                 bonus: 0,
-                job_number:getQueryString('id'),
+                job_number: getQueryString('id'),
                 total_bonus: 0, //项目提成
                 charge_bonus: 0, //售卡提成
                 clock: 0,
@@ -175,12 +175,13 @@
             }
         },
         methods: {
-            navi(url){
-                window.location.href= url +"?id="+this.job_number+"&spid="+this.shopid;
+            navi(url) {
+                window.location.href = url + "?id=" + this.job_number + "&spid=" + this.shopid;
             },
-            navi_with_time(url){
-                var timestamp = new Date(this.choosen+"-1 00:00:00").getTime();
-                window.location.href= url +"?id="+this.job_number+"&spid="+this.shopid +"&time=" + timestamp;
+            navi_with_time(url) {
+                var timestamp = new Date(this.choosen + "-1 00:00:00").getTime();
+                window.location.href = url + "?id=" + this.job_number + "&spid=" + this.shopid + "&time=" +
+                    timestamp;
             },
             get_now_month() {
                 var date = new Date();
@@ -364,17 +365,19 @@
                         that.charge_bonus = 0;
                     }
                 });
-                $.post("../php/getinvite.php", {
-                    job_number: job_number,
-                    begin: begin,
-                    end: end,
-                }).done((result) => {
-                    data = JSON.parse(result);
-                    that.invite_count = data.count;
-                    that.invite_num = data.bonus;
-                    that.opa = true;
-                    that.show = false;
-                });
+
+                $.post("../php/getyongjing.php", {
+                        job_number: job_number,
+                        begin: begin,
+                        end: end,
+                    }).done((result) => {
+                        data = JSON.parse(result);
+                        that.invite_count = data.data.length;
+                        that.invite_num = data.total_earn;
+
+                        that.opa = true;
+                        that.show = false;
+                    });
             }
         },
         created() {
