@@ -53,9 +53,9 @@ function get_yeji($job_number)
             $order_id = $svod['order_id'];
 
             $co = sql_str("select * from consumed_order where order_id='$order_id'");
-            
+
             if(!$co)continue;
-            if($co[0]['state'] != 4 && $co[0]['state'] !=5 )continue;
+            if($co[0]['state'] != 3 && $co[0]['state'] !=5 )continue;
 
             //有效订单,上钟数增加1
             $count++;

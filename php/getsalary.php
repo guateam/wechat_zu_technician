@@ -15,7 +15,7 @@ function getsalary($id)
         foreach ($service as $value) {
             $order = get('consumed_order', 'order_id', $value['order_id']);
             if ($order) {
-                if ($order[0]['state'] == 4 || $order[0]['state'] == 5) {
+                if ($order[0]['state'] == 3 || $order[0]['state'] == 5) {
                     if ($value['service_type'] == 1) {
                         $servicetype = get('service_type', 'ID', $value['item_id']);
                         if ($servicetype) {
