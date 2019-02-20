@@ -123,7 +123,7 @@ function get_lost_2($job_number, $begin, $end)
         foreach ($so as $idx => $svod) {
             $item_id = $svod['item_id'];
             $order_id = $svod['order_id'];
-            $consumed = sql_str("select state from consumed_order where order_id = '$order_id'");
+            $consumed = sql_str("select state,generated_time from consumed_order where order_id = '$order_id'");
 
             if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
 
