@@ -10,7 +10,7 @@ function getclock($id)
         foreach ($service as $value) 
 		{
             $order = get('consumed_order', 'order_id', $value['order_id']);
-            if ($order) 
+            if ($order && ($order[0]['state'] == 4 || $order[0]['state']==5)) 
 			{
                 if ($value['clock_type'] == 2) 
 				{

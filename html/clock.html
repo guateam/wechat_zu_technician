@@ -59,8 +59,8 @@
 
         <div class="weui-flex" style="height: 6%;">
             <div @click="init" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
-                <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
-                    onfocus="this.blur();">全部</a>
+                <!-- <a href="javascript:;" @click="certaindate(4)" class="weui-flex__item" id="show" v-bind:style="{borderRadius:'6px',color: 'black',backgroundColor:choosen[0]}"
+                    onfocus="this.blur();">全部</a> -->
             </div>
             <div @click="selectDate" class="weui-flex weui-flex__item" style="flex: 0 0 22%;align-items: center;text-align: center;background-color: white;border-right: 1px solid rgba(0, 0, 0, 0.1);">
                 <a href="javascript:;" class="weui-flex__item" id="showDatePicker" style="background-color: white;background-image: url(下箭头.png);background-repeat: no-repeat;background-position: 90%;width: 100%;color: black"
@@ -215,7 +215,7 @@
                 choosen: [
                     "#FFFFFF",
                     "#FFFFFF",
-                    "#FFFFFF",
+                    "#6699CC",
                     "#FFFFFF",
                 ],
                 service_list: [{
@@ -266,6 +266,7 @@
                         $.post("../php/getorder.php", {
                             job_number: job_number,
                             date: _date,
+                            date2:_date,
                             dataType: 'json',
                         }).done((result) => {
                             that.service_list = []
@@ -368,8 +369,8 @@
                     onConfirm: function (result) {
                         that.choosen = result[0] + "-" + result[1];
 
-                        begin = result[0] + "-" + result[1] + "-01 00:00:00";
-                        end = result[0] + "-" + result[1] + "-31 23:59:59";
+                        begin = result[0] + "-" + result[1] + "-01";
+                        end = result[0] + "-" + result[1] + "-31";
 
                         that.choosen_month = begin.substr(0, 7);
                         that.choosen_date = "日期";

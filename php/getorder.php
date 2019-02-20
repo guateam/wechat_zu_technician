@@ -10,13 +10,22 @@ if ($type && count($type) > 0) {
     $type = $type[0]['type'];
 }
 
-$date = strtotime($_POST["date"]);
+
+$date = $_POST["date"];
+if($date == ""){
+    $date = date("Y-m-d 00:00:00",time());
+}else{
+    $date.=" 00:00:00";
+}
+$date = strtotime($date);
+
 $date2 = "";
 if (!isset($_POST["date2"])) {
-    $date2 = $date;
+    $date2 = date("Y-m-t 23:59:59",time());
 } else {
-    $date2 = strtotime($_POST["date2"]);
+    $date2 = $_POST["date2"]." 23:59:59";
 }
+$date2 = strtotime($date2);
 
 $service_order = get("service_order", "job_number", $job_number);
 if (!$service_order) {
@@ -48,12 +57,11 @@ foreach ($service_order as $so) {
         $date = $time;
         $date2 = $time;
     }
-    if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2)) {
+    if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) {
         foreach ($service_type as $tp) {
             if ($tp['ID'] == $so['item_id']) {
                 $so['price'] = $tp['price'];
                 $so['price'] /= 100;
-
 
                 if($type == 1){
                     if($so['clock_type'] == 1){
