@@ -62,26 +62,31 @@ foreach ($service_order as $so) {
             if ($tp['ID'] == $so['item_id']) {
                 $so['price'] = $tp['price'];
                 $so['price'] /= 100;
-
+                //type  1-技师  2-接待
+                $ticheng_this_turn = 0;
                 if($type == 1){
                     if($so['clock_type'] == 1){
                         $pai++;
-                        $ticheng += $tp['pai_commission'] / 100;
+                        $ticheng_this_turn = $tp['pai_commission'] / 100;
+                        $ticheng +=$ticheng_this_turn;
                     }
                     else{
                         $dian++;
-                        $ticheng += $tp['commission'] / 100;
+                        $ticheng_this_turn = $tp['commission'] / 100;
+                        $ticheng += $ticheng_this_turn;
                     }
                 }
 
                 else if($type == 2){
                     if($so['clock_type'] == 1){
                         $pai++;
-                        $ticheng += $tp['pai_commission2'] / 100;
+                        $ticheng_this_turn = $tp['pai_commission2'] / 100;
+                        $ticheng += $ticheng_this_turn;
                     }
                     else{
                         $dian++;
-                        $ticheng += $tp['commission2'] / 100;
+                        $ticheng_this_turn = $tp['commission2'] / 100;
+                        $ticheng += $ticheng_this_turn;
                     }
                 }
 
@@ -90,7 +95,7 @@ foreach ($service_order as $so) {
                 array_push($key_info, [
                     "service_name" => $tp['name'],
                     "room_number" => $so['private_room_number'],
-                    "bonus" => (int) $type==1?$tp['commission'] / 100:$tp['commission2'] / 100,
+                    "bonus" => (int) $ticheng_this_turn,
                     "time" => $one_consumed_order[0]['generated_time'],
                     "order_id" => $so['order_id'],
                     "income" => $so['price'],
