@@ -13,7 +13,7 @@ if ($type && count($type) > 0) {
 
 $date = $_POST["date"];
 if($date == ""){
-    $date = date("Y-m-d 00:00:00",time());
+    $date = date("Y-m-01 00:00:00",time());
 }else{
     $date.=" 00:00:00";
 }
@@ -52,7 +52,7 @@ if ($date == "") {
 
 foreach ($service_order as $so) {
     $one_consumed_order = get("consumed_order", "order_id", $so['order_id']);
-    $time = $one_consumed_order[0]['generated_time'];
+    $time = $one_consumed_order[0]['end_time'];
     if ($all_time) {
         $date = $time;
         $date2 = $time;
@@ -96,7 +96,7 @@ foreach ($service_order as $so) {
                     "service_name" => $tp['name'],
                     "room_number" => $so['private_room_number'],
                     "bonus" => (int) $ticheng_this_turn,
-                    "time" => $one_consumed_order[0]['generated_time'],
+                    "time" => $one_consumed_order[0]['end_time'],
                     "order_id" => $so['order_id'],
                     "income" => $so['price'],
                     "clock_type" => $so['clock_type'],

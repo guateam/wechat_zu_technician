@@ -79,7 +79,7 @@ function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
     
-    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.generated_time >=$begin and B.generated_time <= $end ");
+    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end ");
     //邀请该技师的人
     $self_p = sql_str("select * from inviteship where `freshman_job_number`='$job_number'");
     //付给邀请自己的人的钱
@@ -89,7 +89,7 @@ function get_lost($job_number, $begin, $end)
         foreach ($so as $idx => $svod) {
             $item_id = $svod['item_id'];
             $order_id = $svod['order_id'];
-            $consumed = sql_str("select state,generated_time from consumed_order where order_id = '$order_id'");
+            $consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
 
             if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
 
@@ -103,7 +103,7 @@ function get_lost($job_number, $begin, $end)
             }else{
                 $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'该服务已被删除']);
             }
-            $so[$idx]['appoint_time'] = $consumed[0]['generated_time'];
+            $so[$idx]['appoint_time'] = $consumed[0]['end_time'];
         }
     }
 
