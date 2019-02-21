@@ -58,51 +58,23 @@ foreach ($service_order as $so) {
         $date2 = $time;
     }
     if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) {
-        foreach ($service_type as $tp) {
-            if ($tp['ID'] == $so['item_id']) {
-                $so['price'] = $tp['price'];
-                $so['price'] /= 100;
-                //type  1-技师  2-接待
-                $ticheng_this_turn = 0;
-                if($type == 1){
-                    if($so['clock_type'] == 1){
-                        $pai++;
-                        $ticheng_this_turn = $tp['pai_commission'] / 100;
-                        $ticheng +=$ticheng_this_turn;
-                    }
-                    else{
-                        $dian++;
-                        $ticheng_this_turn = $tp['commission'] / 100;
-                        $ticheng += $ticheng_this_turn;
-                    }
-                }
+        
+        $tp = get("service_type","ID",$so['item_id']);
 
-                else if($type == 2){
-                    if($so['clock_type'] == 1){
-                        $pai++;
-                        $ticheng_this_turn = $tp['pai_commission2'] / 100;
-                        $ticheng += $ticheng_this_turn;
-                    }
-                    else{
-                        $dian++;
-                        $ticheng_this_turn = $tp['commission2'] / 100;
-                        $ticheng += $ticheng_this_turn;
-                    }
-                }
+        if($so['clock_type'] == 1)$pai++;
+        else if($so['clock_type'] == 2)$dian++;
+        $ticheng += $so['ticheng']/100;
+        $yeji += $one_consumed_order[0]['pay_amount']/100;
+        array_push($key_info, [
+                        "service_name" => $tp[0]['name'],
+                        "room_number" => $so['private_room_number'],
+                        "bonus" => (int) $so['ticheng']/100,
+                        "time" => $one_consumed_order[0]['end_time'],
+                        "order_id" => $so['order_id'],
+                        "income" => $so['price']/100,
+                        "clock_type" => $so['clock_type'],
+        ]);
 
-
-                $yeji += $so['price'];
-                array_push($key_info, [
-                    "service_name" => $tp['name'],
-                    "room_number" => $so['private_room_number'],
-                    "bonus" => (int) $ticheng_this_turn,
-                    "time" => $one_consumed_order[0]['end_time'],
-                    "order_id" => $so['order_id'],
-                    "income" => $so['price'],
-                    "clock_type" => $so['clock_type'],
-                ]);
-            }
-        }
     }
     if ($so['order_id'] != $last_soid) {
         array_push($consumed_order, $one_consumed_order[0]);
@@ -111,7 +83,7 @@ foreach ($service_order as $so) {
 }
 
 echo json_encode((object) [
-    'total_clock' => count($key_info),
+    'total_clock' => $pai + $dian,
     'dian'=>$dian,
     'pai'=>$pai,
     'bonus' => $ticheng,

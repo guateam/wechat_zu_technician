@@ -42,46 +42,20 @@ function get_yeji($job_number)
     if(isset($_POST['end']))$end = $_POST['end'];
     $begin = strtotime($begin);
     $end = strtotime($end);
-    //获取在时间范围内的订单
-    $so = sql_str("select A.* from service_order A,consumed_order B where A.`job_number`='$job_number'and A.order_id=B.order_id and B.`end_time`>='$begin' and B.`end_time` <= '$end' ");
+    //获取在时间范围内的正确状态的订单
+    $co = sql_str("select B.* from service_order A,consumed_order B where A.`job_number`='$job_number'and A.order_id=B.order_id and B.`end_time`>='$begin' and B.`end_time` <= '$end' and (B.state = 4 or B.state = 5) group by B.order_id");
+    $so = sql_str("select A.* from service_order A,consumed_order B where A.`job_number`='$job_number'and A.order_id=B.order_id and B.`end_time`>='$begin' and B.`end_time` <= '$end' and (B.state = 4 or B.state = 5)");
     $price = 0;
-    if($so)
+    foreach($co as $idx => $cod)
 	{
-        foreach($so as $idx => $svod)
-		{
-            $item_id = $svod['item_id'];
-            $order_id = $svod['order_id'];
-
-            $co = sql_str("select * from consumed_order where order_id='$order_id'");
-
-            if(!$co)continue;
-            if($co[0]['state'] != 4 && $co[0]['state'] !=5 )continue;
-
-            //有效订单,上钟数增加1
-            $count++;
-
-            $commission = sql_str("select pai_commission,commission,pai_commission2,commission2 from service_type where `ID`='$item_id'");
-            //记录自己的营业金额
-            if($type == 1)
-                if($svod['clock_type'] == 1){
-                    $price+=intval($commission[0]['pai_commission'])/100;  
-                }else if($svod['clock_type'] == 2){
-                    $price+=intval($commission[0]['commission'])/100;  
-                }
-            else if($type == 2){
-                if($svod['clock_type'] == 1){
-                    $price+=intval($commission[0]['pai_commission2'])/100;  
-                }else if($svod['clock_type'] == 2){
-                    $price+=intval($commission[0]['commission2'])/100;  
-                }
-            }     
-        }
+        //记录自己的提成
+        $price += $cod['pay_amount'];  
     }
     return [
         'job_number'=>$job_number,
-        'clock_num'=>$count,
+        'clock_num'=>count($so),
         'status'=>1,
-        'earn'=>$price,
+        'earn'=>$price/100,
         ];
 }
 

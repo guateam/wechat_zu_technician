@@ -34,27 +34,18 @@ function get_yeji($job_number, $so, $begin, $end)
 {
     //so是这个job_number技师的service_order
     $invited = get("inviteship", 'inviter_job_number', $job_number);
-
-    //是否有上家
-    $self = get("inviteship", 'freshman_job_number', $job_number);
-
     //营业收入
     $price = 0;
     //来自下家收入
     $come_frome_other = 0;
 
     $other_data = [];
-    //支付给上家
+    //店铺应支付给上家
     $lost = 0;
-    if ($so) {
-        foreach ($so as $svod) {
-            $item = get("service_type", "ID", $svod['item_id']);
-            if ($self) {
-                $lost += $item[0]['invite_income'] / 100;
-            }
 
-            $price += $item[0]['commission'] / 100;
-        }
+    foreach ($so as $svod) {
+        $lost += $svod['yongjin'] / 100;
+        $price += $svod['ticheng'] / 100;
     }
     if ($invited) {
         foreach ($invited as $inv) {
@@ -70,7 +61,7 @@ function get_yeji($job_number, $so, $begin, $end)
         'earn' => $price,
         'come_from_other' => $come_frome_other,
         'lost' => $lost,
-        'final_salary' => $price + $come_frome_other - $lost,
+        'final_salary' => $price + $come_frome_other,
         'technicians' => $other_data,
     ];
 }
@@ -78,32 +69,19 @@ function get_yeji($job_number, $so, $begin, $end)
 function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
-    
-    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end ");
-    //邀请该技师的人
-    $self_p = sql_str("select * from inviteship where `freshman_job_number`='$job_number'");
+    $so = sql_str("select A.* ,B.end_time from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end and (B.state==4 or B.state==5)");
     //付给邀请自己的人的钱
     $lost = 0;
 
     if ($so) {
         foreach ($so as $idx => $svod) {
-            $item_id = $svod['item_id'];
-            $order_id = $svod['order_id'];
-            $consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
-
-            if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
-
-            $item = sql_str("select * from service_type where `ID`='$item_id'");
-            if ($item) {
-                //计算支付给邀请人的钱
-                if ($self_p && $item) {
-                    $lost += $item[0]['invite_income'] / 100;
-                }
-                $so[$idx] = array_merge($so[$idx], ['lost' => $item[0]['invite_income'] / 100,'name'=>$item[0]['name']]);
-            }else{
-                $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'该服务已被删除']);
-            }
-            $so[$idx]['appoint_time'] = $consumed[0]['end_time'];
+            // $item_id = $svod['item_id'];
+            // $order_id = $svod['order_id'];
+            //$consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
+            
+            $lost += $svod[0]['yongjin'] / 100;
+            $so[$idx] = array_merge($so[$idx], ['lost' => $svod[0]['yongjin'] / 100,'name'=>$item[0]['name']]);
+            $so[$idx]['appoint_time'] = $so[$idx]['end_time'];
         }
     }
 

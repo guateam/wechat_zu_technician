@@ -22,42 +22,14 @@ function getsalarychart($id)
             $data[0]+= get_invite_bonus_2($id,$begin,$end);
             foreach ($service as $value) 
 			{
-                $order = get('consumed_order', 'order_id', $value['order_id']);
+                $order_id=$value['order_id'];
+                $order = sql_str("select * from consumed_order where order_id='$order_id' and end_time>=$begin and end_time <=$end and (state=4 or state=5) ");//get('consumed_order', 'order_id', $value['order_id']);
                 if ($order) 
 				{
-
-
-                    if (intval($order[0]['end_time']) >= $begin && intval($order[0]['end_time']) <= $end   ) 
+                    $servicetype = get('service_type', 'ID', $value['item_id']);
+                    if ($servicetype) 
 					{
-                        if ($order[0]['state'] == 4 || $order[0]['state'] == 5) 
-						{
-                            if ($value['service_type'] == 1) 
-							{
-                                $servicetype = get('service_type', 'ID', $value['item_id']);
-                                if ($servicetype) 
-								{
-                                    //排钟
-                                    if($value['clock_type'] == 1){
-                                        //技师
-                                        if($tech[0]['type'] == 1)
-                                            $data[0] += $servicetype[0]['pai_commission'] / 100;
-                                        //接待
-                                        else
-                                            $data[0] += $servicetype[0]['pai_commission2'] / 100;
-                                    
-                                    //点钟
-                                    }else if($value['clock_type'] == 2){
-                                        //技师
-                                        if($tech[0]['type'] == 1)
-                                            $data[0] += $servicetype[0]['commission'] / 100;
-                                        //接待
-                                        else
-                                            $data[0] += $servicetype[0]['commission2'] / 100;
-                                    }
-                                   
-                                }
-                            }
-                        }
+                        $data[0] = $value['ticheng']/100;
                     }
                 }
                 
@@ -112,8 +84,7 @@ function get_invite_bonus_2($job_number,$begin,$end){
 function get_lost_2($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
-    
-    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end ");
+    $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end and (B.state=4 or B.state=5)");
     //邀请该技师的人
     $self_p = sql_str("select * from inviteship where `freshman_job_number`='$job_number'");
     //付给邀请自己的人的钱
@@ -125,15 +96,13 @@ function get_lost_2($job_number, $begin, $end)
             $order_id = $svod['order_id'];
             $consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
 
-            if(!$consumed || ( $consumed[0]['state'] != 4 && $consumed[0]['state'] != 5))continue;
-
             $item = sql_str("select * from service_type where `ID`='$item_id'");
             if ($item) {
                 //计算支付给邀请人的钱
                 if ($self_p && $item) {
-                    $lost += $item[0]['invite_income'] / 100;
+                    $lost += $svod['yongjin'];
                 }
-                $so[$idx] = array_merge($so[$idx], ['lost' => $item[0]['invite_income'] / 100,'name'=>$item[0]['name']]);
+                $so[$idx] = array_merge($so[$idx], ['lost' => $svod['yongjin'] / 100,'name'=>$item[0]['name']]);
             }else{
                 $so[$idx] = array_merge($so[$idx], ['lost' => 0,'name'=>'该服务已被删除']);
             }
