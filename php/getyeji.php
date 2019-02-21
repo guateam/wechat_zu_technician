@@ -43,7 +43,7 @@ function get_yeji($job_number)
     $begin = strtotime($begin);
     $end = strtotime($end);
     //获取在时间范围内的订单
-    $so = sql_str("select * from service_order where `job_number`='$job_number' and `appoint_time`>='$begin' and `appoint_time` <= '$end' ");
+    $so = sql_str("select A.* from service_order A,consumed_order B where A.`job_number`='$job_number'and A.order_id=B.order_id and B.`end_time`>='$begin' and B.`end_time` <= '$end' ");
     $price = 0;
     if($so)
 	{

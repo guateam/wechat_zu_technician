@@ -25,7 +25,7 @@ function getsalary($id)
                             $month_begin = strtotime(date('Y-m') . '-01 00:00:00');
                             $month_end = strtotime(date('Y-m-t') . ' 23:59:59');
 
-                            if ($order[0]['generated_time'] <= $day_end && $order[0]['generated_time'] >= $day_begin) {
+                            if ($order[0]['end_time'] <= $day_end && $order[0]['end_time'] >= $day_begin) {
                                 //技师
                                 if ($type == 1) {
                                     //排钟
@@ -45,7 +45,7 @@ function getsalary($id)
                                         $todaysalary += ($servicetype[0]['commission2'] / 100);
                                 }
                             }
-                            if ($order[0]['generated_time'] <= $month_end && $order[0]['generated_time'] >= $month_begin) {
+                            if ($order[0]['end_time'] <= $month_end && $order[0]['end_time'] >= $month_begin) {
                                 //技师
                                 if ($type == 1) {
                                 //排钟
@@ -114,7 +114,6 @@ function get_invite_bonus($job_number){
 function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
-    
     $so = sql_str("select A.* from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end ");
     //邀请该技师的人
     $self_p = sql_str("select * from inviteship where `freshman_job_number`='$job_number'");
