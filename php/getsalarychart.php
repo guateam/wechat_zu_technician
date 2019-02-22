@@ -34,7 +34,7 @@ function getsalarychart($id)
                     $servicetype = get('service_type', 'ID', $value['item_id']);
                     if ($servicetype) 
 					{
-                        $data[0] = $value['ticheng']/100;
+                        $data[0] += $value['ticheng']/100;
                     }
                 }
                 
