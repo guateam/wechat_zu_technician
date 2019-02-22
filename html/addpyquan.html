@@ -173,8 +173,8 @@
             return {
                 uploadimg: [],
                 uploadvdo: [],
-                photo_max: 1024 * 1024 * 3,//MB
-                video_max: 1024 * 1024 * 5,//MB
+                photo_max: 1024 * 1024 * 5,//MB
+                video_max: 1024 * 1024 * 8,//MB
                 upload_type: "",
                 action: "../php/upload_vcr.php",
                 content: "",
@@ -276,24 +276,29 @@
                 //     width: 230,
                 // })
             },
-            handleBeforeUpload(file) {
+            handleBeforeUpload(file) 
+			{
                 // 创建一个 FileReader 对象
                 let reader = new FileReader()
                 // readAsDataURL 方法用于读取指定 Blob 或 File 的内容
                 // 当读操作完成，readyState 变为 DONE，loadend 被触发，此时 result 属性包含数据：URL（以 base64 编码的字符串表示文件的数据）
                 // 读取文件作为 URL 可访问地址
                 var that = this
-                reader.onloadend = function (e) {
+                reader.onloadend = function (e) 
+				{
                     file.url = reader.result
                     that.uploadList.push(file.url)
                 }
                 //第一次上传确定上传类型
-                if (this.upload_type == '') {
+                if (this.upload_type == '') 
+				{
                     //上传图片类型
-                    if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") {
+                    if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") 
+					{
                         //检测图片文件大小
-                        alert(file.size)
-                        if (file.size > this.photo_max) {
+                        //alert(file.size)
+                        if (file.size > this.photo_max) 
+						{
                             this.$Notice.warning({
                                 title: '超出限制',
                                 desc: '图片文件过大，不得超过 ' + this.photo_max / 1024 / 1024 + "MB",
@@ -305,9 +310,12 @@
                         reader.readAsDataURL(file)
                         //图片永不立即上传
                         return false
-                    } else {
+                    } 
+					else 
+					{
                         //上传视频,第一次检测文件按大小
-                        if (file.size > this.video_max) {
+                        if (file.size > this.video_max) 
+						{
                             this.$Notice.warning({
                                 title: '超出限制',
                                 desc: '视频文件过大，不得超过 ' + this.video_max / 1024 / 1024 + "MB",
@@ -317,11 +325,14 @@
                         this.upload_type = "video"
                         this.action = "../php/upload_vcr.php";
                     }
-                } else {
-
+                } 
+				else 
+				{
                     //检测文件是否过大
-                    if (this.upload_type == 'image') {
-                        if (file.size > this.photo_max) {
+                    if (this.upload_type == 'image') 
+					{
+                        if (file.size > this.photo_max) 
+						{
                             this.$Notice.warning({
                                 title: '超出限制',
                                 desc: '图片文件过大，不得超过 ' + this.photo_max / 1024 / 1024 + "MB",
@@ -329,8 +340,10 @@
                             return false;
                         }
                     }
-                    if (this.upload_type == 'video') {
-                        if (file.size > this.video_max) {
+                    if (this.upload_type == 'video') 
+					{
+                        if (file.size > this.video_max) 
+						{
                             this.$Notice.warning({
                                 title: '超出限制',
                                 desc: '视频文件过大，不得超过 ' + this.video_max / 1024 / 1024 + "MB",
@@ -340,21 +353,25 @@
                     }
 
                     //之后的上传只能选取和第一次上传类型相同的文件
-                    if (this.upload_type == "image" && (file.type == "image/png" || file.type == "image/bmp" ||
-                            file.type == "image/jpeg")) {
+                    if (this.upload_type == "image" && (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg")) 
+					{
                         reader.readAsDataURL(file)
                         //图片永不立即上传
                         return false;
-                    } else if (this.upload_type == "video") {
-                        if(this.uploadvdo.length >= 1){
+                    } 
+					else if (this.upload_type == "video") 
+					{
+                        if(this.uploadvdo.length >= 1)
+						{
                             this.$Notice.warning({
                                 title: '达到上限',
                                 desc: '视频只能上传一个哦 '
                             });
                             return false;
-                        }
-                       
-                    } else {
+                        }                       
+                    } 
+					else 
+					{
                         this.$Notice.warning({
                             title: '类型限制',
                             desc: '图片和视频不能同时存在 '
