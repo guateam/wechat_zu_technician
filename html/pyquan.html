@@ -211,23 +211,27 @@
 			
             methods: 
 			{
-                delete_pyq(id){
-                    $.post("../php/deletepyq.php",{
-                        id:id
-                    }).done((res)=>{
-                        res = JSON.parse(res);
-                        if(res.status == 1)
-						{
-                            $(this).openWindow("", "删除成功", ["好的"],()=>{
-                                location.reload();
-                            })
-                        }
-						else
-						{
-                            $(this).openWindow("", "删除失败", ["好的"])
-                        }
-                    });
-                },
+						
+				delete_pyq(id)
+				{
+					 $(this).openWindow("", "确认删除这条朋友圈吗？", ["不", "是的"], () => {
+						$.post("../php/deletepyq.php",{
+							id:id
+						}).done((res)=>{
+							res = JSON.parse(res);
+							if(res.status == 1)
+							{
+								$(this).openWindow("", "删除成功", ["好的"],()=>{
+									location.reload();
+								})
+							}
+							else
+							{
+								$(this).openWindow("", "删除失败", ["好的"])
+							}
+						});
+					});
+				},
 				
                 navi(url) 
 				{
