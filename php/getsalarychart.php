@@ -80,7 +80,7 @@ function get_invite_bonus_2($job_number,$begin,$end)
             //获取下家支付给本家的钱
             $yeji = get_lost_2($inv['freshman_job_number'], $begin, $end);
 
-            $total_earn += $yeji['lost'];
+            $total_earn += $yeji['lost'] / 100;
         }
     }
     return $total_earn;

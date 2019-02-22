@@ -75,7 +75,7 @@ function get_yeji($job_number, $so, $begin, $end)
 function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
-    $so = sql_str("select A.* ,B.end_time from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end and (B.state==4 or B.state==5)");
+    $so = sql_str("select A.*,B.end_time from service_order A,consumed_order B where A.job_number='$job_number' and B.order_id = A.order_id and B.end_time >=$begin and B.end_time <= $end and (B.state=4 or B.state=5)");
     //付给邀请自己的人的钱
     $lost = 0;
 
@@ -87,8 +87,8 @@ function get_lost($job_number, $begin, $end)
             // $order_id = $svod['order_id'];
             //$consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
             
-            $lost += $svod[0]['yongjin'] / 100;
-            $so[$idx] = array_merge($so[$idx], ['lost' => $svod[0]['yongjin'] / 100,'name'=>$item[0]['name']]);
+            $lost += $svod['yongjin'] / 100;
+            $so[$idx] = array_merge($so[$idx], ['lost' => $svod['yongjin'] / 100,'name'=>$item[0]['name']]);
             $so[$idx]['appoint_time'] = $so[$idx]['end_time'];
         }
     }
