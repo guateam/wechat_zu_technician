@@ -1,8 +1,12 @@
 <?php
+
+date_default_timezone_set('PRC');
+
 function getsalarychart($id)
 {
     $service = get('service_order', 'job_number', $id);
     $tech = get('technician','job_number',$id);
+	
     $today_begin = strtotime(date("Y-m-d 00:00:00",time()));
     $today_end = strtotime(date("Y-m-d 23:59:59",time()));
 
