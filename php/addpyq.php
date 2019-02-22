@@ -30,7 +30,7 @@ foreach($urls as $url)
     }
     $rnd_str.=date("is",time());
     $sv = $dir.$rnd_str.'.jpg';
-    file_put_contents($sv, $img);
+    file_put_contents($sv, $img);//上传的图片名称随机生成 $sv
 	
 	//------------------------------------------------------------
 	$osname = PHP_OS;	
@@ -47,8 +47,9 @@ foreach($urls as $url)
 	}
 	//------------------------------------------------------------
 	
-    add('technician_photo',[['img',$save_dir.$rnd_str.'.jpg'],['time',$time],['job_number',$job_number]]);
+    add('technician_photo',[['img',$save_dir.$rnd_str.'.jpg'],['time',$time],['job_number',$job_number]]);//存入数据库
 }
+
 $ids = sql_str("select group_concat(ID) as id from technician_photo where `time` = '$time'");
 //存进数据库的图片ID序列
 $img = "";

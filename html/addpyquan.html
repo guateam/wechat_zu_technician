@@ -169,7 +169,8 @@
 
     let app = new Vue({
         el: '#app',
-        data() {
+        data() 
+		{
             return {
                 uploadimg: [],
                 uploadvdo: [],
@@ -183,9 +184,13 @@
                 uploadList: [], //待上传的文件列表
             }
         },
-        methods: {
-            create_pyq() {
-                if (this.content == "") {
+		
+        methods: 
+		{
+            create_pyq() 
+			{
+                if (this.content == "") 
+				{
                     $(this).openWindow("", "正文内容不能为空", ["好的"])
                     return;
                 }
@@ -204,7 +209,8 @@
                 // for (var i in this.uploadimg) {
                 //     ids += this.uploadimg[i]['id'] + ","
                 // }
-                for (var i in this.uploadvdo) {
+                for (var i in this.uploadvdo) 
+				{
                     vds += this.uploadvdo[i]['id'] + ","
                 }
 
@@ -221,13 +227,15 @@
                             window.location.href = "pyquan.html?id=" + that.job_number
                         })
                     }
-
                 })
             },
-            videosuccess(res, file) {
+			
+            videosuccess(res, file) 
+			{
                 var that = this;
                 if (this.upload_type == "image") return;
-                if (res.state == 1) {
+                if (res.state == 1) 
+				{
                     console.log(res.url);
                     that.uploadvdo.push({
                         'url': res.url,
@@ -235,7 +243,9 @@
                         'poster':res.poster
                     });
                     swal.close();
-                } else {
+                }
+				else
+				{
                     swal({
                         text: res.state,
                         type: "error",
@@ -243,39 +253,41 @@
                     })
                 }
             },
-            handleSuccess(res, file) {
+			
+            handleSuccess(res, file) 
+			{
                 var that = this;
                 // var reg = /\{(.+?)\}/g;
                 // res = res.match(reg);
                 // res = JSON.parse(res);
-                if (res.state == 1) {
+                if (res.state == 1) 
+				{
                     console.log(res.url);
                     that.uploadimg.push({
                         'url': res.url,
                         'id': res.ID
                     });
                     swal.close();
-                } else {
+                }
+				else 
+				{
                     swal({
                         text: res.state,
                         type: "error",
                         width: 230,
                     })
                 }
-
             },
+			
             handleFail(res, file) {
                 alert("fail");
             },
+			
             handleMax(file) {
                 $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
-                return false;
-                // swal({
-                //     text: "文件过大，不得超过5M",
-                //     type: "error",
-                //     width: 230,
-                // })
+                return false;               
             },
+			
             handleBeforeUpload(file) 
 			{
                 // 创建一个 FileReader 对象
@@ -290,7 +302,7 @@
                     that.uploadList.push(file.url)
                 }
                 //第一次上传确定上传类型
-                if (this.upload_type == '') 
+                if (this.upload_type == '') //上传的第一张图片
 				{
                     //上传图片类型
                     if (file.type == "image/png" || file.type == "image/bmp" || file.type == "image/jpeg") 
@@ -323,10 +335,10 @@
                             return false;
                         }
                         this.upload_type = "video"
-                        this.action = "../php/upload_vcr.php";
+                        this.action = "../php/upload_vcr.php"; //选择视频的时候就上传
                     }
                 } 
-				else 
+				else  //上传的第2，3，4张图片
 				{
                     //检测文件是否过大
                     if (this.upload_type == 'image') 
@@ -381,7 +393,8 @@
                 }
             },
 
-            handleRemove(name) {
+            handleRemove(name) 
+			{
                 var that = this;
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
                     for (var i = 0; i < this.uploadList.length; i++) {
@@ -391,7 +404,9 @@
                     }
                 })
             },
-            del_already() {
+			
+            del_already() 
+			{
                 var that = this;
                 if (that.uploadimg.length >= 1) {
                     var dirs = [];
@@ -413,7 +428,9 @@
                     desc: '不支持 ' + file.name + ' 文件的格式'
                 });
             },
-            vcr_toobig() {
+			
+            vcr_toobig() 
+			{
                 this.$Notice.warning({
                     title: "视频大小超出限制",
                     desc: "最大只能为50MB"
