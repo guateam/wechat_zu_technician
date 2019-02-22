@@ -182,7 +182,8 @@
 
     </script>
     <script>
-        function getQueryString(name) {
+        function getQueryString(name) 
+		{
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]);
@@ -207,43 +208,61 @@
                     "list1": ["1.png", "2.png", "3.png"],
                 },
             },
-            methods: {
+			
+            methods: 
+			{
                 delete_pyq(id){
                     $.post("../php/deletepyq.php",{
                         id:id
                     }).done((res)=>{
                         res = JSON.parse(res);
-                        if(res.status == 1){
+                        if(res.status == 1)
+						{
                             $(this).openWindow("", "删除成功", ["好的"],()=>{
                                 location.reload();
                             })
-                        }else{
+                        }
+						else
+						{
                             $(this).openWindow("", "删除失败", ["好的"])
                         }
                     });
                 },
-                navi(url) {
+				
+                navi(url) 
+				{
                     window.location.href = url + "?id=" + this.job_number;
                 },
-                closeBig() {
+				
+                closeBig() 
+				{
                     this.big_img = false;
                 },
-                show_pic(index, imgs) {
+				
+                show_pic(index, imgs) 
+				{
                     //this.swiper_target = imgs;
                     this.click_img = imgs[index];
                     this.big_img = true;
                 },
-                play(video,vdo) {
+				
+                play(video,vdo) 
+				{
                     vdo.play = !vdo.play
                     video = video.target.parentElement.lastChild;
                     //alert(video.poster)
-                    if (video.paused) {
+                    if (video.paused) 
+					{
                         video.play();
-                    } else {
+                    } 
+					else 
+					{
                         video.pause();
                     }
                 },
-                video_poster(video) {
+				
+                video_poster(video) 
+				{
                     var scale = 0.8;
                     var canvas = document.createElement("canvas"); //canvas画布
                     canvas.width = video.videoWidth * scale;
@@ -251,7 +270,9 @@
                     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height); //画图
                     video.setAttribute("poster", canvas.toDataURL("image/png")); //关键一步 —— 设置标签的 poster 属性的值为 base64 编译过后的canvas绘图。
                 },
-                handleBeforeUpload() {
+                
+				handleBeforeUpload() 
+				{
                     swal({
                         text: "正在更改封面背景，请稍候",
                         onOpen: () => {
@@ -259,7 +280,9 @@
                         }
                     })
                 },
-                handleMax(file) {
+				
+                handleMax(file) 
+				{
                     $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
                     // swal({
                     //     text: "文件过大，不得超过5M",
@@ -267,19 +290,26 @@
                     //     width: 230,
                     // })
                 },
-                handleFail(res, file) {
+                
+				handleFail(res, file) 
+				{
                     alert("fail");
                 },
-                handleSuccess(res, file) {
+				
+                handleSuccess(res, file) 
+				{
                     var that = this;
                     // var reg = /\{(.+?)\}/g;
                     // res = res.match(reg);
                     // res = JSON.parse(res);
-                    if (res.state == 1) {
+                    if (res.state == 1) 
+					{
                         console.log(res.url);
                         that.background = res.url;
                         swal.close();
-                    } else {
+                    } 
+					else 
+					{
                         $(this).openWindow("", res.state, ["好的"])
                         // swal({
                         //     text: res.state,
@@ -290,7 +320,9 @@
 
                 },
             },
-            created() {
+			
+            created() 
+			{
                 var that = this;
                 $.post("../php/getpyq.php", {
                     job_number: that.job_number
@@ -303,7 +335,6 @@
                     that.head = res.head;
                     that.background = res.background;
                     that.show = false;
-
                 })
             },
         })
@@ -328,24 +359,24 @@
 
             },
         },
-
     });
-    $(document).on('click', '.thumb img', function () {
+	
+    $(document).on('click', '.thumb img', function () 
+	{
         clickIndex = $(this).index();
         // imglist = $(this).parent().attr('thumblist');
         imglist = $(this).parent()[0].attributes[0].nodeValue
         // console.log($(this).parent()[0].attributes[0].nodeValue)
         imgs = app.imgsdata[imglist];
         // console.log(imgs)
-        for (i = 0; i < imgs.length; i++) {
+        for (i = 0; i < imgs.length; i++) 
+		{
             // console.log(swiper.virtual)
-            swiper.virtual.appendSlide('<div class="swiper-zoom-container"><img src="' + imgs[i] +
-                '" /></div>');
+            swiper.virtual.appendSlide('<div class="swiper-zoom-container"><img src="' + imgs[i] + '" /></div>');
         }
         swiper.slideTo(clickIndex);
         $('#origin-img').fadeIn('fast');
         swiperStatus = true;
-
     })
 
     // $('.thumb img').click(function () {
@@ -369,6 +400,7 @@
             event.preventDefault();
         }
     })
+	
     var lastTouchEnd = 0;
     document.addEventListener('touchend', function (event) {
         var now = (new Date()).getTime();
