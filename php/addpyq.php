@@ -10,8 +10,10 @@ $dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
 $save_dir = "/photo/";
 
 $time= time();
-foreach($urls as $url){
-    if (strstr($url,",")){
+foreach($urls as $url)
+{
+    if (strstr($url,","))
+	{
         $image = explode(',',$url);
         $url = $image[1];
     }
@@ -56,3 +58,5 @@ $video = $_POST['video'];
 $content = $_POST['content'];
 add("friend_circle",[['content',$content],['img',$img],['video',$video],['job_number',$job_number],['date',$time]]);
 echo json_encode(['status'=>1]);
+
+?>

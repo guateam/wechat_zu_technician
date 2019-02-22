@@ -60,19 +60,24 @@ foreach($datas as $data)
     $date = date("m-d",$tm1);
     //转换成文字表示
     if ($gap < 60) $gap = $gap."秒前";
-    else {
+    else 
+	{
         $gap /= 60;
         if ($gap < 60) $gap = floor($gap)."分钟前";
-        else {
+        else 
+		{
             $gap /= 60;
             if ($gap < 24) $gap = floor($gap)."小时前";
-            else {
+            else 
+			{
                 $gap /= 24;
                 if ($gap <= 30) $gap = floor($gap)."天前";
-                else {
+                else 
+				{
                     $gap /= 30;
                     if ($gap <= 12) $gap = floor($gap)."月前";
-                    else {
+                    else 
+					{
                         $gap /= 12;
                         if ($gap >= 1) $gap =floor($gap)."年前";
                     }
@@ -83,8 +88,8 @@ foreach($datas as $data)
     $datas[$i]['date']=$gap;
     $datas[$i]['datestr']=explode('-',$date);
     $i++;
-
 }
+
 $jb = get("technician",'job_number',$job_number);
 $head = "";
 $background = "";
@@ -99,10 +104,6 @@ else
     if(!is_null($jb['photo']))$head = $jb['photo'];
 }
 echo json_encode(['status'=>1,'data'=>$datas,'head'=>$head,'background'=>$background]);
-
-
-
-
 
 function base64EncodeImage ($image_file) {
     $base64_image = '';

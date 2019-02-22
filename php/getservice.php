@@ -29,6 +29,4 @@ else
     }
     echo json_encode((object)['status'=>1,'data'=>$type,'max_discount'=>$max_discount/100]);
 }
-
-// some code
 ?>

@@ -8,7 +8,8 @@ function getsalarychart($id)
 
     $time = [];
     $data = [];
-    for($i=0;$i<8;$i++){
+    for($i=0;$i<8;$i++)
+	{
         array_unshift($time, date('m-d', (time() - ($i * 24 * 60 * 60))));
     }
 
@@ -59,14 +60,17 @@ function getsalarychart($id)
 }
 
 
-function get_invite_bonus_2($job_number,$begin,$end){
+function get_invite_bonus_2($job_number,$begin,$end)
+{
 
     $invited = get("inviteship", 'inviter_job_number', $job_number);
 
     $total_earn = 0;
 
-    if ($invited) {
-        foreach ($invited as $inv) {
+    if ($invited) 
+	{
+        foreach ($invited as $inv) 
+		{
             //获取下家信息
             $fresh_jbnb = $inv['freshman_job_number'];
             //获取下家支付给本家的钱
@@ -77,9 +81,6 @@ function get_invite_bonus_2($job_number,$begin,$end){
     }
     return $total_earn;
 }
-
-
-
 
 function get_lost_2($job_number, $begin, $end)
 {

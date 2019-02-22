@@ -63,3 +63,4 @@ else
 {
     echo(json_encode(['status'=>0,'msg'=>'技师不存在']));
 }
+?>

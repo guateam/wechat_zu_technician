@@ -1,7 +1,8 @@
 <?php
 require('database.php');
 $newest = false;
-if(isset($_POST['newest'])){
+if(isset($_POST['newest']))
+{
     $newest = true;
 }
 $notice = [];
@@ -12,3 +13,4 @@ else
 
 echo json_encode(['status'=>1,'data'=>$notice]);
 
+?>

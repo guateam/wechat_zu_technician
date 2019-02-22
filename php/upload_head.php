@@ -1,10 +1,8 @@
 <?php
 require("database.php");
 
-
 $dir = $_SERVER['DOCUMENT_ROOT']."/photo/";
 $save_dir = "/photo/";
-
 
 $job_number =implode("",$_POST);
 $allowedExts = array("gif", "jpeg", "jpg", "png","PNG");
@@ -60,7 +58,6 @@ if ((
             echo json_encode(["state"=>1,'url'=>$sv]);
         }
     }
-
 }
 
 ?>

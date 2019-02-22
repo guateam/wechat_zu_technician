@@ -87,7 +87,9 @@ else if (is_null($begin) && is_null($end))
 		$result[$i]['date'] = date("Y-m-d H:i:s", $result[$i]['date']);
 	}
 	echo json_encode(['status'=>1,'data'=>$result]);
-}else{
+}else
+{
 	echo json_encode(['status'=>0,'data'=>[]]);
 }
 
+?>

@@ -4,11 +4,13 @@ require("database.php");
 global $type;
 $type = $_POST['type'];
 $type = sql_str("select type from technician where job_number = '$type'");
-if($type && count($type)>0){
+if($type && count($type)>0)
+{
     $type = $type[0]['type'];
 }
 
-function get_all_yeji(){
+function get_all_yeji()
+{
     global $type;
     //获取指定类型的技师列表
     $jbnb = sql_str("select * from technician where type='$type'");

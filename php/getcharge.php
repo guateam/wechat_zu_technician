@@ -9,6 +9,7 @@ $money = 0;
 $count = 0;
 $bonus = 0;
 $charge = get("recharge_record","job_number",$job_number);
+
 foreach($charge as $ch)
 {
         $time = $ch['generated_time'];

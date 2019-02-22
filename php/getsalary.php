@@ -10,18 +10,23 @@ function getsalary($id)
     // }
     $todaysalary = 0;
     $salary = 0;
-    foreach ($service as $value) {
+    foreach ($service as $value) 
+	{
             $order = get('consumed_order', 'order_id', $value['order_id']);
-            if ($order) {
-                    if ($value['service_type'] == 1) {
+            if ($order) 
+			{
+                    if ($value['service_type'] == 1) 
+					{
                             $day_end = strtotime(date('Y-m-d') . ' 23:59:59');
                             $day_begin = strtotime(date('Y-m-d') . ' 00:00:00');
                             $month_begin = strtotime(date('Y-m') . '-01 00:00:00');
                             $month_end = strtotime(date('Y-m-t') . ' 23:59:59');
-                            if ($order[0]['end_time'] <= $day_end && $order[0]['end_time'] >= $day_begin) {
+                            if ($order[0]['end_time'] <= $day_end && $order[0]['end_time'] >= $day_begin) 
+							{
                                 $todaysalary +=$value['ticheng']/100;
                             }
-                            if ($order[0]['end_time'] <= $month_end && $order[0]['end_time'] >= $month_begin) {
+                            if ($order[0]['end_time'] <= $month_end && $order[0]['end_time'] >= $month_begin) 
+							{
                                $salary +=$value['ticheng']/100;
                             }
                     }
@@ -32,7 +37,8 @@ function getsalary($id)
 }
 
 
-function get_invite_bonus($job_number){
+function get_invite_bonus($job_number)
+{
     $begin_today = date("Y-m-d 00:00:00",time());
     $end_today = date("Y-m-d 23:59:59",time());
     $begin_month = date("Y-m-01 00:00:00",time());
@@ -48,8 +54,10 @@ function get_invite_bonus($job_number){
     $total_earn_today = 0;
     $total_earn_month = 0;
 
-    if ($invited) {
-        foreach ($invited as $inv) {
+    if ($invited) 
+	{
+        foreach ($invited as $inv) 
+		{
             //获取下家信息
             $fresh_jbnb = $inv['freshman_job_number'];
             //获取下家支付给本家的钱
@@ -63,9 +71,6 @@ function get_invite_bonus($job_number){
     return [ 'invite_today' => $total_earn_today, 'invite_month'=>$total_earn_month];
 }
 
-
-
-
 function get_lost($job_number, $begin, $end)
 {
     //该技师自己做的所有订单
@@ -75,8 +80,10 @@ function get_lost($job_number, $begin, $end)
     //付给邀请自己的人的钱
     $lost = 0;
 
-    if ($so) {
-        foreach ($so as $idx => $svod) {
+    if ($so) 
+	{
+        foreach ($so as $idx => $svod) 
+		{
             $item_id = $svod['item_id'];
             $order_id = $svod['order_id'];
             $consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
@@ -90,3 +97,5 @@ function get_lost($job_number, $begin, $end)
 
     return ['lost' => $lost, 'order' => $so];
 }
+
+?>

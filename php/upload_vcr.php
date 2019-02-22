@@ -6,9 +6,12 @@ $img_dir =$_SERVER['DOCUMENT_ROOT']."/photo/";
 
 //判断操作系统
 $osname = PHP_OS;
-if(strpos($osname,"Linux")!==false){
+if(strpos($osname,"Linux")!==false)
+{
     $osname = 'Linux';
-}else if(strpos($osname,"WIN")!==false){
+}
+else if(strpos($osname,"WIN")!==false)
+{
     $osname = 'Windows';
 }
 $job_number =$_POST['job_number'];
@@ -54,22 +57,25 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
             move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
             //根据系统获取视频第一帧图片，作为视频封面
             $osname = PHP_OS;
-            if(strpos($osname,"Linux")!==false){
+            if(strpos($osname,"Linux")!==false)
+			{
                 $osname = 'Linux';
                 $cmd="ffmpeg -i ".$tm." -f image2 -y ".$img_name.".jpg";
                 //获取视频时长
                 $ffmpeg_output = shell_exec("ffmpeg -i \"$tm\" 2>&1");
                 if( preg_match('/.*Duration: ((\d+)(?:\:)(\d+)(?:\:)(\d+))*/i', $ffmpeg_output, $matches) ) {
                     //超过10秒则停止上传，并提示时长超出
-                    if ($matches[1] > "00:00:10" ){
+                    if ($matches[1] > "00:00:10" )
+					{
                         unlink($tm);
                         echo json_encode(['state'=>"视频时长不能超过10秒"]);
                         exit();
                     }
                 } 
                 exec($cmd,$result);
-
-            }else if(strpos($osname,"WIN")!==false){
+            }
+			else if(strpos($osname,"WIN")!==false)
+			{
                 $osname = 'Windows';
                 $cmd=$_SERVER['DOCUMENT_ROOT']."/ffmpeg/bin/ffmpeg.exe -i ".$tm." -f image2 -y ".$img_name.".jpg";
                 //获取视频时长
@@ -82,8 +88,7 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
                         exit();
                     }
                 } 
-                exec($cmd,$result);
-                
+                exec($cmd,$result);                
             }
 			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()],['poster',$sv_img_name]]);
             $tp_vdo = (get("technician_video",'dir',$sv))[0];
