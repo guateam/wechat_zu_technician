@@ -173,9 +173,9 @@
                 <card :bordered="false" dis-hover>
                     <row type="flex" justify="space-between" :gutter="30">
                         <i-col span="24">
-                            <row type="flex" justify="space-between" style="margin-top: 8px">
+                            <row type="flex" justify="space-between" style="margin-top: 8px" @click.native="change_state()">
                                     <i-col span="10">昵称:(点击修改)</i-col>
-                                    <i-col @click.native="change_state()" class="info" v-text="personalInfo.nickname" v-show="personalInfo.nickname != '' && edit_nickname==false"></i-col>
+                                    <i-col class="info" v-text="personalInfo.nickname" v-show="personalInfo.nickname != '' && edit_nickname==false"></i-col>
                                     <i-col span="8" v-show="personalInfo.nickname == '' || edit_nickname==true">                                    
                                         <i-input style="display: inline-block"  v-model="personalInfo.nickname" ></i-input>
                                         <i-button style="display: inline-block" type="primary" @click="change_nickname()">确认修改</i-button>
@@ -226,11 +226,11 @@
                     </row>
 					-->
 					
-					 <row type="flex" justify="space-between" style="margin-top: 8px">
-						<i-col span="10">简介:(点击修改)</i-col>
-						<i-col @click.native="change_state2()" class="info" v-text="personalInfo.description" v-show="personalInfo.description != '' && edit_description==false"></i-col>
-						<i-col span="8" v-show="personalInfo.description == '' || edit_description==true">                                    
-							<i-input style="display: inline-block"  v-model="personalInfo.description" ></i-input>
+					 <row type="flex" justify="space-between" style="margin-top: 8px" @click.native="change_state2()">
+						<i-col span="10">个人简介:(点击修改)</i-col>
+						<i-col class="info" v-text="personalInfo.description" v-show="personalInfo.description != '' && edit_description==false"></i-col>
+						<i-col span="24" v-show="personalInfo.description == '' || edit_description==true">                                    
+							<textarea style="display: inline-block;width:100%"  v-model="personalInfo.description" ></textarea>
 							<i-button style="display: inline-block" type="primary" @click="change_description()">确认修改</i-button>
 						</i-col>
 					</row>
