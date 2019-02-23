@@ -174,8 +174,8 @@
             return {
                 uploadimg: [],
                 uploadvdo: [],
-                photo_max: 1024 * 1024 * 5,//MB
-                video_max: 1024 * 1024 * 8,//MB
+                photo_max: 1024 * 1024 * 8,//MB
+                video_max: 1024 * 1024 * 10,//MB
                 upload_type: "",
                 action: "../php/upload_vcr.php",
                 content: "",
@@ -284,7 +284,7 @@
             },
 			
             handleMax(file) {
-                $(this).openWindow("", "文件过大，不得超过5M", ["好的"])
+                $(this).openWindow("", "文件过大，不得超过10M", ["好的"])
                 return false;               
             },
 			
