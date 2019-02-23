@@ -174,8 +174,8 @@
             return {
                 uploadimg: [],
                 uploadvdo: [],
-                photo_max: 1024 * 1024 * 8,//MB
-                video_max: 1024 * 1024 * 10,//MB
+                photo_max: 1024 * 1024 * 10,//MB
+                video_max: 1024 * 1024 * 20,//MB
                 upload_type: "",
                 action: "../php/upload_vcr.php",
                 content: "",
@@ -257,9 +257,7 @@
             handleSuccess(res, file) 
 			{
                 var that = this;
-                // var reg = /\{(.+?)\}/g;
-                // res = res.match(reg);
-                // res = JSON.parse(res);
+                
                 if (res.state == 1) 
 				{
                     console.log(res.url);
@@ -386,7 +384,7 @@
 					{
                         this.$Notice.warning({
                             title: '类型限制',
-                            desc: '图片和视频不能同时存在 '
+                            desc: '图片和视频不能同时发布 '
                         });
                         return false;
                     }
@@ -433,7 +431,7 @@
 			{
                 this.$Notice.warning({
                     title: "视频大小超出限制",
-                    desc: "最大只能为50MB"
+                    desc: "最大只能为20MB"
                 })
             }
         },
