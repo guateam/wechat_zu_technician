@@ -137,9 +137,8 @@
                             </row>
                         </i-col>
                         <i-col>
-                            <!--技师头像禁止修改-->
-                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead"
-                            :format="['jpg','jpeg','png']" :max-size="2048" multiple
+                           
+                            <upload ref="upload" :data="tech" :show-upload-list="false" :on-success="onHead" :before-upload="handleBeforeUpload" :format="['jpg','jpeg','png']" :max-size="2048" multiple
                             :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" type="drag"
                             action="../php/upload_head.php"
                             style="display: inline-block;width:58px;">
@@ -148,6 +147,7 @@
                                     :src="personalInfo.picture">
                                 <icon v-else type="ios-camera" size="20"></icon>
                             </div>
+							
                             <!--</upload>-->
                             <!--不用展示视频了-->
                             <!--<upload ref="upload" :data="{'id':tech}" :show-upload-list="false" :on-success="after_vcr"-->
@@ -293,6 +293,7 @@
                 big_img: false,
                 click_img: '',
                 uploadList: [],
+				photo_max: 1024 * 1024 * 5,//MB
             }
         },
         methods: {
@@ -367,6 +368,18 @@
                     })
                 }
             },
+			handleBeforeUpload(file) 
+			{
+				if (file.size > this.photo_max) 
+				{
+					this.$Notice.warning({
+						title: '超出限制',
+						desc: '图片文件过大，不得超过 ' + this.photo_max / 1024 / 1024 + "MB",
+					});
+					return false;
+				}
+			},
+			
             handleRemove(name) {
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
                     for (var i = 0; i < this.personalInfo.pictureList.length; i++) {

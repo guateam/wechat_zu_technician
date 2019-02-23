@@ -54,15 +54,19 @@ if ((
             // 如果 upload 目录不存在该文件则将文件上传到 upload 目录下
             move_uploaded_file($_FILES["file"]["tmp_name"],$tm );
 			
-			//-----------------------------------------------------------------------------------------
-			$upload_head_cmd = "jpegoptim -m 20 ".$tm;		
-			//---------------------------------------------
-			$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");				
-			fwrite($myfile, "upload_head_cmd = ".$upload_head_cmd."   "."\r\n");
-			fclose($myfile);
-			//---------------------------------------------
-			exec($upload_head_cmd,$result);
-			//-----------------------------------------------------------------------------------------
+			$osname = PHP_OS;	
+			if(strpos($osname,"Linux")!==false)
+			{
+				//-----------------------------------------------------------------------------------------
+				$upload_head_cmd = "jpegoptim -m 20 ".$tm;		
+				//---------------------------------------------
+				$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");				
+				fwrite($myfile, "upload_head_cmd = ".$upload_head_cmd."   "."\r\n");
+				fclose($myfile);
+				//---------------------------------------------
+				exec($upload_head_cmd,$result);
+				//-----------------------------------------------------------------------------------------
+			}
 			
             $change = ["photo",$sv];
             set("technician","job_number",$job_number,[$change]);
