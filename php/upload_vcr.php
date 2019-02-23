@@ -6,12 +6,9 @@ $img_dir =$_SERVER['DOCUMENT_ROOT']."/photo/";
 
 //判断操作系统
 $osname = PHP_OS;
-if(strpos($osname,"Linux")!==false)
-{
+if(strpos($osname,"Linux")!==false){
     $osname = 'Linux';
-}
-else if(strpos($osname,"WIN")!==false)
-{
+}else if(strpos($osname,"WIN")!==false){
     $osname = 'Windows';
 }
 $job_number =$_POST['job_number'];
@@ -60,19 +57,36 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
             if(strpos($osname,"Linux")!==false)
 			{
                 $osname = 'Linux';
-                $cmd="ffmpeg -i ".$tm." -f image2 -y ".$img_name.".jpg";
+				
                 //获取视频时长
-                $ffmpeg_output = shell_exec("ffmpeg -i \"$tm\" 2>&1");
-                if( preg_match('/.*Duration: ((\d+)(?:\:)(\d+)(?:\:)(\d+))*/i', $ffmpeg_output, $matches) ) {
+				$cmd2 = "/monchickey/ffmpeg/bin/ffmpeg -i \"$tm\" 2>&1";//和服务器安装ffmpeg的路径关联
+                $ffmpeg_output = shell_exec($cmd2);				
+				//---------------------------------------------
+				$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");	
+				fwrite($myfile, "video cmd2 = ".$cmd2."   "."\r\n");
+				fwrite($myfile, "ffmpeg_output = ".$ffmpeg_output."   "."\r\n");
+				fclose($myfile);
+				//---------------------------------------------
+				
+                if( preg_match('/.*Duration: ((\d+)(?:\:)(\d+)(?:\:)(\d+))*/i', $ffmpeg_output, $matches) ) 
+				{
                     //超过10秒则停止上传，并提示时长超出
-                    if ($matches[1] > "00:00:10" )
-					{
+                    if ($matches[1] > "00:00:10" ){
                         unlink($tm);
                         echo json_encode(['state'=>"视频时长不能超过10秒"]);
                         exit();
                     }
                 } 
-                exec($cmd,$result);
+                
+				$cmd="/monchickey/ffmpeg/bin/ffmpeg -i ".$tm." -f mjpeg -y -ss 3 -t 1 ".$img_name.".jpg";	//和服务器安装ffmpeg的路径关联
+				$ffmpeg_output2 = shell_exec($cmd);
+				
+				//---------------------------------------------
+				$myfile = fopen("sdr2.txt", "a+") or die("Unable to open file!");				
+				fwrite($myfile, "video cmd = ".$cmd."   "."\r\n");
+				fwrite($myfile, "ffmpeg_output2 = ".$ffmpeg_output2."   "."\r\n");
+				fclose($myfile);
+				//---------------------------------------------
             }
 			else if(strpos($osname,"WIN")!==false)
 			{
@@ -88,7 +102,8 @@ if ($_FILES["file"]["type"] == "video/mp4" ||  $_FILES["file"]["type"] == "video
                         exit();
                     }
                 } 
-                exec($cmd,$result);                
+                exec($cmd,$result);
+                
             }
 			add("technician_video",[['job_number',$job_number],['dir',$sv],['time',time()],['poster',$sv_img_name]]);
             $tp_vdo = (get("technician_video",'dir',$sv))[0];

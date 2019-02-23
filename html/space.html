@@ -174,7 +174,7 @@
                     <row type="flex" justify="space-between" :gutter="30">
                         <i-col span="24">
                             <row type="flex" justify="space-between" style="margin-top: 8px">
-                                    <i-col span="10">昵称:(点击以修改)</i-col>
+                                    <i-col span="10">昵称:(点击修改)</i-col>
                                     <i-col @click.native="change_state()" class="info" v-text="personalInfo.nickname" v-show="personalInfo.nickname != '' && edit_nickname==false"></i-col>
                                     <i-col span="8" v-show="personalInfo.nickname == '' || edit_nickname==true">                                    
                                         <i-input style="display: inline-block"  v-model="personalInfo.nickname" ></i-input>
@@ -283,10 +283,13 @@
             }
         },
         methods: {
-            change_state(){
+            change_state()
+			{
                 this.edit_nickname = true;
             },
-            change_nickname(){
+            
+			change_nickname()//修改昵称
+			{
                 var that = this;
                 $.post("../php/change_nickname.php",{
                     job_number:that.personalInfo.id,
@@ -298,6 +301,21 @@
                     }
                 })
             },
+			
+			change_briefinfo()//修改个人简介
+			{
+                var that = this;
+                $.post("../php/change_nickname.php",{
+                    job_number:that.personalInfo.id,
+                    nickname:that.personalInfo.nickname,
+                }).done((res)=>{
+                    res = JSON.parse(res);
+                    if(res.status == 1){
+                        that.edit_nickname = false;
+                    }
+                })
+            },
+			
             navi(url) {
                 window.location.href = url + "?id=" + id;
             },
