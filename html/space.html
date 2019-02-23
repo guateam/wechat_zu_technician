@@ -180,8 +180,8 @@
                                         <i-input style="display: inline-block"  v-model="personalInfo.nickname" ></i-input>
                                         <i-button style="display: inline-block" type="primary" @click="change_nickname()">确认修改</i-button>
                                     </i-col>
-
                             </row>
+							
                             <row type="flex" justify="space-between" style="margin-top: 8px">
                                 <i-col>性别:</i-col>
                                 <i-col class="info" v-text="personalInfo.sex"></i-col>
@@ -219,10 +219,22 @@
                         </i-col>
                     </row>
 
+					<!--
                     <row type="flex" justify="space-between" style="margin-top: 8px">
                         <i-col>简介:</i-col>
                         <i-col v-html="'&nbsp;&nbsp;&nbsp;&nbsp;' + personalInfo.intro"></i-col>
                     </row>
+					-->
+					
+					 <row type="flex" justify="space-between" style="margin-top: 8px">
+						<i-col span="10">简介:(点击修改)</i-col>
+						<i-col @click.native="change_state2()" class="info" v-text="personalInfo.description" v-show="personalInfo.description != '' && edit_description==false"></i-col>
+						<i-col span="8" v-show="personalInfo.description == '' || edit_description==true">                                    
+							<i-input style="display: inline-block"  v-model="personalInfo.description" ></i-input>
+							<i-button style="display: inline-block" type="primary" @click="change_description()">确认修改</i-button>
+						</i-col>
+					</row>
+					
                 </card>
             </i-col>
         </row>
@@ -272,6 +284,7 @@
                     nickname:'',
                 },
                 edit_nickname:false,
+				edit_description:false,
                 tech: id,
                 vcr_url: '',
                 value1: 0,
@@ -287,6 +300,11 @@
 			{
                 this.edit_nickname = true;
             },
+			
+			change_state2()
+			{
+                this.edit_description = true;
+            },
             
 			change_nickname()//修改昵称
 			{
@@ -296,22 +314,24 @@
                     nickname:that.personalInfo.nickname,
                 }).done((res)=>{
                     res = JSON.parse(res);
-                    if(res.status == 1){
+                    if(res.status == 1)
+					{
                         that.edit_nickname = false;
                     }
                 })
             },
 			
-			change_briefinfo()//修改个人简介
+			change_description()//修改个人简介
 			{
                 var that = this;
-                $.post("../php/change_nickname.php",{
+                $.post("../php/change_description.php",{
                     job_number:that.personalInfo.id,
-                    nickname:that.personalInfo.nickname,
+                    description:that.personalInfo.description,
                 }).done((res)=>{
                     res = JSON.parse(res);
-                    if(res.status == 1){
-                        that.edit_nickname = false;
+                    if(res.status == 1)
+					{
+                        that.edit_description = false;
                     }
                 })
             },
@@ -319,6 +339,7 @@
             navi(url) {
                 window.location.href = url + "?id=" + id;
             },
+			
             handleView(name) {
                 this.personalInfo.picture = name;
             },
@@ -409,6 +430,7 @@
                     that.personalInfo.picture = info['photo'] === '' ? null : info['photo'];
                     that.personalInfo.vcr = info['vcr'] === null ? '' : info['vcr'];
                     that.personalInfo.nickname = info['nickname'] === null ? '' : info['nickname'];
+					that.personalInfo.description = info['description'] === null ? '' : info['description'];
                 }
             })
             $.post("../php/get_all_photo.php", {
