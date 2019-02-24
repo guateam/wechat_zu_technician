@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('PRC');
+
 function getclock($id)
 {
     $service = get('service_order', 'job_number', $id);
@@ -17,9 +19,14 @@ function getclock($id)
                         $todayclock++;
                     }
                     
-					if ($order[0]['end_time'] <= strtotime(date('Y-m') . '-31 23:59:59') && $order[0]['end_time'] >= strtotime(date('Y-m') . '-01 00:00:00')) //根据时间戳，计算本月钟数 
+					$Begin = strtotime(date('Y-m-01', strtotime(date("Y-m-d"))));
+					$BeginDate = date('Y-m-01', strtotime(date("Y-m-d")));
+					$End = strtotime( date('Y-m-d', strtotime("$BeginDate +1 month")) );
+					
+					//if ($order[0]['end_time'] <= strtotime(date('Y-m') . '-31 23:59:59') && $order[0]['end_time'] >= strtotime(date('Y-m') . '-01 00:00:00')) //根据时间戳，计算本月钟数 					
+					if ($order[0]['end_time'] <= $End && $order[0]['end_time'] >= $Begin) //根据时间戳，计算本月钟数 
 					{
-                        $clock++;//？？？往前推31天来当成本月第一天，是有问题的
+                        $clock++;
                     }
             }
         }
