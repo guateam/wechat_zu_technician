@@ -77,8 +77,12 @@ foreach ($service_order as $so)
         if($so['clock_type'] == 1)$pai++;
         else if($so['clock_type'] == 2)$dian++;
         $ticheng += $so['ticheng']/100;
-        $yeji += $one_consumed_order[0]['pay_amount']/100;
-        array_push($key_info, [
+        
+		//$yeji += $one_consumed_order[0]['pay_amount']/100;
+
+        $yeji += $so['price']/100;
+        
+		array_push($key_info, [
                         "service_name" => $tp[0]['name'],
                         "room_number" => $so['private_room_number'],
                         "bonus" => (int) $so['ticheng']/100,
