@@ -3,12 +3,17 @@ require "database.php";
 $begin = $_POST['begin'];
 $end = $_POST['end'];
 $shopid = $_POST['shopid'];
+
+$persent = 0;
+/*
 //获取技师能从充值当中获取的提成比例
 $persent = sql_str("select recharge_income from shop where ID='$shopid'");
 if ($persent) 
 {
     $persent = (float) $persent[0]['recharge_income'];
 }
+*/
+
 //是否在时间范围内搜索
 $time_limit = true;
 

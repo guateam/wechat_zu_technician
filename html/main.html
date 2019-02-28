@@ -412,40 +412,36 @@
 
     function logout() //退出
     {
-        id = getQueryString("id");
-        $.post('../php/checkout.php', {
-            id: id,
-            ip: ip.geoplugin_request
-        }).done((data) => {
-            data = JSON.parse(data)
-            if (data.status == 1) {
-                $(this).openWindow("", "成功签退", ["好的"])
-                // swal({
-                //     type: "success",
-                //     text: "成功签退！",
-                //     width: 200
-                // })
-                $('#checkout').hide()
-                $('#checkin').show()
-                clearInterval(interval_id);
-            } else if (data.status == -1) {
-                $(this).openWindow("", "已经签退过了", ["好的"])
-                // swal({
-                //     type: "error",
-                //     text: "已经签退过了！",
-                //     width: 200
-                // })
-                $('#checkout').hide()
-                $('#checkin').show()
-            } else {
-                $(this).openWindow("", "签退失败", ["好的"])
-                // swal({
-                //     type: "error",
-                //     text: "签退失败！",
-                //     width: 200
-                // })
-            }
-        })
+		$(this).openWindow("", "确认现在下班吗？", ["不", "是的"], () => 
+		{					
+			id = getQueryString("id");
+			$.post('../php/checkout.php', {
+				id: id,
+				ip: ip.geoplugin_request
+			}).done((data) => 
+			{
+				data = JSON.parse(data)
+				if (data.status == 1) 
+				{
+					$(this).openWindow("", "成功签退", ["好的"])
+				   
+					$('#checkout').hide()
+					$('#checkin').show()
+					clearInterval(interval_id);
+				} 
+				else if (data.status == -1) 
+				{
+					$(this).openWindow("", "已经签退过了", ["好的"])
+					
+					$('#checkout').hide()
+					$('#checkin').show()
+				} 
+				else 
+				{
+					$(this).openWindow("", "签退失败", ["好的"])                
+				}
+			})
+		});
     }
 
     function getQueryString(name) {

@@ -17,7 +17,7 @@ foreach($charge as $ch)
         if($time>=$begin && $time<=$end )
 		{
             $money+=$ch['charge']/100;
-            $bonus+=$ch['ticheng']/100;
+            //$bonus+=$ch['ticheng']/100;
             $count++;
         }
 }
