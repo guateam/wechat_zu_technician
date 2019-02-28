@@ -82,6 +82,9 @@
 			$date2 = $time;
 		}
 		
+		$room = get("private_room", "id", $so['private_room_number']);
+		$room_number = $room[0]['name'];
+		
 		if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) 
 		{        
 			$tp = get("service_type","ID",$so['item_id']);
@@ -104,7 +107,7 @@
 
 				array_push($key_info, [
 						"service_name" => $tp[0]['name'],
-						"room_number" => $so['private_room_number'],
+						"room_number" => $room_number,
 						"bonus" => (int) $so['ticheng']/100,
 						"time" => $one_consumed_order[0]['end_time'],
 						"order_id" => $so['order_id'],
@@ -118,7 +121,7 @@
 
 				array_push($key_info, [
 						"service_name" => $tp[0]['name'],
-						"room_number" => $so['private_room_number'],
+						"room_number" => $room_number,
 						"bonus" => (int) $so['jd_ticheng']/100,
 						"time" => $one_consumed_order[0]['end_time'],
 						"order_id" => $so['order_id'],

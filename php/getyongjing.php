@@ -83,12 +83,19 @@ function get_lost($job_number, $begin, $end)
 	{
         foreach ($so as $idx => $svod) 
 		{
-            // $item_id = $svod['item_id'];
+            $item_id = $svod['item_id'];
+
+            $servicename = get("service_type", 'ID', $item_id);
+            $svname = $servicename[0]['name'];
+
+            $room = get("private_room", 'ID', $svod['private_room_number']);
+            $roomname = $room[0]['name'];
+
             // $order_id = $svod['order_id'];
             //$consumed = sql_str("select state,end_time from consumed_order where order_id = '$order_id'");
             
             $lost += $svod['yongjin'] / 100;
-            $so[$idx] = array_merge($so[$idx], ['lost' => $svod['yongjin'] / 100,'name'=>$item[0]['name']]);
+            $so[$idx] = array_merge($so[$idx], ['lost' => $svod['yongjin'] / 100,'name'=>$svname,'roomname'=>$roomname]);
             $so[$idx]['appoint_time'] = $so[$idx]['end_time'];
         }
     }
