@@ -1,5 +1,6 @@
 <?php
 require("database.php");
+require("getrechargebonus.php");
 require("getsalary.php");
 require("getsalarychart.php");
 require("getclock.php");
