@@ -76,7 +76,8 @@ if ((
                     if($bg)
                     {
                         //如果存在旧的朋友圈背景图片
-                        if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background'])){
+                        if(file_exists($_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background']) && $tc['friend_circle_background']!="" && !is_null($tc['friend_circle_background']))
+						{
                             //删除旧的图片和数据库记录
                             $del_dir = $_SERVER['DOCUMENT_ROOT'].$tc['friend_circle_background'];
                             unlink($del_dir);
