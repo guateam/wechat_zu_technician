@@ -21,7 +21,7 @@ if($technician)
                 }
 				else
 				{
-                    add('attendance',[['job_number',$id],['sign_type',1]]);
+                    add('attendance',[['job_number',$id],['sign_type',1],['check_time',time()]]);
                     echo(json_encode(['status'=>1]));
                 }
             }

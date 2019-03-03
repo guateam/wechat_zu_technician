@@ -35,14 +35,14 @@ if($technician)
                     // 手动签到进行记录，计时器检测通过不记录
                     if(!$interval)
 					{
-                        add('attendance',[['job_number',$id],['sign_type',0]]);
+                        add('attendance',[['job_number',$id],['sign_type',0],['check_time',time()]]);
                     }
                     echo(json_encode(['status'=>1]));
                 }
             }
 			else
 			{
-                add('attendance',[['job_number',$id],['sign_type',0]]);
+                add('attendance',[['job_number',$id],['sign_type',0],['check_time',time()]]);
                 echo(json_encode(['status'=>1]));
             }
         }
@@ -51,7 +51,7 @@ if($technician)
             echo(json_encode(['status'=>0,'msg'=>'不在店内wifi']));
             //计时器检测到不在本店内，则为异常，记录下来
             if($interval)
-                add('attendance',[["sign_type",2],['job_number',$id]]);
+                add('attendance',[["sign_type",2],['job_number',$id],['check_time',time()]]);
         }
     }
 	else
