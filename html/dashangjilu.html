@@ -162,7 +162,7 @@
             sum: function () {
                 var total = 0;
                 for (i in this.list) {
-                    total += this.list[i]['salary'];
+                    total += parseInt(this.list[i]['salary']);
                 }
                 return total / 100;
             },
