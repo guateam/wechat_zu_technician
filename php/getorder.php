@@ -83,7 +83,15 @@
 		}
 		
 		$room = get("private_room", "id", $so['private_room_number']);
-		$room_number = $room[0]['name'];
+
+		if ($room)
+		{
+			$room_number = $room[0]['name'];
+		}
+		else 
+		{
+			$room_number = "";
+		}
 		
 		if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) 
 		{        
