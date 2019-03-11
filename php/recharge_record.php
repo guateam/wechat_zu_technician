@@ -37,9 +37,7 @@ $end = $end + 9 * 3600;
 $str = "";
 if ($time_limit) 
 {
-	 //$str = "select charge/100 as charge,generated_time,phone_number,user_name as name  from recharge_record where type = 1 and generated_time >= '$begin' && generated_time <= '$end' and job_number = '$job_number' order by generated_time";
-	 
-	 $str = "select A.charge,A.generated_time,B.mobile as phone_number,B.name  from chongka_record A, vipcard B where A.cardNo = B.cardNo and type = 1 and generated_time >= '$begin' && generated_time <= '$end' and job_number = '$job_number' order by generated_time";
+	 $str = "select A.charge,A.generated_time,B.mobile as phone_number,B.name  from chongka_record A, vipcard B where A.cardNo = B.cardNo and  generated_time >= '$begin' and generated_time <= '$end' and job_number = '$job_number' order by generated_time";
 } 
 else 
 {
