@@ -14,14 +14,23 @@ function getclock($id)
             $order = get('consumed_order', 'order_id', $value['order_id']);
             if ($order && ($order[0]['state'] == 4 || $order[0]['state']==5)) 
 			{
-                    if ($order[0]['end_time'] <= strtotime(date('Y-m-d') . ' 23:59:59') && $order[0]['end_time'] >= strtotime(date('Y-m-d') . ' 00:00:00')) //根据时间戳，计算今日钟数
+					$today_begin = strtotime(date("Y-m-d 00:00:00",time()));
+					$today_begin = $today_begin + 9*3600;
+					
+					$today_end = strtotime(date("Y-m-d 23:59:59",time()));
+					$today_end = $today_end + 9*3600;
+					
+                    if ($order[0]['end_time'] <= $today_end && $order[0]['end_time'] >= $today_begin) //根据时间戳，计算今日钟数
 					{
                         $todayclock++;
                     }
                     
 					$Begin = strtotime(date('Y-m-01', strtotime(date("Y-m-d"))));
+					$Begin = $Begin + 9 * 3600;
+					
 					$BeginDate = date('Y-m-01', strtotime(date("Y-m-d")));
 					$End = strtotime( date('Y-m-d', strtotime("$BeginDate +1 month")) );
+					$End = $End + 9 * 3600;
 					
 					//if ($order[0]['end_time'] <= strtotime(date('Y-m') . '-31 23:59:59') && $order[0]['end_time'] >= strtotime(date('Y-m') . '-01 00:00:00')) //根据时间戳，计算本月钟数 					
 					if ($order[0]['end_time'] <= $End && $order[0]['end_time'] >= $Begin) //根据时间戳，计算本月钟数 

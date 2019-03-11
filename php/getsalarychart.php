@@ -14,6 +14,9 @@ function getsalarychart($id)
 	
     $today_begin = strtotime(date("Y-m-d 00:00:00",time()));
     $today_end = strtotime(date("Y-m-d 23:59:59",time()));
+	
+	$today_begin = $today_begin + 9*3600;
+	$today_end = $today_end + 9*3600;
 
     $time = [];
     $data = [];

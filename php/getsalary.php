@@ -9,10 +9,17 @@ function getsalary($id)
         $type = (int)$type[0]['type'];//1为技师，2为接待
     }
 	
-	$day_end = strtotime(date('Y-m-d') . ' 23:59:59');
 	$day_begin = strtotime(date('Y-m-d') . ' 00:00:00');
+	$day_end = strtotime(date('Y-m-d') . ' 23:59:59');
+	
+	$day_begin = $day_begin + 9*3600;
+	$day_end = $day_end + 9*3600;
+	
 	$month_begin = strtotime(date('Y-m') . '-01 00:00:00');
 	$month_end = strtotime(date('Y-m-t') . ' 23:59:59');
+	
+	$month_begin = $month_begin + 9*3600;
+	$month_end = $month_end + 9*3600;
 	
 	if ($type === 1)
 	{	

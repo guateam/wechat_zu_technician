@@ -36,7 +36,9 @@
 
 	if ($type == 1)
 	{
-		$service_order = get("service_order", "job_number", $job_number);
+		$service_order = sql_str("select * from service_order where job_number = '$job_number' order by appoint_time");
+		
+		//$service_order = get("service_order", "job_number", $job_number);
 		if (!$service_order) 
 		{
 			$service_order = [];
@@ -44,7 +46,9 @@
 	}
 	else if ($type == 2)
 	{
-		$service_order = get("service_order", "jd_number", $job_number);
+		$service_order = sql_str("select * from service_order where jd_number = '$job_number' order by appoint_time");
+		
+		//$service_order = get("service_order", "jd_number", $job_number);
 		if (!$service_order) 
 		{
 			$service_order = [];
@@ -75,6 +79,7 @@
 	foreach ($service_order as $so) 
 	{
 		$one_consumed_order = get("consumed_order", "order_id", $so['order_id']);
+		
 		$time = $one_consumed_order[0]['end_time'];
 		if ($all_time) 
 		{
