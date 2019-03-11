@@ -8,7 +8,8 @@ $end = $_POST['end'];
 $money = 0;
 $count = 0;
 $bonus = 0;
-$charge = get("recharge_record","job_number",$job_number);
+//$charge = get("recharge_record","job_number",$job_number);
+$charge = get("chongka_record","job_number",$job_number);
 
 foreach($charge as $ch)
 {

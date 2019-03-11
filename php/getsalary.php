@@ -37,7 +37,7 @@ function getsalary($id)
 		$order = get('consumed_order', 'order_id', $value['order_id']);
 		if ($order) 
 		{
-			if ($value['service_type'] == 1) //1 店内服务 2 酒水饮料
+			if ($value['service_type'] == 1 || $value['service_type'] == 2 ) //1 店内服务 2小项目 3 酒水饮料
 			{
 				if ($type == 1)
 				{

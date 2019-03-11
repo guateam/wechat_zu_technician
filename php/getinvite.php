@@ -32,7 +32,7 @@ if($newcome)
             $one_consumed_order = get("consumed_order","order_id",$so['order_id']);
             $time = $one_consumed_order[0]['generated_time'];
             $time = substr($time,0,10);
-            if($so['service_type']==1 && ($time >= $begin && $time <= $end) )
+            if($so['service_type'] < 3 && ($time >= $begin && $time <= $end) )
 			{
                 foreach($service_type as $tp)
 				{

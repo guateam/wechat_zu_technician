@@ -15,7 +15,9 @@
 
 		$recharge = 0;
 		$recharge_ticheng = 0;//充卡提成
-		$rcg = sql_str("select * from recharge_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");		
+		//$rcg = sql_str("select * from recharge_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");			
+		$rcg = sql_str("select * from chongka_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");	
+		
 		if ($rcg)//这里查到的是 某个技师 在时间段内的充卡金额
 		{
 			$bonus = sql_str("select * from recharge_bonus order by recharge desc");

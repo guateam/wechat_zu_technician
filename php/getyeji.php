@@ -90,7 +90,8 @@ function get_yeji_2($job_number)//接待
     $begin = strtotime($begin);
     $end = strtotime($end);
 
-	$so = sql_str("select * from recharge_record where `generated_time`>='$begin' and `generated_time` <= '$end' and job_number = '$job_number' and type = 1");
+	//$so = sql_str("select * from recharge_record where `generated_time`>='$begin' and `generated_time` <= '$end' and job_number = '$job_number' and type = 1");
+	$so = sql_str("select * from chongka_record where `generated_time`>='$begin' and `generated_time` <= '$end' and job_number = '$job_number' and type = 1");
     
 	$price = 0;//充卡金额
     foreach($so as $idx => $cod)

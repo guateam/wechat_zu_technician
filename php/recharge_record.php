@@ -28,22 +28,24 @@ if ($begin == $end)
 
 //转换为时间戳
 $begin = strtotime($begin);
+$begin = $begin + 9 * 3600;
+
 $end = strtotime($end);
+$end = $end + 9 * 3600;
 
 
 $str = "";
 if ($time_limit) 
 {
-	//连接3张表，recharge_record technician customer，条件是充值的钱
-    #$str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id and A.type=1 and A.generated_time >= '$begin' && A.generated_time <= '$end' order by A.generated_time";
-	
-	 $str = "select charge/100 as charge,generated_time,phone_number,user_name as name  from recharge_record where type = 1 and generated_time >= '$begin' && generated_time <= '$end' and job_number = '$job_number' order by generated_time";
+	 //$str = "select charge/100 as charge,generated_time,phone_number,user_name as name  from recharge_record where type = 1 and generated_time >= '$begin' && generated_time <= '$end' and job_number = '$job_number' order by generated_time";
+	 
+	 $str = "select A.charge,A.generated_time,B.mobile as phone_number,B.name  from chongka_record A, vipcard B where A.cardNo = B.cardNo and type = 1 and generated_time >= '$begin' && generated_time <= '$end' and job_number = '$job_number' order by generated_time";
 } 
 else 
 {
-    //$str = "select A.charge/100 as charge ,A.generated_time as time,C.name,C.phone_number from recharge_record A,technician B,customer C where B.job_number='$job_number' and A.job_number=B.job_number and C.openid = A.user_id and A.type=1 order by A.generated_time";
-	
-	 $str = "select charge/100 as charge,generated_time,phone_number,user_name as name  from recharge_record where type = 1 and job_number = '$job_number' order by generated_time";
+	 //$str = "select charge/100 as charge,generated_time,phone_number,user_name as name  from recharge_record where type = 1 and job_number = '$job_number' order by generated_time";
+	 
+	 $str = "select A.charge,A.generated_time,B.mobile as phone_number,B.name  from chongka_record A, vipcard B where A.cardNo = B.cardNo and type = 1 and job_number = '$job_number' order by generated_time";
 }
 
 /*
@@ -69,7 +71,9 @@ $monthCount = getMonthNum( date('Y-m-d',$end), date('Y-m-d',$begin)) + 1;
 
 $recharge = 0;
 $recharge_ticheng = 0;//充卡提成
-$rcg = sql_str("select * from recharge_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");		
+//$rcg = sql_str("select * from recharge_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");	
+$rcg = sql_str("select * from chongka_record where job_number='$job_number' and type = 1 and generated_time >= $begin and generated_time <= $end");		
+
 if ($rcg)//这里查到的是 某个技师 在时间段内的充卡金额
 {
 	$bonus = sql_str("select * from recharge_bonus order by recharge desc");
@@ -107,8 +111,7 @@ $records = sql_str($str);
 
 if ($records) 
 {
-    //echo json_encode(['status' => 1, 'data' => $records, 'total_income' => (int) $total_income, 'total_bonus' => (int) $total_income * $persent]);
-	echo json_encode(['status' => 1, 'data' => $records, 'total_income' => (int) $recharge / 100, 'total_bonus' => (int) $recharge_ticheng / 100]);
+	echo json_encode(['status' => 1, 'data' => $records, 'total_income' => (int) $recharge, 'total_bonus' => (int) $recharge_ticheng]);
 } 
 else 
 {

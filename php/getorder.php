@@ -11,7 +11,7 @@
 		$type = (int)$type[0]['type'];
 	}
 
-
+	//----------------------------------------
 	$date = $_POST["date"];
 	if($date == "")
 	{
@@ -21,7 +21,8 @@
 	{
 		$date.=" 00:00:00";
 	}
-	$date = strtotime($date);
+	//$date = strtotime($date);
+	$date = $date + 9 * 3600;
 
 	$date2 = "";
 	if (!isset($_POST["date2"])) 
@@ -33,8 +34,11 @@
 		$date2 = $_POST["date2"]." 23:59:59";
 	}
 	$date2 = strtotime($date2);
+	$date2 = $date2 + 9 * 3600;
 
-	if ($type == 1)
+	//----------------------------------------
+	
+	if ($type == 1)//技师
 	{
 		$service_order = sql_str("select * from service_order where job_number = '$job_number' order by appoint_time");
 		
@@ -44,7 +48,7 @@
 			$service_order = [];
 		}
 	}
-	else if ($type == 2)
+	else if ($type == 2)//接待
 	{
 		$service_order = sql_str("select * from service_order where jd_number = '$job_number' order by appoint_time");
 		
@@ -54,6 +58,8 @@
 			$service_order = [];
 		}
 	}
+	
+	//----------------------------------------
 
 	$consumed_order = [];
 	$service_type = get("service_type");
@@ -87,8 +93,8 @@
 			$date2 = $time;
 		}
 		
-		$room = get("private_room", "id", $so['private_room_number']);
-
+		//----------------------------------------------------------------
+		$room = get("private_room", "id", $so['private_room_number']);//得到房间号
 		if ($room)
 		{
 			$room_number = $room[0]['name'];
@@ -97,8 +103,9 @@
 		{
 			$room_number = "";
 		}
+		//----------------------------------------------------------------
 		
-		if ($so['service_type'] == 1 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) 
+		if ($so['service_type'] < 3 && ($time >= $date && $time <= $date2) && ($one_consumed_order[0]['state'] == 4 || $one_consumed_order[0]['state'] == 5)) 
 		{        
 			$tp = get("service_type","ID",$so['item_id']);
 
@@ -106,7 +113,7 @@
 			{
 				$pai++;
 			}
-			else if($so['clock_type'] == 2)
+			else if($so['clock_type'] == 2 || $so['clock_type'] == 3)
 			{
 				$dian++;
 			}

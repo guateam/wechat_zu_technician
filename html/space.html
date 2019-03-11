@@ -296,7 +296,8 @@
 				photo_max: 1024 * 1024 * 5,//MB
             }
         },
-        methods: {
+        methods: 
+		{
             change_state()
 			{
                 this.edit_nickname = true;
@@ -337,30 +338,41 @@
                 })
             },
 			
-            navi(url) {
+            navi(url) 
+			{
                 window.location.href = url + "?id=" + id;
             },
 			
-            handleView(name) {
+            handleView(name) 
+			{
                 this.personalInfo.picture = name;
             },
-            showBig(url) {
+            
+			showBig(url) 
+			{
                 this.big_img = true;
                 this.click_img = url;
             },
-            closeBig() {
+            
+			closeBig() 
+			{
                 this.big_img = false;
             },
-            onHead(res, file) {
+            
+			onHead(res, file) 
+			{
                 var that = this;
                 var reg = /\{(.+?)\}/g;
                 res = res.match(reg);
                 res = JSON.parse(res);
-                if (res.state == 1) {
+                if (res.state == 1) 
+				{
                     console.log(res.url);
                     that.personalInfo.picture = res.url
                     swal.close();
-                } else {
+                } 
+				else 
+				{
                     swal({
                         text: res.state,
                         type: "error",
@@ -368,6 +380,7 @@
                     })
                 }
             },
+			
 			handleBeforeUpload(file) 
 			{
 				if (file.size > this.photo_max) 
@@ -380,10 +393,13 @@
 				}
 			},
 			
-            handleRemove(name) {
+            handleRemove(name) 
+			{
                 $(this).openWindow("", "确认删除该图片吗？", ["不", "好的"], () => {
-                    for (var i = 0; i < this.personalInfo.pictureList.length; i++) {
-                        if (this.personalInfo.pictureList[i].url == name) {
+                    for (var i = 0; i < this.personalInfo.pictureList.length; i++) 
+					{
+                        if (this.personalInfo.pictureList[i].url == name) 
+						{
                             this.personalInfo.pictureList.splice(i, 1);
                         }
                     }
@@ -415,10 +431,13 @@
                 // })
             },
         },
-        mounted() {
-
+		
+        mounted() 
+		{
         },
-        created() {
+		
+        created() 
+		{
             // overlay();
             var that = this;
             $.post("../php/gettechdetail.php", {
@@ -446,6 +465,7 @@
 					that.personalInfo.description = info['description'] === null ? '' : info['description'];
                 }
             })
+			
             $.post("../php/get_all_photo.php", {
                 job_number: id
             }).done((result) => {
