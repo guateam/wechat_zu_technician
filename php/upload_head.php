@@ -47,7 +47,9 @@ if ((
         {
             $tech = get("technician","job_number",$job_number);
             if($tech[0]['photo']!='' || isset($tech[0]['photo']) || !is_null($tech[0]['photo']))
-                unlink($_SERVER['DOCUMENT_ROOT'].$tech[0]['photo']);
+			{
+                //unlink($_SERVER['DOCUMENT_ROOT'].$tech[0]['photo']);//先不删除原文件
+			}
             $tm = date("ymdhis",time());
             $sv = $save_dir.$rnd_str.$tm.'.'.$extension;
             $tm = $dir.$rnd_str.$tm.'.'.$extension;
