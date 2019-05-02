@@ -124,7 +124,7 @@
             },
             login() {
                 var that = this;
-                reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                reg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
                 if (this.phone != "" && reg.test(this.phone) && this.select != "" && this.input_code != '') {
                     if(this.input_code != this.code){
                         $(this).openWindow("", "验证码错误", ["好的"]);
