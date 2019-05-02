@@ -104,6 +104,9 @@
 
 <body>
     <div id="app" style="width:100%;height:100%;background-color: white">
+		<div id='big_div' style="display:none;position: fixed;background-color: rgba(0,0,0,0.95);top:0;bottom: 0;left: 0;right: 0;z-index: 99"><!-- 弹出层 -->
+			<p><img class="big_img" :src="head" style="width:380px;height:660px;margin: 0 auto"/></p>
+		</div>
         <header style="height: 250px">
             <upload ref="upload" style="width:100%;height: 250px;" action="../php/upload_photo.php" :on-success="handleSuccess"
                 :data="{job_number:job_number,bg:true}" :max-size="4096" :before-upload="handleBeforeUpload"
@@ -112,7 +115,9 @@
                 <img style="width:100%;height:100%;" src="../src/background.png" v-else>
             </upload>
             <p id="user-name" class="data-name" v-text="job_number"></p>
-            <img id="avt" class="data-avt" :src="head">
+			<div class='small_img'> 
+				<img id="avt" class="data-avt" :src="head">
+			</div>
         </header>
         <div id="main">
             <div id="list">
@@ -179,9 +184,24 @@
     <script type="text/javascript" src="../js/sweetalert2.all.js"></script>
     <script src="../js/swiper.min.js"></script>
     <script type="text/javascript" src="../js/windowOpen.js"></script>
-    <script>
-
-    </script>
+	
+   <script>
+		$(document).ready(function(){
+			var small = $('.small_img'); //小图
+			var big =  $('.big_img'); //大图
+			
+			var big_div = $('#big_div'); //大图弹出层
+			
+			small.click(function(){ //点击显示大图弹出层
+				big_div.show();		
+			});
+			
+			big.click(function(){ 
+				big_div.hide();
+			});	
+		});
+	</script>
+	
     <script>
         function getQueryString(name) 
 		{
